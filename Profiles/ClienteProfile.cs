@@ -6,10 +6,11 @@ namespace SolutisHelpDesk.Profiles;
 
 public class ClienteProfile : Profile {
 
-    public ClienteProfile()
-    {
-      CreateMap<CreateClienteDto, Cliente>();
-      CreateMap<Cliente, ReadClienteDto>();
-      CreateMap<UpdateClienteDto, Cliente>();
-    }
+	public ClienteProfile() {
+		CreateMap<CreateClienteDto, Cliente>();
+		CreateMap<Cliente, ReadClienteDto>()
+			.ForMember(clienteDto => clienteDto.Chamados, 
+			opt => opt.MapFrom(cliente => cliente.Chamados));
+		CreateMap<UpdateClienteDto, Cliente>();
+	}
 }
