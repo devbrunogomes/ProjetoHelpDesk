@@ -20,6 +20,7 @@ public class Program {
 		builder.Services.AddScoped<TecnicoRepository>();
 		builder.Services.AddScoped<AdministradorService>();
 		builder.Services.AddScoped<AdministradorRepository>();
+		builder.Services.AddScoped<ChamadoService>();
 
 		builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
