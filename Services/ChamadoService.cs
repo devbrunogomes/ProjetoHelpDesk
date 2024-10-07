@@ -15,10 +15,15 @@ public class ChamadoService {
 		_chamadoRepository = chamadoRepository;
 	}
 
+
 	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto) {
 		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
 
 		await _chamadoRepository.SalvarChamado(chamado);
 		return chamado;
+	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetAllAsync() {
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosAsync();
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
 }

@@ -17,32 +17,24 @@ public class Chamado {
 	[Required(ErrorMessage = "O campo Descrição é obrigatório.")]
 	public string Descricao { get; set; }
 
-	[Required(ErrorMessage = "O campo Prioridade é obrigatório.")]
-	public EnumPrioridade Prioridade { get; set; }
+	public EnumPrioridade? Prioridade { get; set; }
 
-	[Required(ErrorMessage = "O campo Data de Abertura é obrigatório.")]
+	[Required(ErrorMessage = "A Data de Abertura é obrigatória.")]
 	public DateTime DataAbertura { get; set; }
+	
+	public DateTime? DataConclusao { get; set; }
 
-	[Required(ErrorMessage = "O campo Data de Conclusão é obrigatório.")]
-	public DateTime DataConclusao { get; set; }
+	public EnumStatus? Status { get; set; }
+	
+	public int? ClienteId { get; set; }
+	
+	public int? TecnicoId { get; set; }
 
-	[Required(ErrorMessage = "O campo Status é obrigatório.")]
-	public EnumStatus Status { get; set; }
+	public virtual Cliente? Cliente { get; set; }
 
-	[Required(ErrorMessage = "O campo ClienteId é obrigatório.")]
-	public int ClienteId { get; set; }
+	public virtual Tecnico? Tecnico { get; set; }
 
-	[Required(ErrorMessage = "O campo TecnicoId é obrigatório.")]
-	public int TecnicoId { get; set; }
-
-	[Required(ErrorMessage = "O campo Cliente é obrigatório.")]
-	public virtual Cliente Cliente { get; set; }
-
-	[Required(ErrorMessage = "O campo Técnico é obrigatório.")]
-	public virtual Tecnico Tecnico { get; set; }
-
-	[Required(ErrorMessage = "O campo Respostas Técnicas é obrigatório.")]
-	public string RespostasTecnicas { get; set; }
+	public string? RespostasTecnicas { get; set; }
 
 	public Chamado() {
 		DataAbertura = DateTime.Now;

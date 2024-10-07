@@ -21,6 +21,7 @@ public class Program {
 		builder.Services.AddScoped<AdministradorService>();
 		builder.Services.AddScoped<AdministradorRepository>();
 		builder.Services.AddScoped<ChamadoService>();
+		builder.Services.AddScoped<ChamadoRepository>();
 
 		builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

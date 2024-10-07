@@ -9,5 +9,6 @@ public class ChamadoProfile : Profile {
     public ChamadoProfile()
     {
       CreateMap<CreateChamadoDto, Chamado>();
+      CreateMap<Chamado, ReadChamadoDto>();
     }
 }

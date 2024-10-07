@@ -19,13 +19,13 @@ namespace SolutisHelpDesk.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Prioridade = table.Column<int>(type: "int", nullable: false),
+                    Prioridade = table.Column<int>(type: "int", nullable: true),
                     DataAbertura = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataConclusao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ClienteId = table.Column<int>(type: "int", nullable: false),
-                    TecnicoId = table.Column<int>(type: "int", nullable: false),
-                    RespostasTecnicas = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DataConclusao = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: true),
+                    ClienteId = table.Column<int>(type: "int", nullable: true),
+                    TecnicoId = table.Column<int>(type: "int", nullable: true),
+                    RespostasTecnicas = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,14 +34,12 @@ namespace SolutisHelpDesk.Migrations
                         name: "FK_Chamados_Clientes_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
-                        principalColumn: "ClienteId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ClienteId");
                     table.ForeignKey(
                         name: "FK_Chamados_Tecnicos_TecnicoId",
                         column: x => x.TecnicoId,
                         principalTable: "Tecnicos",
-                        principalColumn: "TecnicoId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "TecnicoId");
                 });
 
             migrationBuilder.CreateIndex(

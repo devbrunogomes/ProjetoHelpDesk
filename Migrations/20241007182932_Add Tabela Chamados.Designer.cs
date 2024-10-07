@@ -12,7 +12,7 @@ using SolutisHelpDesk.Data;
 namespace SolutisHelpDesk.Migrations
 {
     [DbContext(typeof(UsuarioContext))]
-    [Migration("20241007175357_Add Tabela Chamados")]
+    [Migration("20241007182932_Add Tabela Chamados")]
     partial class AddTabelaChamados
     {
         /// <inheritdoc />
@@ -81,30 +81,29 @@ namespace SolutisHelpDesk.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ChamadoId"));
 
-                    b.Property<int>("ClienteId")
+                    b.Property<int?>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataAbertura")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataConclusao")
+                    b.Property<DateTime?>("DataConclusao")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Prioridade")
+                    b.Property<int?>("Prioridade")
                         .HasColumnType("int");
 
                     b.Property<string>("RespostasTecnicas")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
+                    b.Property<int?>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("TecnicoId")
+                    b.Property<int?>("TecnicoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Titulo")
@@ -220,15 +219,11 @@ namespace SolutisHelpDesk.Migrations
                 {
                     b.HasOne("SolutisHelpDesk.Models.Cliente", "Cliente")
                         .WithMany("Chamados")
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClienteId");
 
                     b.HasOne("SolutisHelpDesk.Models.Tecnico", "Tecnico")
                         .WithMany("Chamados")
-                        .HasForeignKey("TecnicoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TecnicoId");
 
                     b.Navigation("Cliente");
 

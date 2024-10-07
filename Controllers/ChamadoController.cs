@@ -19,9 +19,9 @@ public class ChamadoController : ControllerBase {
 		return Ok(chamado);
 	}
 
-	//[HttpGet]
-	//public async Task<IActionResult> GetAllChamadosAsync() {
-	//	IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllAsync();
-	//	return Ok(listaDto);
-	//}
+	[HttpGet]
+	public async Task<IActionResult> GetAllChamadosAsync() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllAsync();
+		return Ok(listaDto);
+	}
 }
