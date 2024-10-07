@@ -24,4 +24,24 @@ public class ChamadoController : ControllerBase {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllAsync();
 		return Ok(listaDto);
 	}
+
+	[HttpGet("{id}")]
+	public async Task<IActionResult> GetChamadoById(int id) {
+		ReadChamadoDto chamadoDto = await _chamadoService.GetByIdAsync(id);
+
+		if (chamadoDto == null)
+			return NotFound();
+
+		return Ok(chamadoDto);
+	}
+
+	[HttpPatch("resposta")]
+	public async Task<IActionResult> DarRespostaTecnica(ResponderChamadoDto dto) {
+		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto);
+
+		if (!result) {
+			return NotFound("Chamado não encontrado");
+		}
+		return NoContent();
+	}
 }

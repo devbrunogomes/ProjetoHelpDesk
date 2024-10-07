@@ -19,4 +19,15 @@ public class ChamadoRepository {
 	internal async Task<List<Chamado>> RecuperarChamadosAsync() {
 		return await _context.Chamados.ToListAsync();
 	}
+
+	internal async Task<Chamado?> RecuperarChamadoPorIdAsync(int id) {
+		var chamado = await _context.Chamados
+			.FirstOrDefaultAsync(chamado => chamado.ClienteId == id);
+		return chamado;
+	}
+
+	internal async Task RegistrarRespostaAsync(Chamado chamado) {
+		_context.Chamados.Update(chamado);
+		await _context.SaveChangesAsync();
+	}
 }
