@@ -37,5 +37,5 @@ public class Tecnico {
 
 	public EnumPerfil Perfil { get; set; } //O valor é armazenado como 0, 1 ou 2, dependendo do valor do Enum
 
-	public virtual List<Chamado> Chamados { get; set; }
+	public virtual List<Chamado> Chamados { get; set; } = new List<Chamado>();
 }
