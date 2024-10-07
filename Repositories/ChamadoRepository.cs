@@ -26,7 +26,7 @@ public class ChamadoRepository {
 		return chamado;
 	}
 
-	internal async Task RegistrarRespostaAsync(Chamado chamado) {
+	internal async Task UpdateChamadoAsync(Chamado chamado) {
 		_context.Chamados.Update(chamado);
 		await _context.SaveChangesAsync();
 	}

@@ -11,5 +11,6 @@ public class ChamadoProfile : Profile {
       CreateMap<CreateChamadoDto, Chamado>();
       CreateMap<Chamado, ReadChamadoDto>();
       CreateMap<ResponderChamadoDto, Chamado>();
+      CreateMap<FinalizarChamadoDto, Chamado>();
     }
 }

@@ -42,8 +42,22 @@ public class ChamadoService {
 
 		chamado.Status = EnumStatus.EmAndamento;
 		_mapper.Map(dto, chamado);
-		await _chamadoRepository.RegistrarRespostaAsync(chamado);
-			return true;
+		await _chamadoRepository.UpdateChamadoAsync(chamado);
+		return true;
 
+	}
+
+	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+
+		if (chamado == null) {
+			return false;
+		}
+
+		chamado.Status = EnumStatus.Fechado;
+		chamado.DataConclusao = DateTime.Now;
+		_mapper.Map(dto, chamado);
+		await _chamadoRepository.UpdateChamadoAsync(chamado);
+		return true;
 	}
 }
