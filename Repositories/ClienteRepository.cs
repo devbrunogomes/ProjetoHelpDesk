@@ -18,7 +18,9 @@ public class ClienteRepository {
 		
 	}
 	internal async Task<Cliente?> RecuperarClientePorIdAsync(int id) {
-		var cliente = await _context.Clientes.FirstOrDefaultAsync(cliente => cliente.ClienteId == id);
+		var cliente = await _context.Clientes
+			.Include(cliente => cliente.Chamados)
+			.FirstOrDefaultAsync(cliente => cliente.ClienteId == id);
 		return cliente;
 	}
 

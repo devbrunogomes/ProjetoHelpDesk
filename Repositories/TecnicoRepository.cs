@@ -21,7 +21,9 @@ public class TecnicoRepository {
 	}
 
 	internal async Task<Tecnico?> RecuperarTecnicoPorIdAsync(int id) {
-		var tecnico = await _context.Tecnicos.FirstOrDefaultAsync(tecnico => tecnico.TecnicoId == id);
+		var tecnico = await _context.Tecnicos
+			.Include(tecnico => tecnico.Chamados)
+			.FirstOrDefaultAsync(tecnico => tecnico.TecnicoId == id);
 		return tecnico;
 	}
 

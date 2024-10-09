@@ -9,4 +9,6 @@ public class ReadTecnicoDto {
 	public string UserName { get; set; }
 	public string Cep { get; set; }
 	public EnumPerfil Perfil { get; set; } //O valor é armazenado como 0, 1 ou 2, dependendo do valor do Enum
+
+	public List<ReadChamadoDto> Chamados { get; set; }
 }
