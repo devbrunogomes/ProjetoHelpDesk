@@ -10,17 +10,24 @@ namespace SolutisHelpDesk.Services;
 public class ClienteService {
 	private IMapper _mapper;
 	private ClienteRepository _clienteRepository;
+	private UsuarioService _usuarioService;
 
-	public ClienteService(ClienteRepository clienteRepository, IMapper mapper) {
+	public ClienteService(ClienteRepository clienteRepository, IMapper mapper, UsuarioService usuarioService) {
 		_clienteRepository = clienteRepository;
 		_mapper = mapper;
-	}	
+		_usuarioService = usuarioService;
+	}
 
 	internal async Task<Cliente> RegistroClienteAsync(CreateClienteDto dto) {
 		Cliente cliente = _mapper.Map<Cliente>(dto);
 		cliente.Perfil = EnumPerfil.Cliente;
 
-		await _clienteRepository.SalvarCliente(cliente);
+		await _clienteRepository.SalvarCliente(cliente); //Salvar na tabela individual
+
+		var usuarioDto = _mapper.Map<CreateUsuarioDto>(dto);
+		await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Cliente); //Salvar com identity
+
+
 		return cliente;
 	}
 

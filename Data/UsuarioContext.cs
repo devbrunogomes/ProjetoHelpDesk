@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SolutisHelpDesk.Models;
 
 namespace SolutisHelpDesk.Data;
 
-public class UsuarioContext : DbContext {
+public class UsuarioContext : IdentityDbContext<Usuario, IdentityRole<int>, int> {
 
 	public UsuarioContext(DbContextOptions<UsuarioContext> opts) : base(opts) {
 

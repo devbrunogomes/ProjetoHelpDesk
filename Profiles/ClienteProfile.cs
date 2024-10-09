@@ -12,5 +12,8 @@ public class ClienteProfile : Profile {
 			.ForMember(clienteDto => clienteDto.Chamados, 
 			opt => opt.MapFrom(cliente => cliente.Chamados));
 		CreateMap<UpdateClienteDto, Cliente>();
+		CreateMap<CreateClienteDto, CreateUsuarioDto>();
+
+
 	}
 }
