@@ -35,6 +35,17 @@ public class ChamadoController : ControllerBase {
 		return Ok(chamadoDto);
 	}
 
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteChamadoAsync(int id) {
+		var result = await _chamadoService.DeleteAsync(id);
+
+		if (result) {
+			return NoContent();
+		}
+
+		return NotFound();
+	}
+
 	[HttpPatch("resposta-chamado")]
 	public async Task<IActionResult> DarRespostaTecnica(ResponderChamadoDto dto) {
 		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto);
@@ -48,6 +59,17 @@ public class ChamadoController : ControllerBase {
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {
 		var result = await _chamadoService.FinalizarChamadoAsync(dto);
+
+		if (!result) {
+			return NotFound("Chamado não encontrado");
+		}
+		return NoContent();
+
+	}
+
+	[HttpPatch("reatribuir-tenico")]
+	public async Task<IActionResult> ReatribuirChamado(ReatribuirChamadoDto dto) {
+		var result = await _chamadoService.ReatribuirChamadoAsync(dto);
 
 		if (!result) {
 			return NotFound("Chamado não encontrado");

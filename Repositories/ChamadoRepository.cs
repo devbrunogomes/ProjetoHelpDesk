@@ -13,8 +13,8 @@ public class ChamadoRepository {
 
 
 	internal async Task SalvarChamado(Chamado chamado) {
-		await _context.Chamados.AddAsync(chamado);
-		_context.SaveChanges();	
+		_context.Chamados.Add(chamado);
+		await _context.SaveChangesAsync();	
 	}
 	internal async Task<List<Chamado>> RecuperarChamadosAsync() {
 		return await _context.Chamados.ToListAsync();
@@ -22,12 +22,17 @@ public class ChamadoRepository {
 
 	internal async Task<Chamado?> RecuperarChamadoPorIdAsync(int id) {
 		var chamado = await _context.Chamados
-			.FirstOrDefaultAsync(chamado => chamado.ClienteId == id);
+			.FirstOrDefaultAsync(chamado => chamado.ChamadoId == id);
 		return chamado;
 	}
 
 	internal async Task UpdateChamadoAsync(Chamado chamado) {
 		_context.Chamados.Update(chamado);
+		await _context.SaveChangesAsync();
+	}
+
+	internal async Task DeleteAsync(Chamado chamado) {
+		_context.Chamados.Remove(chamado);
 		await _context.SaveChangesAsync();
 	}
 }

@@ -36,7 +36,7 @@ public class ChamadoService {
 	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
-		if (chamado == null) {
+		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
 			return false;
 		}
 
@@ -58,6 +58,30 @@ public class ChamadoService {
 		chamado.DataConclusao = DateTime.Now;
 		_mapper.Map(dto, chamado);
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
+		return true;
+	}
+
+	internal async Task<bool> ReatribuirChamadoAsync(ReatribuirChamadoDto dto) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+
+		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
+			return false;
+		}
+
+		chamado.TecnicoId = dto.TecnicoId;
+		_mapper.Map(dto, chamado);
+		await _chamadoRepository.UpdateChamadoAsync(chamado);
+		return true;
+	}
+
+	internal async Task<bool> DeleteAsync(int id) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(id);
+
+		if (chamado == null) {
+			return false;
+		}
+
+		await _chamadoRepository.DeleteAsync(chamado);
 		return true;
 	}
 }
