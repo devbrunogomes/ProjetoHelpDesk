@@ -9,5 +9,6 @@ public class AdministradorProfile : Profile {
 		CreateMap<CreateAdministradorDto, Administrador>();
 		CreateMap<Administrador, ReadAdministradorDto>();
 		CreateMap<UpdateAdministradorDto, Administrador>();
+		CreateMap<CreateAdministradorDto, CreateUsuarioDto>();
 	}
 }
