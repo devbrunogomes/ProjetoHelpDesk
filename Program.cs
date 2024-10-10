@@ -30,6 +30,7 @@ public class Program {
 		builder.Services.AddScoped<ChamadoService>();
 		builder.Services.AddScoped<ChamadoRepository>();
 
+		builder.Services.AddScoped<TokenService>();
 		builder.Services.AddScoped<UsuarioService>();
 
 		builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

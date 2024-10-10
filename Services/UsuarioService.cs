@@ -8,11 +8,15 @@ namespace SolutisHelpDesk.Services;
 
 public class UsuarioService {
 	private readonly UserManager<Usuario> _userManager;
+	private SignInManager<Usuario> _signInManager;	
 	private readonly IMapper _mapper;
+	private TokenService _tokenService;
 
-	public UsuarioService(UserManager<Usuario> userManager, IMapper mapper) {
+	public UsuarioService(UserManager<Usuario> userManager, IMapper mapper, SignInManager<Usuario> signInManager, TokenService tokenService) {
 		_userManager = userManager;
 		_mapper = mapper;
+		_signInManager = signInManager;
+		_tokenService = tokenService;
 	}
 
 	public async Task<bool> RegistrarUsuarioAsync(CreateUsuarioDto usuarioDto, EnumPerfil perfil) {
@@ -37,5 +41,23 @@ public class UsuarioService {
 		return false;
 	}
 
-	
+	public async Task<string> Login(LoginDto loginDto) {
+		var resultado = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, false, false);
+		
+		if (!resultado.Succeeded) {
+			throw new ApplicationException("Usuário não Autenticado");
+		}
+
+		var usuario = _signInManager
+			.UserManager
+			.Users
+			.FirstOrDefault(user => user.NormalizedUserName == loginDto.UserName.ToUpper());
+
+		
+		var token = await _tokenService.GerarToken(usuario);
+
+		return token;
+	}
+
+
 }
