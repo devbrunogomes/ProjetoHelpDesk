@@ -36,6 +36,16 @@ public class TecnicoController : ControllerBase	{
 		return Ok(tecnicoDto);
 	}
 
+	[HttpGet("username-{username}")]
+	public async Task<IActionResult> GetClienteByUserName(string username) {
+		ReadTecnicoDto tecnicoDto = await _tecnicoService.GetByUsernameAsync(username);
+
+		if (tecnicoDto == null)
+			return NotFound();
+
+		return Ok(tecnicoDto);
+	}
+
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteTecnicoAsync(int id) {
 		var result = await _tecnicoService.DeleteAsync(id);

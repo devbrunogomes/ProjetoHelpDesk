@@ -23,6 +23,12 @@ public class ClienteRepository {
 			.FirstOrDefaultAsync(cliente => cliente.ClienteId == id);
 		return cliente;
 	}
+	internal async Task<Cliente?> RecuperarClientePorUserNameAsync(string username) {
+		var cliente = await _context.Clientes
+			.Include(cliente => cliente.Chamados)
+			.FirstOrDefaultAsync(cliente => cliente.UserName == username);
+		return cliente;
+	}
 
 	internal async Task<List<Cliente>> RecuperarClientesAsync() {
 		return await _context.Clientes.ToListAsync();
@@ -37,4 +43,5 @@ public class ClienteRepository {
 		_context.Clientes.Update(cliente);
 		await _context.SaveChangesAsync();
 	}
+
 }

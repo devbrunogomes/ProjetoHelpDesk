@@ -36,6 +36,16 @@ public class ClienteController : ControllerBase	{
 		return Ok(clienteDto);
 	}
 
+	[HttpGet("username-{username}")]
+	public async Task<IActionResult> GetClienteByUserName(string username) {
+		ReadClienteDto clienteDto = await _clienteService.GetByUsernameAsync(username);
+
+		if (clienteDto == null)
+			return NotFound();
+
+		return Ok(clienteDto);
+	}
+
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteClienteAsync(int id) {
 		var result = await _clienteService.DeleteAsync(id);

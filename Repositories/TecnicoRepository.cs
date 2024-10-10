@@ -27,6 +27,14 @@ public class TecnicoRepository {
 		return tecnico;
 	}
 
+
+	internal async Task<Tecnico?> RecuperarTecnicoPorUserNameAsync(string username) {		
+			var tecnico = await _context.Tecnicos
+				.Include(tecnico => tecnico.Chamados)
+				.FirstOrDefaultAsync(tecnico => tecnico.UserName == username);
+			return tecnico;
+		}
+
 	internal async Task DeleteAsync(Tecnico tecnico) {
 		_context.Tecnicos.Remove(tecnico);
 		await _context.SaveChangesAsync();
@@ -36,4 +44,5 @@ public class TecnicoRepository {
 		_context.Tecnicos.Update(tecnico);
 		await _context.SaveChangesAsync();
 	}
+
 }

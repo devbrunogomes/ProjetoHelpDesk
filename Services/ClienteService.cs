@@ -41,6 +41,11 @@ public class ClienteService {
 		return _mapper.Map<ReadClienteDto>(cliente);
 	}
 
+	internal async Task<ReadClienteDto> GetByUsernameAsync(string username) {
+		var cliente = await _clienteRepository.RecuperarClientePorUserNameAsync(username);
+		return _mapper.Map<ReadClienteDto>(cliente);
+	}
+
 	internal async Task<bool> DeleteAsync(int id) {
 		var cliente = await _clienteRepository.RecuperarClientePorIdAsync(id);
 

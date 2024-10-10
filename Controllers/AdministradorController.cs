@@ -37,6 +37,16 @@ public class AdministradorController : ControllerBase{
 		return Ok(admDto);
 	}
 
+	[HttpGet("username-{username}")]
+	public async Task<IActionResult> GetAdministradorByUserName(string username) {
+		ReadAdministradorDto admDto = await _administradorService.GetByUsernameAsync(username);
+
+		if (admDto == null)
+			return NotFound();
+
+		return Ok(admDto);
+	}
+
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteAdministradorAsync(int id) {
 		var result = await _administradorService.DeleteAsync(id);

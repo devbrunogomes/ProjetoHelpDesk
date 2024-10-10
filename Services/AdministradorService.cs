@@ -38,6 +38,11 @@ public class AdministradorService {
 		return _mapper.Map<ReadAdministradorDto>(adm);
 	}
 
+	internal async Task<ReadAdministradorDto> GetByUsernameAsync(string username) {
+		var adm = await _administradorRepository.RecuperarAdministradorPorUserNameAsync(username);
+		return _mapper.Map<ReadAdministradorDto>(adm);
+	}
+
 	internal async Task<bool> DeleteAsync(int id) {
 		var adm = await _administradorRepository.RecuperarAdministradorPorIdAsync(id);
 
@@ -59,4 +64,5 @@ public class AdministradorService {
 		await _administradorRepository.AtualizarAdministradorAsync(admExistente);
 		return true;
 	}
+
 }

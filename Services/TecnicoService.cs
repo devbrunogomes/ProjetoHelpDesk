@@ -38,6 +38,11 @@ public class TecnicoService {
 		return _mapper.Map<ReadTecnicoDto>(tecnico);
 	}
 
+	internal async Task<ReadTecnicoDto> GetByUsernameAsync(string username) {
+		var tecnico = await _tecnicoRepository.RecuperarTecnicoPorUserNameAsync(username);
+		return _mapper.Map<ReadTecnicoDto>(tecnico);
+	}
+
 	internal async Task<bool> DeleteAsync(int id) {
 		var tecnico = await _tecnicoRepository.RecuperarTecnicoPorIdAsync(id);
 
