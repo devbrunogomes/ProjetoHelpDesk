@@ -22,12 +22,14 @@ public class TecnicoController : ControllerBase	{
 		
 	}
 
+	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpGet]
 	public async Task<IActionResult> GetAllTecnicosAsync() {
 		IEnumerable<ReadTecnicoDto> listaDto = await _tecnicoService.GetAllAsync();
 		return Ok(listaDto);
 	}
 
+	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetTecnicoById(int id) {
 		ReadTecnicoDto tecnicoDto = await _tecnicoService.GetByIdAsync(id);
@@ -39,7 +41,7 @@ public class TecnicoController : ControllerBase	{
 	}
 
 	[HttpGet("username-{username}")]
-	public async Task<IActionResult> GetClienteByUserName(string username) {
+	public async Task<IActionResult> GetTecnicoByUserName(string username) {
 		ReadTecnicoDto tecnicoDto = await _tecnicoService.GetByUsernameAsync(username);
 
 		if (tecnicoDto == null)

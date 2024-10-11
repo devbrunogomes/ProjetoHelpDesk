@@ -4,22 +4,30 @@ using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Repositories;
+using System.Security.Claims;
 
 namespace SolutisHelpDesk.Services;
 
 public class ChamadoService {
 	private IMapper _mapper;
 	private ChamadoRepository _chamadoRepository;
+	private TokenService _tokenService;
+	private ClienteService _clienteService;
 
-	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository) {
+	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService) {
 		_mapper = mapper;
 		_chamadoRepository = chamadoRepository;
+		_tokenService = tokenService;
+		_clienteService = clienteService;
 	}
 
 
-	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto) {
-		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
+	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto, ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
+		chamadoDto.ClienteId = clienteId;
 
+		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);	
 		await _chamadoRepository.SalvarChamado(chamado);
 		return chamado;
 	}

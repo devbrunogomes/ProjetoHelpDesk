@@ -39,4 +39,8 @@ public class TokenService {
 
 		return new JwtSecurityTokenHandler().WriteToken(token);
 	}
+
+	public string GetUsernameFromToken(ClaimsPrincipal user) {
+		return user?.Claims.FirstOrDefault(claim => claim.Type == "username")?.Value;
+	}
 }

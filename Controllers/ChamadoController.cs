@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
 
@@ -13,12 +14,14 @@ public class ChamadoController : ControllerBase {
 		_chamadoService = chamadoService;
 	}
 
+	[Authorize(Roles = "CLIENTE")]
 	[HttpPost]
 	public async Task<IActionResult> RegistrarChamadoAsync(CreateChamadoDto chamadoDto) {
-		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto);
-		return Ok(chamado);
+		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto, User);
+		return CreatedAtAction(nameof(GetChamadoById), new { id = chamado.ChamadoId }, chamado);
 	}
 
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet]
 	public async Task<IActionResult> GetAllChamadosAsync() {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllAsync();
@@ -46,6 +49,7 @@ public class ChamadoController : ControllerBase {
 		return NotFound();
 	}
 
+	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("resposta-chamado")]
 	public async Task<IActionResult> DarRespostaTecnica(ResponderChamadoDto dto) {
 		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto);
@@ -56,6 +60,7 @@ public class ChamadoController : ControllerBase {
 		return NoContent();
 	}
 
+	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {
 		var result = await _chamadoService.FinalizarChamadoAsync(dto);

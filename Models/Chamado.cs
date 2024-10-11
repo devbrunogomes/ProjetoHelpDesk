@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text.Json.Serialization;
 
 namespace SolutisHelpDesk.Models;
 
@@ -30,6 +31,7 @@ public class Chamado {
 	
 	public int? TecnicoId { get; set; }
 
+	[JsonIgnore]
 	public virtual Cliente? Cliente { get; set; }
 
 	public virtual Tecnico? Tecnico { get; set; }
