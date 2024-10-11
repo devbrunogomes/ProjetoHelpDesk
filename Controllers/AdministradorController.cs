@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Services;
 
 namespace SolutisHelpDesk.Controllers;
 
+[Authorize(Roles = "ADMINISTRADOR")]
 [ApiController]
 [Route("[controller]")]
-public class AdministradorController : ControllerBase{
+public class AdministradorController : ControllerBase {
 	private AdministradorService _administradorService;
 
 	public AdministradorController(AdministradorService administradorService) {
