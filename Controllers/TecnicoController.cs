@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
 
@@ -13,6 +14,7 @@ public class TecnicoController : ControllerBase	{
 		_tecnicoService = tecnicoService;
 	}
 
+	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpPost]
 	public async Task<IActionResult> RegistrarTecnicoAsync(CreateTecnicoDto dto) {
 		var Cliente = await _tecnicoService.RegistroTecnicoAsync(dto);
