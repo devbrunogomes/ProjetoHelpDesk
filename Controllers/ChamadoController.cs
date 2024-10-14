@@ -46,9 +46,16 @@ public class ChamadoController : ControllerBase {
 	}
 
 	[Authorize(Roles = "CLIENTE")]
-	[HttpGet("meus-chamados")]
+	[HttpGet("/cliente/meus-chamados")]
 	public async Task<IActionResult> GetChamadosDoCliente() {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetChamadosDoCliente(User);
+		return Ok(listaDto);
+	}
+
+	[Authorize(Roles = "TECNICO")]
+	[HttpGet("/tecnicos/meus-chamados")]
+	public async Task<IActionResult> GetChamadosDoTecnico() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetChamadosDoTecnico(User);
 		return Ok(listaDto);
 	}
 

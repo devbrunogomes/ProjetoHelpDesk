@@ -13,12 +13,14 @@ public class ChamadoService {
 	private ChamadoRepository _chamadoRepository;
 	private TokenService _tokenService;
 	private ClienteService _clienteService;
+	private TecnicoService _tecnicoService;
 
-	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService) {
+	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService) {
 		_mapper = mapper;
 		_chamadoRepository = chamadoRepository;
 		_tokenService = tokenService;
 		_clienteService = clienteService;
+		_tecnicoService = tecnicoService;
 	}
 
 
@@ -49,6 +51,13 @@ public class ChamadoService {
 		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 
 		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosDeCliente(clienteId);
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
+	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetChamadosDoTecnico(ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
+
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosDeTecnico(tecnicoId);
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
 
