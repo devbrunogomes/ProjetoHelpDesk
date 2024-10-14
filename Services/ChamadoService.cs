@@ -35,6 +35,10 @@ public class ChamadoService {
 		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosAsync();
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetAllOpenAsync() {
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosAbertosAsync();
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
+	}
 
 	internal async Task<ReadChamadoDto> GetByIdAsync(int id) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(id);

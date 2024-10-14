@@ -28,6 +28,13 @@ public class ChamadoController : ControllerBase {
 		return Ok(listaDto);
 	}
 
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[HttpGet("chamados-abertos")]
+	public async Task<IActionResult> GetAllChamadosAbertosAsync() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllOpenAsync();
+		return Ok(listaDto);
+	}
+
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetChamadoById(int id) {
 		ReadChamadoDto chamadoDto = await _chamadoService.GetByIdAsync(id);

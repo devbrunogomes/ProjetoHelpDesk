@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolutisHelpDesk.Data;
 using SolutisHelpDesk.Models;
+using SolutisHelpDesk.Models.Enums;
 
 namespace SolutisHelpDesk.Repositories;
 
@@ -18,6 +19,11 @@ public class ChamadoRepository {
 	}
 	internal async Task<List<Chamado>> RecuperarChamadosAsync() {
 		return await _context.Chamados.ToListAsync();
+	}
+	internal async Task<List<Chamado>> RecuperarChamadosAbertosAsync() {
+		return await _context.Chamados
+			.Where(chamado => chamado.Status != EnumStatus.Fechado)
+			.ToListAsync();
 	}
 
 	internal async Task<Chamado?> RecuperarChamadoPorIdAsync(int id) {
