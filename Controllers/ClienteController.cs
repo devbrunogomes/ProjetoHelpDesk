@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
 
@@ -20,12 +21,14 @@ public class ClienteController : ControllerBase	{
 		
 	}
 
+	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpGet]
 	public async Task<IActionResult> GetAllClientesAsync() {
 		IEnumerable<ReadClienteDto> listaDto = await _clienteService.GetAllAsync();
 		return Ok(listaDto);
 	}
 
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetClienteById(int id) {
 		ReadClienteDto clienteDto = await _clienteService.GetByIdAsync(id);
@@ -36,6 +39,7 @@ public class ClienteController : ControllerBase	{
 		return Ok(clienteDto);
 	}
 
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet("username-{username}")]
 	public async Task<IActionResult> GetClienteByUserName(string username) {
 		ReadClienteDto clienteDto = await _clienteService.GetByUsernameAsync(username);
@@ -45,7 +49,7 @@ public class ClienteController : ControllerBase	{
 
 		return Ok(clienteDto);
 	}
-
+	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteClienteAsync(int id) {
 		var result = await _clienteService.DeleteAsync(id);
@@ -57,6 +61,7 @@ public class ClienteController : ControllerBase	{
 		return NotFound();
 	}
 
+	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpPut("{id}")]
 	public async Task<IActionResult> UpdateCliente(int id, [FromBody] UpdateClienteDto clienteDto) {
 		var resultado = await _clienteService.UpdateCliente(id, clienteDto);
