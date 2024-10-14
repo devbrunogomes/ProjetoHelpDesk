@@ -38,6 +38,13 @@ public class ChamadoController : ControllerBase {
 		return Ok(chamadoDto);
 	}
 
+	[Authorize(Roles = "CLIENTE")]
+	[HttpGet("meus-chamados")]
+	public async Task<IActionResult> GetChamadosDoCliente() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetChamadosDoCliente(User);
+		return Ok(listaDto);
+	}
+
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteChamadoAsync(int id) {
 		var result = await _chamadoService.DeleteAsync(id);

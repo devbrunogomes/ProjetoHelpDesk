@@ -40,6 +40,13 @@ public class ChamadoService {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(id);
 		return _mapper.Map<ReadChamadoDto>(chamado);
 	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetChamadosDoCliente(ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
+
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosDeCliente(clienteId);
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
+	}
 
 	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
@@ -92,4 +99,5 @@ public class ChamadoService {
 		await _chamadoRepository.DeleteAsync(chamado);
 		return true;
 	}
+
 }

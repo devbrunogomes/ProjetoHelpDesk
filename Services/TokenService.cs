@@ -41,6 +41,6 @@ public class TokenService {
 	}
 
 	public string GetUsernameFromToken(ClaimsPrincipal user) {
-		return user?.Claims.FirstOrDefault(claim => claim.Type == "username")?.Value;
+		return user?.Claims.FirstOrDefault(claim => claim.Type == "username")?.Value!;
 	}
 }
