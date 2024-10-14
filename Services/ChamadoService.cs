@@ -61,7 +61,11 @@ public class ChamadoService {
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
 
-	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto) {
+	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto, ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
+		dto.TecnicoId = tecnicoId;
+
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
 		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
