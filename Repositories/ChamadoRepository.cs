@@ -28,12 +28,14 @@ public class ChamadoRepository {
 
 	internal async Task<Chamado?> RecuperarChamadoPorIdAsync(int id) {
 		var chamado = await _context.Chamados
+			.Include(chamado => chamado.Resposta)
 			.FirstOrDefaultAsync(chamado => chamado.ChamadoId == id);
 		return chamado;
 	}
 	internal async Task<List<Chamado>> RecuperarChamadosDeCliente(int clienteId) {
 		List<Chamado> chamados = await _context.Chamados
 			 .Where(chamado => chamado.ClienteId == clienteId)
+			 .Include(chamado => chamado.Resposta)
 			 .ToListAsync();
 		return chamados;
 	}

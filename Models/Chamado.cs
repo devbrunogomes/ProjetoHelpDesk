@@ -36,7 +36,7 @@ public class Chamado {
 
 	public virtual Tecnico? Tecnico { get; set; }
 
-	public string? RespostasTecnicas { get; set; }
+	public virtual List<Resposta> Resposta { get; set; } = new List<Resposta>();
 
 	public Chamado() {
 		DataAbertura = DateTime.Now;

@@ -35,7 +35,7 @@ public class ChamadoController : ControllerBase {
 		return Ok(listaDto);
 	}
 
-	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	//[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetChamadoById(int id) {
 		ReadChamadoDto chamadoDto = await _chamadoService.GetByIdAsync(id);
@@ -72,10 +72,22 @@ public class ChamadoController : ControllerBase {
 		return NotFound();
 	}
 
+	//Lembrar de mudar a forma que um tecnico responde tambem
 	[Authorize(Roles = "TECNICO")]
-	[HttpPatch("resposta-chamado")]
-	public async Task<IActionResult> DarRespostaTecnica(ResponderChamadoDto dto) {
-		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto, User);
+	[HttpPatch("/tecnico/responder-chamado")]
+	public async Task<IActionResult> DarRespostaAoCliente(ResponderChamadoDto dto) {
+		var result = await _chamadoService.RegistrarRespostaAsync(dto, User);
+
+		if (!result) {
+			return NotFound("Chamado não encontrado");
+		}
+		return NoContent();
+	}
+
+	[Authorize(Roles = "CLIENTE")]
+	[HttpPatch("/cliente/responder-chamado")]
+	public async Task<IActionResult> DarRespostaAoTecnico(ResponderChamadoDto dto) {
+		var result = await _chamadoService.RegistrarRespostaAsync(dto, User);
 
 		if (!result) {
 			return NotFound("Chamado não encontrado");

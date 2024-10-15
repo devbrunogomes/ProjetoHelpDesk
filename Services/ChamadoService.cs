@@ -61,7 +61,7 @@ public class ChamadoService {
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
 
-	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto, ClaimsPrincipal user) {
+	internal async Task<bool> RegistrarRespostaAsync(ResponderChamadoDto dto, ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
 		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
 		dto.TecnicoId = tecnicoId;

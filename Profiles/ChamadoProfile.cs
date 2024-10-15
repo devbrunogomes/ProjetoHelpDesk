@@ -6,12 +6,12 @@ namespace SolutisHelpDesk.Profiles;
 
 public class ChamadoProfile : Profile {
 
-    public ChamadoProfile()
-    {
-      CreateMap<CreateChamadoDto, Chamado>();
-      CreateMap<Chamado, ReadChamadoDto>();
-      CreateMap<ResponderChamadoDto, Chamado>();
-      CreateMap<FinalizarChamadoDto, Chamado>();
-      CreateMap<ReatribuirChamadoDto, Chamado>();
-    }
+	public ChamadoProfile() {
+		CreateMap<CreateChamadoDto, Chamado>();
+		CreateMap<Chamado, ReadChamadoDto>()
+			.ForMember(dto => dto.Respostas, opt => opt.MapFrom(src => src.Resposta));
+		CreateMap<ResponderChamadoDto, Chamado>();
+		CreateMap<FinalizarChamadoDto, Chamado>();
+		CreateMap<ReatribuirChamadoDto, Chamado>();
+	}
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SolutisHelpDesk.Migrations
 {
     /// <inheritdoc />
-    public partial class TabelasIdentity : Migration
+    public partial class Criacaobancodedadoscomnovatabela : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,10 +19,7 @@ namespace SolutisHelpDesk.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RePassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Perfil = table.Column<int>(type: "int", nullable: false)
                 },
@@ -52,6 +49,8 @@ namespace SolutisHelpDesk.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    NomeCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Perfil = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -81,10 +80,7 @@ namespace SolutisHelpDesk.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RePassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Perfil = table.Column<int>(type: "int", nullable: false)
                 },
@@ -101,10 +97,7 @@ namespace SolutisHelpDesk.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NomeCompleto = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailConfirmation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RePassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cep = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Perfil = table.Column<int>(type: "int", nullable: false)
                 },
@@ -232,8 +225,7 @@ namespace SolutisHelpDesk.Migrations
                     DataConclusao = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: true),
                     ClienteId = table.Column<int>(type: "int", nullable: true),
-                    TecnicoId = table.Column<int>(type: "int", nullable: true),
-                    RespostasTecnicas = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    TecnicoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -248,6 +240,28 @@ namespace SolutisHelpDesk.Migrations
                         column: x => x.TecnicoId,
                         principalTable: "Tecnicos",
                         principalColumn: "TecnicoId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Respostas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Data = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Mensagem = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChamadoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Respostas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Respostas_Chamados_ChamadoId",
+                        column: x => x.ChamadoId,
+                        principalTable: "Chamados",
+                        principalColumn: "ChamadoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -312,6 +326,11 @@ namespace SolutisHelpDesk.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Respostas_ChamadoId",
+                table: "Respostas",
+                column: "ChamadoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tecnico_UserName",
                 table: "Tecnicos",
                 column: "UserName",
@@ -340,13 +359,16 @@ namespace SolutisHelpDesk.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Chamados");
+                name: "Respostas");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Chamados");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
