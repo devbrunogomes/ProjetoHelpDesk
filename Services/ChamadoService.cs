@@ -79,7 +79,11 @@ public class ChamadoService {
 
 	}
 
-	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto) {
+	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
+		dto.TecnicoId = tecnicoId;
+
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
 		if (chamado == null) {

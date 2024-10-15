@@ -98,7 +98,7 @@ public class ChamadoController : ControllerBase {
 	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {
-		var result = await _chamadoService.FinalizarChamadoAsync(dto);
+		var result = await _chamadoService.FinalizarChamadoAsync(dto, User);
 
 		if (!result) {
 			return NotFound("Chamado não encontrado");
