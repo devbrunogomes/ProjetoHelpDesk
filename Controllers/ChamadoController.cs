@@ -35,7 +35,7 @@ public class ChamadoController : ControllerBase {
 		return Ok(listaDto);
 	}
 
-	//[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetChamadoById(int id) {
 		ReadChamadoDto chamadoDto = await _chamadoService.GetByIdAsync(id);
@@ -71,30 +71,6 @@ public class ChamadoController : ControllerBase {
 
 		return NotFound();
 	}
-
-	
-	[Authorize(Roles = "TECNICO")]
-	[HttpPatch("/tecnico/responder-chamado")]
-	public async Task<IActionResult> DarRespostaAoCliente(ResponderChamadoDto dto) {
-		var result = await _chamadoService.RegistrarRespostaAsync(dto, User);
-
-		if (!result) {
-			return NotFound("Chamado não encontrado");
-		}
-		return NoContent();
-	}
-
-	[Authorize(Roles = "CLIENTE")]
-	[HttpPatch("/cliente/responder-chamado")]
-	public async Task<IActionResult> DarRespostaAoTecnico(ResponderChamadoDto dto) {
-		var result = await _chamadoService.RegistrarRespostaAsync(dto, User);
-
-		if (!result) {
-			return NotFound("Chamado não encontrado");
-		}
-		return NoContent();
-	}
-
 	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {

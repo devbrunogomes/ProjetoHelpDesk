@@ -10,7 +10,6 @@ public class ChamadoProfile : Profile {
 		CreateMap<CreateChamadoDto, Chamado>();
 		CreateMap<Chamado, ReadChamadoDto>()
 			.ForMember(dto => dto.Respostas, opt => opt.MapFrom(src => src.Resposta));
-		CreateMap<ResponderChamadoDto, Chamado>();
 		CreateMap<FinalizarChamadoDto, Chamado>();
 		CreateMap<ReatribuirChamadoDto, Chamado>();
 	}

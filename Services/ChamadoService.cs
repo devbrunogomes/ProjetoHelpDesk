@@ -29,7 +29,7 @@ public class ChamadoService {
 		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 		chamadoDto.ClienteId = clienteId;
 
-		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);	
+		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
 		await _chamadoRepository.SalvarChamado(chamado);
 		return chamado;
 	}
@@ -46,6 +46,7 @@ public class ChamadoService {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(id);
 		return _mapper.Map<ReadChamadoDto>(chamado);
 	}
+
 	internal async Task<IEnumerable<ReadChamadoDto>> GetChamadosDoCliente(ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
 		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
@@ -53,6 +54,7 @@ public class ChamadoService {
 		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosDeCliente(clienteId);
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
+
 	internal async Task<IEnumerable<ReadChamadoDto>> GetChamadosDoTecnico(ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
 		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
@@ -61,23 +63,6 @@ public class ChamadoService {
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
 
-	internal async Task<bool> RegistrarRespostaAsync(ResponderChamadoDto dto, ClaimsPrincipal user) {
-		string username = _tokenService.GetUsernameFromToken(user);
-		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
-		dto.TecnicoId = tecnicoId;
-
-		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
-
-		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
-			return false;
-		}
-
-		chamado.Status = EnumStatus.EmAndamento;
-		_mapper.Map(dto, chamado);
-		await _chamadoRepository.UpdateChamadoAsync(chamado);
-		return true;
-
-	}
 
 	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
@@ -137,7 +122,8 @@ public class ChamadoService {
 	internal async Task<bool> GetStatusFechadoChamado(int chamadoId) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(chamadoId);
 
-		if (chamado!.Status == EnumStatus.Fechado) return true;
+		if (chamado!.Status == EnumStatus.Fechado)
+			return true;
 		return false;
 	}
 }

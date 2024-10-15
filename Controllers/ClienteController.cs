@@ -68,7 +68,7 @@ public class ClienteController : ControllerBase	{
 		if (!resultado) {
 			return NotFound("Cliente não encontrado");
 		}
-		return NoContent(); // 204 No Content para operações de atualização bem-sucedidas
+		return NoContent();
 	}
 
 }
