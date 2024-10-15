@@ -117,4 +117,17 @@ public class ChamadoService {
 		return true;
 	}
 
+	internal async Task<int> GetIdDoTecnicoAtribuido(int chamadoId) {
+		ReadChamadoDto chamado = await GetByIdAsync(chamadoId);
+
+
+		return chamado.TecnicoId;
+	}
+
+	internal async Task AtribuirTecnicoAChamado(CreateRespostaDto dto, string nomeAutor) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(nomeAutor).Result.TecnicoId;
+		chamado!.TecnicoId = tecnicoId;
+		await _chamadoRepository.UpdateChamadoAsync(chamado);
+	}
 }

@@ -33,7 +33,7 @@ public class Chamado {
 
 	[JsonIgnore]
 	public virtual Cliente? Cliente { get; set; }
-
+	[JsonIgnore]
 	public virtual Tecnico? Tecnico { get; set; }
 
 	public virtual List<Resposta> Resposta { get; set; } = new List<Resposta>();
