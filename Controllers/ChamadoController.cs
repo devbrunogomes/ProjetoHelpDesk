@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
 
@@ -13,18 +14,28 @@ public class ChamadoController : ControllerBase {
 		_chamadoService = chamadoService;
 	}
 
+	[Authorize(Roles = "CLIENTE")]
 	[HttpPost]
 	public async Task<IActionResult> RegistrarChamadoAsync(CreateChamadoDto chamadoDto) {
-		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto);
-		return Ok(chamado);
+		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto, User);
+		return CreatedAtAction(nameof(GetChamadoById), new { id = chamado.ChamadoId }, chamado);
 	}
 
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet]
 	public async Task<IActionResult> GetAllChamadosAsync() {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllAsync();
 		return Ok(listaDto);
 	}
 
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[HttpGet("chamados-abertos")]
+	public async Task<IActionResult> GetAllChamadosAbertosAsync() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllOpenAsync();
+		return Ok(listaDto);
+	}
+
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetChamadoById(int id) {
 		ReadChamadoDto chamadoDto = await _chamadoService.GetByIdAsync(id);
@@ -35,6 +46,21 @@ public class ChamadoController : ControllerBase {
 		return Ok(chamadoDto);
 	}
 
+	[Authorize(Roles = "CLIENTE")]
+	[HttpGet("/cliente/meus-chamados")]
+	public async Task<IActionResult> GetChamadosDoCliente() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetChamadosDoCliente(User);
+		return Ok(listaDto);
+	}
+
+	[Authorize(Roles = "TECNICO")]
+	[HttpGet("/tecnicos/meus-chamados")]
+	public async Task<IActionResult> GetChamadosDoTecnico() {
+		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetChamadosDoTecnico(User);
+		return Ok(listaDto);
+	}
+
+	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteChamadoAsync(int id) {
 		var result = await _chamadoService.DeleteAsync(id);
@@ -46,9 +72,10 @@ public class ChamadoController : ControllerBase {
 		return NotFound();
 	}
 
+	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("resposta-chamado")]
 	public async Task<IActionResult> DarRespostaTecnica(ResponderChamadoDto dto) {
-		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto);
+		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto, User);
 
 		if (!result) {
 			return NotFound("Chamado não encontrado");
@@ -56,6 +83,7 @@ public class ChamadoController : ControllerBase {
 		return NoContent();
 	}
 
+	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {
 		var result = await _chamadoService.FinalizarChamadoAsync(dto);

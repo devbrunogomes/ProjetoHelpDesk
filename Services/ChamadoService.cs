@@ -4,22 +4,32 @@ using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Repositories;
+using System.Security.Claims;
 
 namespace SolutisHelpDesk.Services;
 
 public class ChamadoService {
 	private IMapper _mapper;
 	private ChamadoRepository _chamadoRepository;
+	private TokenService _tokenService;
+	private ClienteService _clienteService;
+	private TecnicoService _tecnicoService;
 
-	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository) {
+	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService) {
 		_mapper = mapper;
 		_chamadoRepository = chamadoRepository;
+		_tokenService = tokenService;
+		_clienteService = clienteService;
+		_tecnicoService = tecnicoService;
 	}
 
 
-	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto) {
-		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
+	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto, ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
+		chamadoDto.ClienteId = clienteId;
 
+		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);	
 		await _chamadoRepository.SalvarChamado(chamado);
 		return chamado;
 	}
@@ -27,13 +37,35 @@ public class ChamadoService {
 		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosAsync();
 		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
 	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetAllOpenAsync() {
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosAbertosAsync();
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
+	}
 
 	internal async Task<ReadChamadoDto> GetByIdAsync(int id) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(id);
 		return _mapper.Map<ReadChamadoDto>(chamado);
 	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetChamadosDoCliente(ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 
-	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto) {
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosDeCliente(clienteId);
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
+	}
+	internal async Task<IEnumerable<ReadChamadoDto>> GetChamadosDoTecnico(ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
+
+		List<Chamado> listaChamado = await _chamadoRepository.RecuperarChamadosDeTecnico(tecnicoId);
+		return _mapper.Map<List<ReadChamadoDto>>(listaChamado);
+	}
+
+	internal async Task<bool> RegistrarRespostaTecnicaAsync(ResponderChamadoDto dto, ClaimsPrincipal user) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
+		dto.TecnicoId = tecnicoId;
+
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
 		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
@@ -84,4 +116,5 @@ public class ChamadoService {
 		await _chamadoRepository.DeleteAsync(chamado);
 		return true;
 	}
+
 }

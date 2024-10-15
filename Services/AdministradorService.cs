@@ -9,17 +9,22 @@ namespace SolutisHelpDesk.Services;
 public class AdministradorService {
 	private IMapper _mapper;
 	private AdministradorRepository _administradorRepository;
+	private UsuarioService _usuarioService;
 
-	public AdministradorService(IMapper mapper, AdministradorRepository administradorRepository) {
+	public AdministradorService(IMapper mapper, AdministradorRepository administradorRepository, UsuarioService usuarioService) {
 		_mapper = mapper;
 		_administradorRepository = administradorRepository;
+		_usuarioService = usuarioService;
 	}
 
 	internal async Task<Administrador> RegistroAdmAsync(CreateAdministradorDto dto) {
 		Administrador adm = _mapper.Map<Administrador>(dto);
 		adm.Perfil = EnumPerfil.Administrador;
 
-		await _administradorRepository.SalvarAdm(adm);
+		await _administradorRepository.SalvarAdm(adm); //Salvar na tabela individual
+
+		var usuarioDto = _mapper.Map<CreateUsuarioDto>(dto);
+		await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Administrador); //Salvar com identity
 		return adm;
 	}
 
@@ -30,6 +35,11 @@ public class AdministradorService {
 
 	internal async Task<ReadAdministradorDto> GetByIdAsync(int id) {
 		var adm = await _administradorRepository.RecuperarAdministradorPorIdAsync(id);
+		return _mapper.Map<ReadAdministradorDto>(adm);
+	}
+
+	internal async Task<ReadAdministradorDto> GetByUsernameAsync(string username) {
+		var adm = await _administradorRepository.RecuperarAdministradorPorUserNameAsync(username);
 		return _mapper.Map<ReadAdministradorDto>(adm);
 	}
 
@@ -54,4 +64,5 @@ public class AdministradorService {
 		await _administradorRepository.AtualizarAdministradorAsync(admExistente);
 		return true;
 	}
+
 }

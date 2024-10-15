@@ -11,6 +11,7 @@ public class TecnicoProfile : Profile {
       CreateMap<CreateTecnicoDto, Tecnico>();
       CreateMap<Tecnico, ReadTecnicoDto>();
       CreateMap<UpdateTecnicoDto, Tecnico>();
-      
-    }
+		CreateMap<CreateTecnicoDto, CreateUsuarioDto>();
+
+	}
 }

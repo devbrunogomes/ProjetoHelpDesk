@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Services;
 
 namespace SolutisHelpDesk.Controllers;
 
+[Authorize(Roles = "ADMINISTRADOR")]
 [ApiController]
 [Route("[controller]")]
-public class AdministradorController : ControllerBase{
+public class AdministradorController : ControllerBase {
 	private AdministradorService _administradorService;
 
 	public AdministradorController(AdministradorService administradorService) {
@@ -30,6 +32,16 @@ public class AdministradorController : ControllerBase{
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetAdministradorById(int id) {
 		ReadAdministradorDto admDto = await _administradorService.GetByIdAsync(id);
+
+		if (admDto == null)
+			return NotFound();
+
+		return Ok(admDto);
+	}
+
+	[HttpGet("username-{username}")]
+	public async Task<IActionResult> GetAdministradorByUserName(string username) {
+		ReadAdministradorDto admDto = await _administradorService.GetByUsernameAsync(username);
 
 		if (admDto == null)
 			return NotFound();

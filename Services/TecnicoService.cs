@@ -9,10 +9,12 @@ namespace SolutisHelpDesk.Services;
 public class TecnicoService {
 	private IMapper _mapper;
 	private TecnicoRepository _tecnicoRepository;
+	private UsuarioService _usuarioService;
 
-	public TecnicoService(IMapper mapper, TecnicoRepository tecnicoRepository) {
+	public TecnicoService(IMapper mapper, TecnicoRepository tecnicoRepository, UsuarioService usuarioService) {
 		_mapper = mapper;
 		_tecnicoRepository = tecnicoRepository;
+		_usuarioService = usuarioService;
 	}
 
 
@@ -20,7 +22,10 @@ public class TecnicoService {
 		Tecnico tecnico = _mapper.Map<Tecnico>(dto);
 		tecnico.Perfil = EnumPerfil.Tecnico;
 
-		await _tecnicoRepository.SalvarTecnico(tecnico);
+		await _tecnicoRepository.SalvarTecnico(tecnico); //Salvar na tabela individual
+
+		var usuarioDto = _mapper.Map<CreateUsuarioDto>(dto);
+		await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Tecnico); //Salvar com identity
 		return tecnico;
 	}
 	internal async Task<IEnumerable<ReadTecnicoDto>> GetAllAsync() {
@@ -30,6 +35,11 @@ public class TecnicoService {
 
 	internal async Task<ReadTecnicoDto> GetByIdAsync(int id) {
 		var tecnico = await _tecnicoRepository.RecuperarTecnicoPorIdAsync(id);
+		return _mapper.Map<ReadTecnicoDto>(tecnico);
+	}
+
+	internal async Task<ReadTecnicoDto> GetByUsernameAsync(string username) {
+		var tecnico = await _tecnicoRepository.RecuperarTecnicoPorUserNameAsync(username);
 		return _mapper.Map<ReadTecnicoDto>(tecnico);
 	}
 

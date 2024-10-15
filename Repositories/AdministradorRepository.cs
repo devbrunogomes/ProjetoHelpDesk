@@ -25,6 +25,12 @@ public class AdministradorRepository {
 		return adm;
 	}
 
+	internal async Task<Administrador?> RecuperarAdministradorPorUserNameAsync(string username) {
+		var adm = await _context.Administradores			
+			.FirstOrDefaultAsync(adm => adm.UserName == username);
+		return adm;
+	}
+
 	internal async Task DeleteAsync(Administrador adm) {
 		_context.Administradores.Remove(adm);
 		await _context.SaveChangesAsync();
