@@ -119,8 +119,6 @@ public class ChamadoService {
 
 	internal async Task<int> GetIdDoTecnicoAtribuido(int chamadoId) {
 		ReadChamadoDto chamado = await GetByIdAsync(chamadoId);
-
-
 		return chamado.TecnicoId;
 	}
 
@@ -128,6 +126,14 @@ public class ChamadoService {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 		int tecnicoId = _tecnicoService.GetByUsernameAsync(nomeAutor).Result.TecnicoId;
 		chamado!.TecnicoId = tecnicoId;
+		chamado.Status = EnumStatus.EmAndamento;
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
+	}
+
+	internal async Task<bool> GetStatusFechadoChamado(int chamadoId) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(chamadoId);
+
+		if (chamado!.Status == EnumStatus.Fechado) return true;
+		return false;
 	}
 }

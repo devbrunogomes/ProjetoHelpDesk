@@ -20,7 +20,7 @@ public class RespostaService {
 	}
 
 	internal async Task<Resposta> RegistrarRespostaAoClienteAsync(CreateRespostaDto dto, ClaimsPrincipal user) {
-		//Atribuir Técnico a chamado
+		//Atribuir Técnico a chamado e alterar status
 		string nomeAutor = _tokenService.GetUsernameFromToken(user);
 		await _chamadoService.AtribuirTecnicoAChamado(dto, nomeAutor);
 

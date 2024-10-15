@@ -72,7 +72,7 @@ public class ChamadoController : ControllerBase {
 		return NotFound();
 	}
 
-	//Lembrar de mudar a forma que um tecnico responde tambem
+	
 	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("/tecnico/responder-chamado")]
 	public async Task<IActionResult> DarRespostaAoCliente(ResponderChamadoDto dto) {

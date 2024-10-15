@@ -23,6 +23,13 @@ public class RespostaController : ControllerBase {
 	[Authorize(Roles = "CLIENTE")]
 	[HttpPost("cliente")]
 	public async Task<IActionResult> DarRespostaAoTecnico(CreateRespostaDto dto) {
+		//Verificar se o chamado ainda está aberto
+		bool chamadoEstaFechado = await _chamadoService.GetStatusFechadoChamado(dto.ChamadoId);
+
+		if (chamadoEstaFechado) {
+			return BadRequest("O chamado já está fechado");
+		}
+
 		var result = await _respostaService.RegistrarRespostaAoTecnicoAsync(dto, User);
 
 		return Ok(result);
@@ -38,6 +45,13 @@ public class RespostaController : ControllerBase {
 
 		if (tecnicoIdAtribuido != 0 && tecnicoIdAtribuido != tecnicoIdToken) { 
 			return BadRequest("Outro técnico já esta atribuido ao chamado");
+		}
+
+		//Verificar se o chamado ainda está aberto
+		bool chamadoEstaFechado = await _chamadoService.GetStatusFechadoChamado(dto.ChamadoId);
+
+		if (chamadoEstaFechado) { 
+			return BadRequest("O chamado já está fechado");
 		}
 
 
