@@ -33,10 +33,10 @@ public class Chamado {
 
 	[JsonIgnore]
 	public virtual Cliente? Cliente { get; set; }
-
+	[JsonIgnore]
 	public virtual Tecnico? Tecnico { get; set; }
 
-	public string? RespostasTecnicas { get; set; }
+	public virtual List<Resposta> Resposta { get; set; } = new List<Resposta>();
 
 	public Chamado() {
 		DataAbertura = DateTime.Now;

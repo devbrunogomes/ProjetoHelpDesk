@@ -48,6 +48,8 @@ public class Program {
 		builder.Services.AddScoped<AdministradorRepository>();
 		builder.Services.AddScoped<ChamadoService>();
 		builder.Services.AddScoped<ChamadoRepository>();
+		builder.Services.AddScoped<RespostaService>();
+		builder.Services.AddScoped<RespostaRepository>();
 
 		builder.Services.AddScoped<TokenService>();
 		builder.Services.AddScoped<UsuarioService>();

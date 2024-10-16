@@ -71,22 +71,10 @@ public class ChamadoController : ControllerBase {
 
 		return NotFound();
 	}
-
-	[Authorize(Roles = "TECNICO")]
-	[HttpPatch("resposta-chamado")]
-	public async Task<IActionResult> DarRespostaTecnica(ResponderChamadoDto dto) {
-		var result = await _chamadoService.RegistrarRespostaTecnicaAsync(dto, User);
-
-		if (!result) {
-			return NotFound("Chamado não encontrado");
-		}
-		return NoContent();
-	}
-
 	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {
-		var result = await _chamadoService.FinalizarChamadoAsync(dto);
+		var result = await _chamadoService.FinalizarChamadoAsync(dto, User);
 
 		if (!result) {
 			return NotFound("Chamado não encontrado");

@@ -48,4 +48,6 @@ public class UsuarioContext : IdentityDbContext<Usuario, IdentityRole<int>, int>
 	public DbSet<Tecnico> Tecnicos { get; set; }
 	public DbSet<Administrador> Administradores { get; set; }
 	public DbSet<Chamado> Chamados { get; set; }
+	public DbSet<Resposta> Respostas { get; set; }
+
 }

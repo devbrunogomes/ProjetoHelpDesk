@@ -12,8 +12,8 @@ using SolutisHelpDesk.Data;
 namespace SolutisHelpDesk.Migrations
 {
     [DbContext(typeof(UsuarioContext))]
-    [Migration("20241009180234_novas colunas cep e nome completo")]
-    partial class novascolunascepenomecompleto
+    [Migration("20241015141837_Criacao banco de dados com nova tabela")]
+    partial class Criacaobancodedadoscomnovatabela
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,24 +174,12 @@ namespace SolutisHelpDesk.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmailConfirmation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NomeCompleto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Perfil")
                         .HasColumnType("int");
-
-                    b.Property<string>("RePassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -230,9 +218,6 @@ namespace SolutisHelpDesk.Migrations
                     b.Property<int?>("Prioridade")
                         .HasColumnType("int");
 
-                    b.Property<string>("RespostasTecnicas")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("Status")
                         .HasColumnType("int");
 
@@ -268,24 +253,12 @@ namespace SolutisHelpDesk.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmailConfirmation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NomeCompleto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Perfil")
                         .HasColumnType("int");
-
-                    b.Property<string>("RePassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -298,6 +271,35 @@ namespace SolutisHelpDesk.Migrations
                         .HasDatabaseName("IX_Cliente_UserName");
 
                     b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("SolutisHelpDesk.Models.Resposta", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Autor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ChamadoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Mensagem")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChamadoId");
+
+                    b.ToTable("Respostas");
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Tecnico", b =>
@@ -316,24 +318,12 @@ namespace SolutisHelpDesk.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EmailConfirmation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("NomeCompleto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Perfil")
                         .HasColumnType("int");
-
-                    b.Property<string>("RePassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -491,6 +481,22 @@ namespace SolutisHelpDesk.Migrations
                     b.Navigation("Cliente");
 
                     b.Navigation("Tecnico");
+                });
+
+            modelBuilder.Entity("SolutisHelpDesk.Models.Resposta", b =>
+                {
+                    b.HasOne("SolutisHelpDesk.Models.Chamado", "Chamado")
+                        .WithMany("Resposta")
+                        .HasForeignKey("ChamadoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chamado");
+                });
+
+            modelBuilder.Entity("SolutisHelpDesk.Models.Chamado", b =>
+                {
+                    b.Navigation("Resposta");
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Cliente", b =>
