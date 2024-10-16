@@ -50,6 +50,8 @@ public class Program {
 		builder.Services.AddScoped<ChamadoRepository>();
 		builder.Services.AddScoped<RespostaService>();
 		builder.Services.AddScoped<RespostaRepository>();
+		builder.Services.AddScoped<ClimaApiService>();
+		builder.Services.AddHttpClient<ClimaApiService>();
 
 		builder.Services.AddScoped<TokenService>();
 		builder.Services.AddScoped<UsuarioService>();

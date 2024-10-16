@@ -14,20 +14,25 @@ public class ChamadoService {
 	private TokenService _tokenService;
 	private ClienteService _clienteService;
 	private TecnicoService _tecnicoService;
+	private ClimaApiService _climaApiService;
 
-	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService) {
+	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService, ClimaApiService climaApiService) {
 		_mapper = mapper;
 		_chamadoRepository = chamadoRepository;
 		_tokenService = tokenService;
 		_clienteService = clienteService;
 		_tecnicoService = tecnicoService;
+		_climaApiService = climaApiService;
 	}
 
 
 	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto, ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
-		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
+		int clienteId =  _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 		chamadoDto.ClienteId = clienteId;
+
+		//Conferencia do clima da regiao com Api externa
+		await _climaApiService.ConferirClimaDaRegiao(chamadoDto, user);
 
 		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
 		await _chamadoRepository.SalvarChamado(chamado);
