@@ -9,13 +9,11 @@ namespace SolutisHelpDesk.Services;
 public class ClimaApiService {
 	private TokenService _tokenService;
 	private ClienteService _clienteService;
-	private readonly HttpClient _httpClient;
 	private readonly IConfiguration _configuration;
 
-	public ClimaApiService(TokenService tokenService, ClienteService clienteService, HttpClient httpClient, IConfiguration configuration) {
+	public ClimaApiService(TokenService tokenService, ClienteService clienteService, IConfiguration configuration) {
 		_tokenService = tokenService;
 		_clienteService = clienteService;
-		_httpClient = httpClient;
 		_configuration = configuration;
 	}
 
@@ -25,8 +23,8 @@ public class ClimaApiService {
 		string cep = cliente.Cep;
 
 		//Pegar o municipio do cliente através do via cep
-		string municipio = await GetMunicipioViaCep(cep); 
-		
+		string municipio = await GetMunicipioViaCep(cep);
+
 		//Pegar o clima através do municipio
 		string climaRegiao = await GetClimaViaApi(municipio);
 
@@ -36,38 +34,42 @@ public class ClimaApiService {
 		string apiKey = _configuration["ClimaApiKey"]!;
 		string url = $"https://api.openweathermap.org/data/2.5/weather?q={municipio},br&appid={apiKey}";
 
-		HttpResponseMessage response = await _httpClient.GetAsync(url);
+		using (HttpClient httpClient = new HttpClient()) {
+			HttpResponseMessage response = await httpClient.GetAsync(url);
 
-		if (response.IsSuccessStatusCode) {
-			string jsonResponse = await response.Content.ReadAsStringAsync();
-			var data = JsonSerializer.Deserialize<OpenWeatherResponse>(jsonResponse);
+			if (response.IsSuccessStatusCode) {
+				string jsonResponse = await response.Content.ReadAsStringAsync();
+				var data = JsonSerializer.Deserialize<OpenWeatherResponse>(jsonResponse);
 
-			if (data != null && data.Weather != null && data.Weather.Any()) {
-				return data.Weather[0].Main;
+				if (data != null && data.Weather != null && data.Weather.Any()) {
+					return data.Weather[0].Main;
+				} else {
+					throw new Exception("Informação de clima não encontrada.");
+				}
 			} else {
-				throw new Exception("Informação de clima não encontrada.");
+				throw new Exception("Erro ao acessar o serviço OpenWeather.");
 			}
-		} else {
-			throw new Exception("Erro ao acessar o serviço OpenWeather.");
 		}
 	}
 
 	private async Task<string> GetMunicipioViaCep(string cep) {
-		string url = $"https://viacep.com.br/ws/{cep}/json/";		
+		string url = $"https://viacep.com.br/ws/{cep}/json/";
 
-		HttpResponseMessage response = await _httpClient.GetAsync(url);
+		using (var httpClient = new HttpClient()) {
+			HttpResponseMessage response = await httpClient.GetAsync(url);
 
-		if (response.IsSuccessStatusCode) {
-			string jsonResponse = await response.Content.ReadAsStringAsync();
-			var data = JsonSerializer.Deserialize<ViaCepResponse>(jsonResponse);
+			if (response.IsSuccessStatusCode) {
+				string jsonResponse = await response.Content.ReadAsStringAsync();
+				var data = JsonSerializer.Deserialize<ViaCepResponse>(jsonResponse);
 
-			if (data != null && !string.IsNullOrEmpty(data.Localidade)) {
-				return data.Localidade;
+				if (data != null && !string.IsNullOrEmpty(data.Localidade)) {
+					return data.Localidade;
+				} else {
+					throw new Exception("Município não encontrado para o CEP informado.");
+				}
 			} else {
-				throw new Exception("Município não encontrado para o CEP informado.");
+				throw new Exception("Erro ao acessar o serviço ViaCEP.");
 			}
-		} else {
-			throw new Exception("Erro ao acessar o serviço ViaCEP.");
 		}
 
 	}
