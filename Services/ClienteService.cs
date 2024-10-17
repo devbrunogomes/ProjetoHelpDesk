@@ -54,6 +54,7 @@ public class ClienteService {
 		}
 
 		await _clienteRepository.DeleteAsync(cliente);
+		await _usuarioService.DeletarUsuarioAsync(cliente.UserName);
 		return true;
 	}
 

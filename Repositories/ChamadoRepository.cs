@@ -42,6 +42,7 @@ public class ChamadoRepository {
 	internal async Task<List<Chamado>> RecuperarChamadosDeTecnico(int tecnicoId) {
 		List<Chamado> chamados = await _context.Chamados
 			 .Where(chamado => chamado.TecnicoId == tecnicoId)
+			 .Include(chamado => chamado.Resposta)
 			 .ToListAsync();
 		return chamados;
 	}
