@@ -23,6 +23,7 @@ public class ChamadoService {
 		_clienteService = clienteService;
 		_tecnicoService = tecnicoService;
 		_climaApiService = climaApiService;
+		
 	}
 
 
@@ -31,11 +32,12 @@ public class ChamadoService {
 		int clienteId =  _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 		chamadoDto.ClienteId = clienteId;
 
-		//Conferencia do clima da regiao com Api externa
-		await _climaApiService.ConferirClimaDaRegiao(chamadoDto, user);
-
 		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
 		await _chamadoRepository.SalvarChamado(chamado);
+
+		//Conferencia do clima da regiao com Api externa
+		await _climaApiService.ConferirClimaDaRegiao(chamado, user);
+
 		return chamado;
 	}
 	internal async Task<IEnumerable<ReadChamadoDto>> GetAllAsync() {

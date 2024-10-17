@@ -1,4 +1,7 @@
-﻿using SolutisHelpDesk.Data.DTOs;
+﻿using AutoMapper;
+using SolutisHelpDesk.Data.DTOs;
+using SolutisHelpDesk.Models;
+using SolutisHelpDesk.Repositories;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Claims;
 using System.Text.Json;
@@ -9,15 +12,20 @@ namespace SolutisHelpDesk.Services;
 public class ClimaApiService {
 	private TokenService _tokenService;
 	private ClienteService _clienteService;
+	private RespostaRepository _respostaRepository;
+	private IMapper _mapper;
 	private readonly IConfiguration _configuration;
 
-	public ClimaApiService(TokenService tokenService, ClienteService clienteService, IConfiguration configuration) {
+
+	public ClimaApiService(TokenService tokenService, ClienteService clienteService, IConfiguration configuration, RespostaRepository respostaRepository, IMapper mapper) {
 		_tokenService = tokenService;
 		_clienteService = clienteService;
 		_configuration = configuration;
+		_respostaRepository = respostaRepository;
+		_mapper = mapper;
 	}
 
-	internal async Task ConferirClimaDaRegiao(CreateChamadoDto chamadoDto, ClaimsPrincipal user) {
+	internal async Task ConferirClimaDaRegiao(Chamado chamado, ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
 		ReadClienteDto cliente = _clienteService.GetByUsernameAsync(username).Result;
 		string cep = cliente.Cep;
@@ -28,6 +36,20 @@ public class ClimaApiService {
 		//Pegar o clima através do municipio
 		string climaRegiao = await GetClimaViaApi(municipio);
 
+		if (climaRegiao != "Clean" && climaRegiao != "Clouds") {
+			await RegistrarRespostaClimaticaAsync(chamado);
+		}
+
+	}
+
+	internal async Task RegistrarRespostaClimaticaAsync(Chamado chamado) {
+		CreateRespostaDto dto = new CreateRespostaDto();
+		dto.Autor = "BotClima";
+		dto.ChamadoId = chamado.ChamadoId;
+		dto.Mensagem = "Foi detectado uma instabilidade climática na sua região, que pode ocasionar dificuldades técnicas, aguarde mais instruções de um técnico";
+
+		Resposta resposta = _mapper.Map<Resposta>(dto);
+		await _respostaRepository.SalvarResposta(resposta);
 	}
 
 	private async Task<string> GetClimaViaApi(string municipio) {

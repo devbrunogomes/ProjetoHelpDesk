@@ -18,6 +18,7 @@ public class ChamadoController : ControllerBase {
 	[HttpPost]
 	public async Task<IActionResult> RegistrarChamadoAsync(CreateChamadoDto chamadoDto) {
 		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto, User);
+        Console.WriteLine("Teste");
 		return CreatedAtAction(nameof(GetChamadoById), new { id = chamado.ChamadoId }, chamado);
 	}
 
