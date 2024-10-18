@@ -26,7 +26,10 @@ public class EmailApiService {
 		var subject = "Teve atualização no seu chamado!";
 		var to = new EmailAddress(emailCliente, userName);
 		var plainTextContent = $"Olá {userName}, teve atualização no seu chamado. ";
-		var htmlContent = "<strong>Para mais detalhes, acesse o HelpDesk</strong>";
+		var htmlContent =
+			$"Olá {userName}, tudo bem? " +
+			$"<br>teve atualização no seu chamado. " +
+			$"<br> <strong>Para mais detalhes, acesse o HelpDesk</strong>";
 		var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 		var response = await client.SendEmailAsync(msg);
 	}
