@@ -18,24 +18,25 @@ public class ChamadoController : ControllerBase {
 	[HttpPost]
 	public async Task<IActionResult> RegistrarChamadoAsync(CreateChamadoDto chamadoDto) {
 		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto, User);
+        Console.WriteLine("Teste");
 		return CreatedAtAction(nameof(GetChamadoById), new { id = chamado.ChamadoId }, chamado);
 	}
 
-	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[Authorize(Roles = "TECNICO, ADMINISTRADOR")]
 	[HttpGet]
 	public async Task<IActionResult> GetAllChamadosAsync() {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllAsync();
 		return Ok(listaDto);
 	}
 
-	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[Authorize(Roles = "TECNICO, ADMINISTRADOR")]
 	[HttpGet("chamados-abertos")]
 	public async Task<IActionResult> GetAllChamadosAbertosAsync() {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetAllOpenAsync();
 		return Ok(listaDto);
 	}
 
-	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[Authorize(Roles = "TECNICO, ADMINISTRADOR")]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetChamadoById(int id) {
 		ReadChamadoDto chamadoDto = await _chamadoService.GetByIdAsync(id);
@@ -60,7 +61,7 @@ public class ChamadoController : ControllerBase {
 		return Ok(listaDto);
 	}
 
-	[Authorize(Roles = "TECNICO,ADMINISTRADOR")]
+	[Authorize(Roles = "TECNICO, ADMINISTRADOR")]
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> DeleteChamadoAsync(int id) {
 		var result = await _chamadoService.DeleteAsync(id);

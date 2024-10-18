@@ -51,6 +51,7 @@ public class TecnicoService {
 		}
 
 		await _tecnicoRepository.DeleteAsync(tecnico);
+		await _usuarioService.DeletarUsuarioAsync(tecnico.UserName);
 		return true;
 	}
 

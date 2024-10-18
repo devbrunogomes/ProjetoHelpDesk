@@ -34,7 +34,8 @@ public class UsuarioContext : IdentityDbContext<Usuario, IdentityRole<int>, int>
 		modelBuilder.Entity<Chamado>()
 			.HasOne(ch => ch.Cliente)
 			.WithMany(cl => cl.Chamados)
-			.HasForeignKey(ch => ch.ClienteId);
+			.HasForeignKey(ch => ch.ClienteId)
+			.OnDelete(DeleteBehavior.Cascade);
 
 		modelBuilder.Entity<Chamado>()
 			.HasOne(ch => ch.Tecnico)

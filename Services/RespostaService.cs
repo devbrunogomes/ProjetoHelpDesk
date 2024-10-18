@@ -40,4 +40,14 @@ public class RespostaService {
 		await _respostaRepository.SalvarResposta(resposta);
 		return resposta;
 	}
+
+	internal async Task RegistrarRespostaClimaticaAsync(Chamado chamado) {
+		CreateRespostaDto dto = new CreateRespostaDto();
+		dto.Autor = "BotClima";
+		dto.ChamadoId = chamado.ChamadoId;
+		dto.Mensagem = "Foi detectado uma instabilidade climática na sua região, que pode ocasionar dificuldades técnicas, aguarde mais instruções de um técnico";
+
+		Resposta resposta = _mapper.Map<Resposta>(dto);
+		await _respostaRepository.SalvarResposta(resposta);
+	}
 }
