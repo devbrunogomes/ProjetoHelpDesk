@@ -11,12 +11,16 @@ public class RespostaService {
 	private IMapper _mapper;
 	private RespostaRepository _respostaRepository;
 	private ChamadoService _chamadoService;
+	private EmailApiService _emailApiService;
+	private ClienteService _clienteService;
 
-	public RespostaService(TokenService tokenService, IMapper mapper, RespostaRepository respostaRepository, ChamadoService chamadoService) {
+	public RespostaService(TokenService tokenService, IMapper mapper, RespostaRepository respostaRepository, ChamadoService chamadoService, EmailApiService emailApiService, ClienteService clienteService) {
 		_tokenService = tokenService;
 		_mapper = mapper;
 		_respostaRepository = respostaRepository;
 		_chamadoService = chamadoService;
+		_emailApiService = emailApiService;
+		_clienteService = clienteService;
 	}
 
 	internal async Task<Resposta> RegistrarRespostaAoClienteAsync(CreateRespostaDto dto, ClaimsPrincipal user) {
@@ -29,6 +33,11 @@ public class RespostaService {
 
 		Resposta resposta = _mapper.Map<Resposta>(dto);
 		await _respostaRepository.SalvarResposta(resposta);
+
+		//Notificar o cliente de atualizacao
+		var clienteId = _chamadoService.GetByIdAsync(dto.ChamadoId).Result.ClienteId;
+		ReadClienteDto cliente = await _clienteService.GetByIdAsync(clienteId);
+		_emailApiService.EnviarNotificacaoDeAtualizacaoPorEmail(cliente).Wait();
 		return resposta;
 	}
 
