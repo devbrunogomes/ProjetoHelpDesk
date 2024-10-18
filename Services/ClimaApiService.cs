@@ -14,15 +14,17 @@ public class ClimaApiService {
 	private ClienteService _clienteService;
 	private RespostaRepository _respostaRepository;
 	private IMapper _mapper;
+	private EmailApiService _emailApiService;
 	private readonly IConfiguration _configuration;
 
 
-	public ClimaApiService(TokenService tokenService, ClienteService clienteService, IConfiguration configuration, RespostaRepository respostaRepository, IMapper mapper) {
+	public ClimaApiService(TokenService tokenService, ClienteService clienteService, IConfiguration configuration, RespostaRepository respostaRepository, IMapper mapper, EmailApiService emailApiService) {
 		_tokenService = tokenService;
 		_clienteService = clienteService;
 		_configuration = configuration;
 		_respostaRepository = respostaRepository;
 		_mapper = mapper;
+		_emailApiService = emailApiService;
 	}
 
 	internal async Task ConferirClimaDaRegiao(Chamado chamado, ClaimsPrincipal user) {
@@ -34,10 +36,12 @@ public class ClimaApiService {
 		string municipio = await GetMunicipioViaCep(cep);
 
 		//Pegar o clima através do municipio
-		string climaRegiao = await GetClimaViaApi(municipio);
+		//string climaRegiao = await GetClimaViaApi(municipio);
+		string climaRegiao = "Storm";
 
 		if (climaRegiao != "Clean" && climaRegiao != "Clouds") {
 			await RegistrarRespostaClimaticaAsync(chamado);
+			await _emailApiService.EnviarNotificacaoDeInstabilidadeClimatica(username, cliente.Email);
 		}
 
 	}
