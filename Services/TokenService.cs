@@ -21,6 +21,7 @@ public class TokenService {
 		{
 				new Claim("id", usuario.Id.ToString()),
 				new Claim("username", usuario.UserName!),
+				new Claim("email", usuario.Email!),
 				//new Claim(ClaimTypes.Role, usuario.Perfil.ToString())
 		  };
 
