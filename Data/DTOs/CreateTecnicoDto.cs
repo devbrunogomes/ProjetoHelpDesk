@@ -7,6 +7,7 @@ public class CreateTecnicoDto {
 	public string NomeCompleto { get; set; }
 
 	[Required]
+	[EmailAddress(ErrorMessage = "O email fornecido não é válido.")]
 	public string Email { get; set; }
 
 	[Required]
