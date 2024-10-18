@@ -15,15 +15,16 @@ public class ChamadoService {
 	private ClienteService _clienteService;
 	private TecnicoService _tecnicoService;
 	private ClimaApiService _climaApiService;
+	private EmailApiService _emailApiService;
 
-	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService, ClimaApiService climaApiService) {
+	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService, ClimaApiService climaApiService, EmailApiService emailApiService) {
 		_mapper = mapper;
 		_chamadoRepository = chamadoRepository;
 		_tokenService = tokenService;
 		_clienteService = clienteService;
 		_tecnicoService = tecnicoService;
 		_climaApiService = climaApiService;
-		
+		_emailApiService = emailApiService;
 	}
 
 
@@ -86,6 +87,12 @@ public class ChamadoService {
 		chamado.DataConclusao = DateTime.Now;
 		_mapper.Map(dto, chamado);
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
+
+		//Notificar o cliente de atualizacao
+		var clienteId = chamado.ClienteId!.Value;
+		ReadClienteDto cliente = await _clienteService.GetByIdAsync(clienteId);
+		_emailApiService.EnviarNotificacaoDeAtualizacaoPorEmail(cliente).Wait();
+
 		return true;
 	}
 
@@ -132,5 +139,17 @@ public class ChamadoService {
 		if (chamado!.Status == EnumStatus.Fechado)
 			return true;
 		return false;
+	}
+
+	internal async Task<bool> ValidarIgualdadeDeTecnico(ClaimsPrincipal user, int chamadoId) {
+		string username = _tokenService.GetUsernameFromToken(user);
+		int tecnicoIdToken = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
+		int tecnicoIdAtribuido = await GetIdDoTecnicoAtribuido(chamadoId);
+
+		if (tecnicoIdAtribuido != 0 && tecnicoIdAtribuido != tecnicoIdToken) {
+			return false;
+		}
+
+		return true;
 	}
 }

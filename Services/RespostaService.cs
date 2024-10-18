@@ -27,10 +27,9 @@ public class RespostaService {
 		//Atribuir Técnico a chamado e alterar status
 		string nomeAutor = _tokenService.GetUsernameFromToken(user);
 		await _chamadoService.AtribuirTecnicoAChamado(dto, nomeAutor);
-
-		//Salvar Resposta
 		dto.Autor = nomeAutor;
 
+		//Salvar Resposta
 		Resposta resposta = _mapper.Map<Resposta>(dto);
 		await _respostaRepository.SalvarResposta(resposta);
 
@@ -38,6 +37,7 @@ public class RespostaService {
 		var clienteId = _chamadoService.GetByIdAsync(dto.ChamadoId).Result.ClienteId;
 		ReadClienteDto cliente = await _clienteService.GetByIdAsync(clienteId);
 		_emailApiService.EnviarNotificacaoDeAtualizacaoPorEmail(cliente).Wait();
+
 		return resposta;
 	}
 
