@@ -7,7 +7,7 @@ namespace SolutisHelpDesk.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TecnicoController : ControllerBase	{
+public class TecnicoController : ControllerBase {
 	private TecnicoService _tecnicoService;
 
 	public TecnicoController(TecnicoService tecnicoService) {
@@ -16,10 +16,20 @@ public class TecnicoController : ControllerBase	{
 
 	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpPost]
-	public async Task<IActionResult> RegistrarTecnicoAsync(CreateTecnicoDto dto) {
-		var Cliente = await _tecnicoService.RegistroTecnicoAsync(dto);
-		return Ok(Cliente);
-		
+	public async Task<IActionResult> RegistrarTecnicoAsync([FromBody] CreateTecnicoDto dto) {
+		// Verifica se o modelo enviado no body é válido
+		if (!ModelState.IsValid) {
+			return BadRequest(ModelState);
+		}
+
+		var sucess = await _tecnicoService.RegistroTecnicoAsync(dto);
+
+		if (sucess) {
+			return CreatedAtAction(nameof(GetTecnicoByUserName), new { userName = dto.UserName }, "Técnico registrado com sucesso.");
+		}
+
+		return BadRequest("Problema ao registrar técnico, verifique as informações passadas");
+
 	}
 
 	[Authorize(Roles = "ADMINISTRADOR")]

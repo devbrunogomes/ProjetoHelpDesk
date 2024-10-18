@@ -18,15 +18,19 @@ public class TecnicoService {
 	}
 
 
-	internal async Task<Tecnico> RegistroTecnicoAsync(CreateTecnicoDto dto) {
+	internal async Task<bool> RegistroTecnicoAsync(CreateTecnicoDto dto) {
 		Tecnico tecnico = _mapper.Map<Tecnico>(dto);
 		tecnico.Perfil = EnumPerfil.Tecnico;
 
-		await _tecnicoRepository.SalvarTecnico(tecnico); //Salvar na tabela individual
-
 		var usuarioDto = _mapper.Map<CreateUsuarioDto>(dto);
-		await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Tecnico); //Salvar com identity
-		return tecnico;
+		var result = await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Tecnico); //Salvar com identity
+
+		if (result) {
+			await _tecnicoRepository.SalvarTecnico(tecnico); //Salvar na tabela individual
+			return true;
+		}
+
+		return false;
 	}
 	internal async Task<IEnumerable<ReadTecnicoDto>> GetAllAsync() {
 		List<Tecnico> listaTecnicos = await _tecnicoRepository.RecuperarTecnicosAsync();
