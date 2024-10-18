@@ -21,7 +21,9 @@ public class Program {
 			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 		builder.Services
-			.AddIdentity<Usuario, IdentityRole<int>>()
+			.AddIdentity<Usuario, IdentityRole<int>>(opt => {
+				opt.User.RequireUniqueEmail = true;
+			})
 			.AddEntityFrameworkStores<UsuarioContext>()
 			.AddDefaultTokenProviders();
 		builder.Services.AddAuthentication(options => {
