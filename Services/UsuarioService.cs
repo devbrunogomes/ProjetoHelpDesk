@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
+using System.Security.Claims;
 
 namespace SolutisHelpDesk.Services;
 
@@ -73,7 +74,16 @@ public class UsuarioService {
 		}
 	}
 
+	internal async Task<bool> TrocarSenhaAsync(ClaimsPrincipal user, TrocarSenhaDto trocarSenhaDto) {
+		var usuarioId = user?.Claims.FirstOrDefault(claim => claim.Type == "id")?.Value!;
+		var usuario = await _userManager.FindByIdAsync(usuarioId);
 
+		if (usuario == null)
+			throw new Exception("Usuário não encontrado.");
 
+		var resultado = await _userManager.ChangePasswordAsync(usuario, trocarSenhaDto.SenhaAtual, trocarSenhaDto.NovaSenha);
 
+		return resultado.Succeeded;
+
+	}
 }
