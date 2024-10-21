@@ -58,7 +58,7 @@ public class ClimaApiService {
 
 	private async Task<string> GetClimaViaApi(string municipio) {
 		string apiKey = _configuration["ClimaApiKey"]!;
-		string url = $"https://api.openweathermap.org/data/2.5/weather?q={municipio},br&appid={apiKey}";
+		string url = $"https://api.openweathermap.org/data/2.5/weather?q={Uri.EscapeDataString(municipio)},br&appid={apiKey}";
 
 		using (HttpClient httpClient = new HttpClient()) {
 			HttpResponseMessage response = await httpClient.GetAsync(url);

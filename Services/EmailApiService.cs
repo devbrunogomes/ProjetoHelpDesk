@@ -43,7 +43,9 @@ public class EmailApiService {
 		var plainTextContent = $"Olá {userName}, teve atualização no seu chamado. ";
 		var htmlContent =
 			$"Olá {userName}, tudo bem? " +
-			$"<br>teve atualização no seu Foi detectado uma instabilidade climática na sua região, que pode ocasionar dificuldades técnicas, aguarde mais instruções de um técnico." +
+			$"<br>teve atualização no seu chamado." +
+			$"<br>Foi detectado uma instabilidade climática na sua região, que pode ocasionar dificuldades técnicas, aguarde mais instruções de um técnico." +
+			$"<br>" +
 			$"<br> <strong>Para mais detalhes, acesse o HelpDesk</strong>";
 		var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 		var response = await client.SendEmailAsync(msg);

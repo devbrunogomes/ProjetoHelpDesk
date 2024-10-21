@@ -72,20 +72,15 @@ public class ChamadoService {
 	}
 
 
-	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {
-		string username = _tokenService.GetUsernameFromToken(user);
-		int tecnicoId = _tecnicoService.GetByUsernameAsync(username).Result.TecnicoId;
-		dto.TecnicoId = tecnicoId;
-
+	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {		
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
-		if (chamado == null) {
+		if (chamado == null || chamado.TecnicoId == null) {
 			return false;
 		}
 
 		chamado.Status = EnumStatus.Fechado;
 		chamado.DataConclusao = DateTime.Now;
-		_mapper.Map(dto, chamado);
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
 
 		//Notificar o cliente de atualizacao
