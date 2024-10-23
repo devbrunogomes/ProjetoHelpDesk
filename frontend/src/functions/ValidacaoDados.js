@@ -1,4 +1,3 @@
-import axios from "axios";
 
 export function validarNomeCompleto(nomeCompleto) {
   // Verifica se o nome contém apenas letras e espaços

@@ -1,10 +1,10 @@
 import "./App.css";
-import { Cadastro } from "./components/CadastroLogin/CadastroLogin";
+import { TelaInicial } from "./components/TelaInicial/TelaInicial";
 
 function App() {
   return (
     <div className="container">
-      <Cadastro />
+      <TelaInicial />
     </div>
   );
 }
