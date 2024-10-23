@@ -1,9 +1,10 @@
 import "./App.css";
+import { Cadastro } from "./components/Cadastro/Cadastro";
 
 function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
+    <div className="container">
+      <Cadastro />
     </div>
   );
 }

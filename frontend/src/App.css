@@ -5,6 +5,18 @@
   scroll-behavior: smooth;
 }
 
-:root {
+:root{
   font-size: 62.5%;
+  --background-color: #CBE5FC;
+  --primary-color: #007DC6;
+  --secondary-color: #226287;  
+  --title-font-color: #222D33;
+  --body-font-family: "Manrope", sans-serif;
+  --headings-font-family: "Lexend", sans-serif;
+    
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: var(--body-font-family);
 }

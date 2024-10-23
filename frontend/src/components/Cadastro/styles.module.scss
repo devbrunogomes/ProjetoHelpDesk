@@ -1,0 +1,28 @@
+.container {
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .cadastroSection {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .loginSection {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
