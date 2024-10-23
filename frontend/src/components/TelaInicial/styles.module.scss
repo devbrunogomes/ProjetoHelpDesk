@@ -1,28 +1,13 @@
 .container {
-  border: 1px solid red;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-
-  form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .cadastroSection {
-    border: 1px solid red;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .loginSection {
-    border: 1px solid red;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-  }
+  justify-content: space-evenly;
+  width: 100vw;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.1px);
+  -webkit-backdrop-filter: blur(5.1px);
+  border: 1px solid rgba(255, 255, 255, 0.02);
 }

@@ -1,22 +1,43 @@
+:root {
+  font-size: 62.5%;
+  --background-color: #fdfdfd;
+  --primary-color: #007dc6;
+  --secondary-color: #226287;
+  --title-font-color: #0f1416;
+  --body-font-family: "Manrope", sans-serif;
+  --headings-font-family: "Lexend", sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-}
-
-:root{
-  font-size: 62.5%;
-  --background-color: #CBE5FC;
-  --primary-color: #007DC6;
-  --secondary-color: #226287;  
-  --title-font-color: #222D33;
-  --body-font-family: "Manrope", sans-serif;
-  --headings-font-family: "Lexend", sans-serif;
-    
+  font-family: var(--headings-font-family);
+  color: var(--title-font-color);
 }
 
 body {
-  background-color: var(--background-color);
-  font-family: var(--body-font-family);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #56ccf2; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #2f80ed,
+    #5673f2
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #2f80ed,
+    #56ccf2
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+input {
+  padding: 0.2rem 0.5rem;
+  background: var(--background-color);
+  border: none;
+  border-radius: 5px;
 }

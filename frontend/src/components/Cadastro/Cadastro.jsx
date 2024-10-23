@@ -107,7 +107,7 @@ export const Cadastro = (props) => {
 
   return (
     <section className={styles.cadastroSection}>
-      <h1>Cadastro</h1>
+      <h1>CADASTRO</h1>
 
       <form action="post" onSubmit={handleCadastro}>
         <label htmlFor="nome">Nome Completo</label>
