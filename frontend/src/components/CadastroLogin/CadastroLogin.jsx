@@ -12,6 +12,7 @@ export const Cadastro = () => {
   const [usernameCadastro, setUsernameCadastro] = useState("");
   const [passwordCadastro, setPasswordCadastro] = useState("");
   const [confirmarSenhaCadastro, setConfirmarSenhaCadastro] = useState("");
+  const [msgCadastro, setMsgCadastro] = useState("");
 
   //Login Variaveis
   const [usernameLogin, setUsernameLogin] = useState("");
@@ -62,6 +63,26 @@ export const Cadastro = () => {
       );
       return;
     }
+
+    try {
+      // Fazer a requisição POST para o backend
+      const response = await axios.post('http://localhost:5089/Cliente', {
+        nomeCompleto: nome,
+        email: email,
+        emailConfirmation: confirmarEmail,
+        userName: usernameCadastro,
+        password: passwordCadastro,
+        rePassword: confirmarSenhaCadastro,
+        cep: cep
+      });
+
+      console.log(response)
+
+      // Aqui você pode redirecionar o usuário, limpar o formulário, etc.
+    } catch (error) {     
+      console.error(error);
+    }
+    
   };
 
   const handleLogin = async (event) => {
