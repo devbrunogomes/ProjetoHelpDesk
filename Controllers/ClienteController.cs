@@ -7,7 +7,7 @@ namespace SolutisHelpDesk.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ClienteController : ControllerBase	{
+public class ClienteController : ControllerBase {
 	private ClienteService _clienteService;
 
 	public ClienteController(ClienteService clienteService) {
@@ -15,10 +15,22 @@ public class ClienteController : ControllerBase	{
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> RegistrarClienteAsync(CreateClienteDto dto) {
-		var Cliente = await _clienteService.RegistroClienteAsync(dto);
-		return Ok(Cliente);
-		
+	public async Task<IActionResult> RegistrarClienteAsync([FromBody] CreateClienteDto dto) {
+		// Verifica se o modelo enviado no body é válido
+		if (!ModelState.IsValid) {
+			return BadRequest(ModelState);
+		}
+
+		var sucess = await _clienteService.RegistroClienteAsync(dto);
+
+		if (sucess) {
+			// Retorna 201 (Created) com uma mensagem de sucesso
+			return CreatedAtAction(nameof(GetClienteByUserName), new { userName = dto.UserName }, "Cliente registrado com sucesso.");
+		}
+
+		return BadRequest("Problema ao registrar cliente, verifique as informações passadas");
+
+
 	}
 
 	[Authorize(Roles = "ADMINISTRADOR")]

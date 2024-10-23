@@ -188,7 +188,7 @@ namespace SolutisHelpDesk.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Administrador_UserName");
 
-                    b.ToTable("Administradores");
+                    b.ToTable("Administradores", (string)null);
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Chamado", b =>
@@ -231,7 +231,7 @@ namespace SolutisHelpDesk.Migrations
 
                     b.HasIndex("TecnicoId");
 
-                    b.ToTable("Chamados");
+                    b.ToTable("Chamados", (string)null);
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Cliente", b =>
@@ -267,7 +267,7 @@ namespace SolutisHelpDesk.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Cliente_UserName");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Clientes", (string)null);
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Resposta", b =>
@@ -296,7 +296,7 @@ namespace SolutisHelpDesk.Migrations
 
                     b.HasIndex("ChamadoId");
 
-                    b.ToTable("Respostas");
+                    b.ToTable("Respostas", (string)null);
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Tecnico", b =>
@@ -332,7 +332,7 @@ namespace SolutisHelpDesk.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Tecnico_UserName");
 
-                    b.ToTable("Tecnicos");
+                    b.ToTable("Tecnicos", (string)null);
                 });
 
             modelBuilder.Entity("SolutisHelpDesk.Models.Usuario", b =>

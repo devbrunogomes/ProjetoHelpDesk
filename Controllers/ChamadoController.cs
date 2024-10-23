@@ -18,7 +18,6 @@ public class ChamadoController : ControllerBase {
 	[HttpPost]
 	public async Task<IActionResult> RegistrarChamadoAsync(CreateChamadoDto chamadoDto) {
 		var chamado = await _chamadoService.RegistroChamadaAsync(chamadoDto, User);
-        Console.WriteLine("Teste");
 		return CreatedAtAction(nameof(GetChamadoById), new { id = chamado.ChamadoId }, chamado);
 	}
 
@@ -75,10 +74,17 @@ public class ChamadoController : ControllerBase {
 	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("finalizar-chamado")]
 	public async Task<IActionResult> FinalizarChamado(FinalizarChamadoDto dto) {
+		//Verificar se o id do tecnico atual é igual ao id do tecnico já atribuido ao chamado		
+		bool ehOMesmoTecnico = await _chamadoService.ValidarIgualdadeDeTecnico(User, dto.ChamadoId);
+
+		if (!ehOMesmoTecnico) {
+			return BadRequest("Este chamado é de outro técnico");
+		}
+
 		var result = await _chamadoService.FinalizarChamadoAsync(dto, User);
 
 		if (!result) {
-			return NotFound("Chamado não encontrado");
+			return NotFound("Chamado não encontrado ou Sem Resposta");
 		}
 		return NoContent();
 

@@ -3,10 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SolutisHelpDesk.Data.DTOs;
 
-public class FinalizarChamadoDto {
-	[JsonIgnore]
-	public int? TecnicoId { get; set; }
-
+public class FinalizarChamadoDto {	
 	[Required]
 	public int ChamadoId { get; set; }
 

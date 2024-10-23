@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
 
@@ -17,7 +18,21 @@ public class AcessoController : ControllerBase {
 	[HttpPost("login")]
 	public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto) {
 		var token = await _usuarioService.Login(loginDto);
-		
+
 		return Ok(token);
+	}
+
+	[HttpPut("trocar-senha")]
+	[Authorize]
+	public async Task<IActionResult> TrocarSenha(TrocarSenhaDto trocarSenhaDto) {
+		if (!ModelState.IsValid)
+			return BadRequest(ModelState);
+
+		bool resultado = await _usuarioService.TrocarSenhaAsync(User, trocarSenhaDto);
+
+		if (resultado)
+			return Ok("Senha trocada com sucesso.");
+		else
+			return BadRequest("Erro ao trocar a senha.");
 	}
 }

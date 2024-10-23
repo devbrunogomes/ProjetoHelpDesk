@@ -21,7 +21,9 @@ public class Program {
 			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 		builder.Services
-			.AddIdentity<Usuario, IdentityRole<int>>()
+			.AddIdentity<Usuario, IdentityRole<int>>(opt => {
+				opt.User.RequireUniqueEmail = true;
+			})
 			.AddEntityFrameworkStores<UsuarioContext>()
 			.AddDefaultTokenProviders();
 		builder.Services.AddAuthentication(options => {
@@ -51,6 +53,7 @@ public class Program {
 		builder.Services.AddScoped<RespostaService>();
 		builder.Services.AddScoped<RespostaRepository>();
 		builder.Services.AddScoped<ClimaApiService>();
+		builder.Services.AddScoped<EmailApiService>();
 
 		builder.Services.AddScoped<TokenService>();
 		builder.Services.AddScoped<UsuarioService>();

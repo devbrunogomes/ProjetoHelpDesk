@@ -18,17 +18,21 @@ public class ClienteService {
 		_usuarioService = usuarioService;
 	}
 
-	internal async Task<Cliente> RegistroClienteAsync(CreateClienteDto dto) {
+	internal async Task<bool> RegistroClienteAsync(CreateClienteDto dto) {
 		Cliente cliente = _mapper.Map<Cliente>(dto);
 		cliente.Perfil = EnumPerfil.Cliente;
 
-		await _clienteRepository.SalvarCliente(cliente); //Salvar na tabela individual
 
 		var usuarioDto = _mapper.Map<CreateUsuarioDto>(dto);
-		await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Cliente); //Salvar com identity
+		bool result = await _usuarioService.RegistrarUsuarioAsync(usuarioDto, EnumPerfil.Cliente); //Salvar com identity
 
+		if (result) {
+			await _clienteRepository.SalvarCliente(cliente); //Salvar na tabela individual
+			return true;
+		}
 
-		return cliente;
+		return false;
+		
 	}
 
 	internal async Task<IEnumerable<ReadClienteDto>> GetAllAsync() {
@@ -65,7 +69,7 @@ public class ClienteService {
 			return false;
 		}
 
-		_mapper.Map(clienteDto, clienteExistente);		
+		_mapper.Map(clienteDto, clienteExistente);
 		await _clienteRepository.AtualizarClienteAsync(clienteExistente);
 		return true;
 	}
