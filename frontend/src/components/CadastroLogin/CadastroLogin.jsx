@@ -1,6 +1,31 @@
+import { useState } from "react";
 import styles from "./styles.module.scss";
+import axios from "axios";
 
 export const Cadastro = () => {
+  const [usernameLogin, setUsernameLogin] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5089/api/Acesso/login",
+        {
+          userName: usernameLogin,
+          password: passwordLogin,
+        }
+      );
+
+      const token = response.data;
+      console.log(token);
+    } catch (error) {
+      // Lidar com o erro de login
+      console.error("Erro ao fazer login:", error.message);
+    }
+  };
+
   return (
     <main className={styles.container}>
       <section className={styles.cadastroSection}>
@@ -34,11 +59,24 @@ export const Cadastro = () => {
 
       <section className={styles.loginSection}>
         <h1>LOGIN</h1>
-        <form action="post">
+        <form onSubmit={handleLogin}>
           <label htmlFor="usernameLogin">Username</label>
-          <input type="text" id="usernameLogin" />
+          <input
+            type="text"
+            id="usernameLogin"
+            value={usernameLogin}
+            onChange={(e) => setUsernameLogin(e.target.value)}
+          />
+
           <label htmlFor="passwordLogin">Password</label>
-          <input type="password" name="" id="passwordLogin" />
+          <input
+            type="password"
+            name="passwordLogin"
+            id="passwordLogin"
+            value={passwordLogin}
+            onChange={(e) => setPasswordLogin(e.target.value)}
+          />
+
           <input type="submit" value="Login" />
         </form>
       </section>

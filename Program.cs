@@ -61,6 +61,19 @@ public class Program {
 		builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 		builder.Services.AddControllers();
+
+		//Configurar CORS
+		var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy(name: MyAllowSpecificOrigins,
+									policy => {
+										policy.WithOrigins("http://localhost:3000")
+										 .AllowAnyHeader()
+										 .AllowAnyMethod();
+									});
+		});
 		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 		builder.Services.AddEndpointsApiExplorer();
 		builder.Services.AddSwaggerGen(options => {
@@ -109,6 +122,7 @@ public class Program {
 
 
 		app.UseAuthentication();
+		app.UseCors(MyAllowSpecificOrigins);
 		app.UseAuthorization();
 
 		app.MapControllers();
