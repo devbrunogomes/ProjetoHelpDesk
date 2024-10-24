@@ -3,9 +3,10 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import logo from "../../assets/Solutis_Help_Desk_logo.png";
 import * as handleToken from "../../functions/HandleToken";
+import { useNavigate } from "react-router-dom";
 
 export const Login = (props) => {
-  //Login Variaveis
+  const navigate = useNavigate();
   const [usernameLogin, setUsernameLogin] = useState("");
   const [passwordLogin, setPasswordLogin] = useState("");
 
@@ -24,7 +25,12 @@ export const Login = (props) => {
       const token = response.data;
       console.log(token);
       //localStorage.setItem("token", token);
-      handleToken.verificarRoleDoToken(token);
+      const role = handleToken.verificarRoleDoToken(token);
+      console.log(role);
+
+      if (role === "CLIENTE") {
+        navigate("/cliente-dashboard");
+      }
 
       //TODO: inserir gancho para dashboard de cliente
     } catch (error) {
