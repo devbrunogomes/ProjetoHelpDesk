@@ -18,9 +18,8 @@
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex;
+  align-items: center; */
   height: 100vh;
   background: #56ccf2; /* fallback for old browsers */
   background: -webkit-linear-gradient(
