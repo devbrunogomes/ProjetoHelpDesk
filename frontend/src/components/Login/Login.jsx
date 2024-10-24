@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
-import logo from "../../assets/Solutis_Help_Desk_logo.png"
+import logo from "../../assets/Solutis_Help_Desk_logo.png";
+import * as handleToken from "../../functions/HandleToken";
 
 export const Login = (props) => {
   //Login Variaveis
@@ -22,6 +23,8 @@ export const Login = (props) => {
 
       const token = response.data;
       console.log(token);
+      //localStorage.setItem("token", token);
+      handleToken.verificarRoleDoToken(token);
 
       //TODO: inserir gancho para dashboard de cliente
     } catch (error) {
