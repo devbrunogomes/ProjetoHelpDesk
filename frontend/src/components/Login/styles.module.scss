@@ -1,13 +1,61 @@
 .loginSection {
+  border: 1px solid black;
+  border-radius: 10px;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 2rem;
+  width: 40%;
+  min-height: 80%;
+  padding: 2rem;
 
   form {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+
+    input {
+      width: 60%;
+      background: none;
+      border-bottom: 1px solid black;
+      transition: all 0.5s ease-in;
+
+      &:focus {
+        -webkit-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
+      }
+    }
+
+    label {
+      font-size: 1.2rem;
+      margin: 1rem 0 0.3rem 0;
+      font-weight: 200;
+    }
+
+    input:last-of-type {
+      padding: 0.5rem 3rem;
+      margin-top: 2rem;
+      border: 1px solid #000000;
+      transition: all 0.4s ease-in-out;
+
+      &:hover {
+        -webkit-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
+        box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+    max-width: 180px;
+    margin-top: 2rem;
+    object-fit: cover;
+    mix-blend-mode: multiply;
   }
 }

@@ -2,12 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  max-width: 1300px;
   width: 100vw;
-  padding: 2rem;
+  height: 80vh;
+  padding: 4rem 0;
   background: rgba(255, 255, 255, 0.13);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5.1px);
   -webkit-backdrop-filter: blur(5.1px);
   border: 1px solid rgba(255, 255, 255, 0.02);
+
+  .hr_line {
+    height: 100%;
+    border: 0.1rem solid rgba(0, 0, 0, 0.349);
+  }
 }

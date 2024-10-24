@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
+import logo from "../../assets/Solutis_Help_Desk_logo.png"
 
 export const Login = (props) => {
   //Login Variaveis
@@ -52,6 +53,8 @@ export const Login = (props) => {
 
         <input type="submit" value="Login" />
       </form>
+
+      <img src={logo} alt="" />
     </section>
   );
 };
