@@ -29,6 +29,9 @@ export const CriarChamado = (props) => {
           },
         }
       );
+
+      setTitulo("");
+      setDescricao("");
     } catch (error) {
       if (error.response) {
         console.error("Erro ao criar chamado:", error.response.data);
