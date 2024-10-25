@@ -8,3 +8,13 @@ export function verificarRoleDoToken(token) {
 
   return userRole;
 }
+
+export function retornarUsernameDoToken() {
+  const token = localStorage.getItem("token");
+  const decodedToken = jwtDecode(token);
+  const usernameClaimKey =
+    "username";
+  const username = decodedToken[usernameClaimKey];
+
+  return username;
+}

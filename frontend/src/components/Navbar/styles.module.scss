@@ -1,0 +1,37 @@
+.container {
+  border: 1px solid red;
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  nav {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1240px;
+
+    img {
+      width: 100%;
+      max-width: 80px;
+      object-fit: cover;
+    }
+
+    ul {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      li {
+        list-style-type: none;
+      }
+    }
+
+    div:nth-of-type(2) {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+  }
+}
