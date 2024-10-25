@@ -2,7 +2,9 @@
   border: 1px solid red;
   position: fixed;
   top: 0;
+  right: 0;
   width: 100%;
+  z-index: 1000;
 
   nav {
     border: 1px solid red;
@@ -11,6 +13,7 @@
     justify-content: space-between;
     margin: 0 auto;
     max-width: 1240px;
+    padding: 1rem;
 
     img {
       width: 100%;

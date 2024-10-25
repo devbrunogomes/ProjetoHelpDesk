@@ -12,9 +12,15 @@ export function verificarRoleDoToken(token) {
 export function retornarUsernameDoToken() {
   const token = localStorage.getItem("token");
   const decodedToken = jwtDecode(token);
-  const usernameClaimKey =
-    "username";
+  const usernameClaimKey = "username";
   const username = decodedToken[usernameClaimKey];
 
   return username;
+}
+
+export function destruirToken() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    localStorage.removeItem("token");
+  }
 }

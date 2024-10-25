@@ -17,9 +17,13 @@
   color: var(--title-font-color);
 }
 
-body {
-  height: 100vh;
-  background: #56ccf2; /* fallback for old browsers */
+body, html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  
+  background: #56ccf2;
   background: -webkit-linear-gradient(
     to top,
     #2f80ed,
@@ -29,7 +33,7 @@ body {
     to top,
     #2f80ed,
     #56ccf2
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  );
 }
 
 input {

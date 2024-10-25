@@ -49,6 +49,7 @@ export const Login = (props) => {
           id="usernameLogin"
           value={usernameLogin}
           onChange={(e) => setUsernameLogin(e.target.value)}
+          required
         />
 
         <label htmlFor="passwordLogin">Password</label>
@@ -58,6 +59,7 @@ export const Login = (props) => {
           id="passwordLogin"
           value={passwordLogin}
           onChange={(e) => setPasswordLogin(e.target.value)}
+          required
         />
 
         <input type="submit" value="Login" />
