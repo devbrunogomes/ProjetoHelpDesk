@@ -6,6 +6,7 @@
   --title-font-color: #0f1416;
   --body-font-family: "Manrope", sans-serif;
   --headings-font-family: "Lexend", sans-serif;
+  --max-width: 1240px;
 }
 
 * {

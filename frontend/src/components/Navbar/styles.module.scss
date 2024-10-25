@@ -4,7 +4,10 @@
   top: 0;
   right: 0;
   width: 100%;
+  height: 7rem;
+  padding: 1rem;
   z-index: 1000;
+  background-color: rgb(235, 236, 243);
 
   nav {
     border: 1px solid red;
@@ -12,12 +15,11 @@
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
-    max-width: 1240px;
-    padding: 1rem;
+    max-width: var(--max-width);
 
     img {
       width: 100%;
-      max-width: 80px;
+      max-width: 50px;
       object-fit: cover;
     }
 
