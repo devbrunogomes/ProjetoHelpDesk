@@ -1,7 +1,16 @@
 import styles from "./styles.module.scss";
 import logo from "../../assets/Solutis_Help_Desk_logo.png";
+import { useEffect, useState } from "react";
+import * as handleToken from "../../functions/HandleToken";
 
 export const Navbar = (props) => {
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const usernameDoToken = handleToken.retornarUsernameDoToken();
+    setUsername(usernameDoToken);
+  }, []);
+
   return (
     <header className={styles.container}>
       <nav>
@@ -15,7 +24,7 @@ export const Navbar = (props) => {
         </div>
         <div>
           <span>
-            <h4>maximusS2</h4>
+            <h4>{username}</h4>
           </span>
           <button>Logout</button>
         </div>

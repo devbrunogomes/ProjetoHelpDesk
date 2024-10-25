@@ -24,7 +24,7 @@ export const Login = (props) => {
 
       const token = response.data;
       console.log(token);
-      //localStorage.setItem("token", token);
+      localStorage.setItem("token", token);
       const role = handleToken.verificarRoleDoToken(token);
       console.log(role);
 
