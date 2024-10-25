@@ -1,5 +1,4 @@
 .container {
-  border: 1px solid red;
   position: fixed;
   top: 0;
   right: 0;
@@ -10,7 +9,6 @@
   background-color: rgb(235, 236, 243);
 
   nav {
-    border: 1px solid red;
     display: flex;
     align-items: center;
     justify-content: space-between;
