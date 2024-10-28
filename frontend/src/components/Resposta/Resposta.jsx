@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 
-export const Resposta = (props) => {
+export const Resposta = ({ resposta }) => {
   return (
     <div className={styles.container}>
       <div>
@@ -8,32 +8,19 @@ export const Resposta = (props) => {
       </div>
       <div className={styles.respostas}>
         <div>
-          <span>28/10/2024 -</span>
-          <span> Autor</span>
+          <span>{resposta.data} -</span>
+          <span> {resposta.autor}</span>
         </div>
         <div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-            optio necessitatibus exercitationem totam possimus labore illo
-            accusamus maiores. Vitae officiis tenetur debitis distinctio
-            corrupti dignissimos doloremque consequatur tempora temporibus
-            neque!
+            {resposta.mensagem}
           </p>
         </div>
       </div>
       <div>
         <h3>Reponder</h3>
       </div>
-      <form action="post">
-        <textarea
-          name="resposta"
-          id="resposta"
-          cols="50"
-          rows="2"
-          required
-        ></textarea>
-        <input type="submit" value="Enviar Resposta" />
-      </form>
+      
     </div>
   );
 };

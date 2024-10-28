@@ -1,28 +1,37 @@
+import { useEffect, useState } from "react";
 import { Resposta } from "../Resposta/Resposta";
 import styles from "./styles.module.scss";
 
-export const Chamado = (props) => {
+export const Chamado = ({ chamado }) => {
+  const [respostas, setRespostas] = useState([]);
+
   return (
     <section>
       <div className={styles.titulo}>
-        <h2>Chamado #01</h2>
-        <h2>Em Andamento</h2>
-        <h2>Baixa Prioridade</h2>
+        <h2>Chamado #{chamado.chamadoId}</h2>
+        <h2>{chamado.status}</h2>
+        <h2>{chamado.prioridade} Prioridade</h2>
       </div>
-
       <div className={styles.subTitulo}>
-        <span>27/10/2024</span>
-        <span>Internet caindo toda hora</span>
+        <span>{chamado.dataAbertura}</span>
+        <span>{chamado.titulo}</span>
       </div>
       <div className={styles.descricao}>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deleniti
-          nisi accusantium doloremque quisquam laboriosam vero pariatur maiores
-          dolore fuga. Animi reiciendis natus ipsum aperiam quidem voluptates
-          dolor, facilis ex perspiciatis.
-        </p>
+        <p>{chamado.descricao}</p>
       </div>
-      <Resposta />
+      {chamado.respostas.map((resposta) => (
+        <Resposta resposta={resposta}/>        
+      ))}
+      <form action="post">
+        <textarea
+          name="resposta"
+          id="resposta"
+          cols="50"
+          rows="2"
+          required
+        ></textarea>
+        <input type="submit" value="Enviar Resposta" />
+      </form>
     </section>
   );
 };

@@ -16,8 +16,6 @@ export const CriarChamado = (props) => {
       descricao: descricao,
     };
 
-    console.log(chamadoData);
-
     try {
       const response = await axios.post(
         "http://localhost:5089/Chamado",
