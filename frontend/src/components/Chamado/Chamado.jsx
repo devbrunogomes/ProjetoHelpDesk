@@ -19,9 +19,17 @@ export const Chamado = ({ chamado }) => {
       <div className={styles.descricao}>
         <p>{chamado.descricao}</p>
       </div>
+      <div>
+        <h3>Respostas</h3>
+      </div>
       {chamado.respostas.map((resposta) => (
-        <Resposta key={resposta.id} resposta={resposta}/>        
+        <Resposta key={resposta.id} resposta={resposta} />
       ))}
+
+      <div>
+        <h3>Reponder</h3>
+      </div>
+
       <form action="post">
         <textarea
           name="resposta"
