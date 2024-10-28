@@ -2,9 +2,39 @@ import { useState } from "react";
 import * as handlerEnum from "../../functions/HandleEnumFromJson";
 import { Resposta } from "../Resposta/Resposta";
 import styles from "./styles.module.scss";
+import axios from "axios";
 
 export const Chamado = ({ chamado }) => {
-  const [respostas, setRespostas] = useState([]);
+  const [respostas, setRespostas] = useState(chamado.respostas || []);
+  const [novaResposta, setNovaResposta] = useState("");
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    const respostaData = {
+      mensagem: novaResposta,
+      chamadoId: chamado.chamadoId,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5089/Resposta/cliente",
+        respostaData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setRespostas((prevRespostas) => [...prevRespostas, response.data]);
+      setNovaResposta("");
+    } catch (error) {
+      console.error("Erro ao enviar resposta:", error.message);
+    }
+  }
 
   return (
     <section>
@@ -23,21 +53,31 @@ export const Chamado = ({ chamado }) => {
       <div>
         <h3>Respostas</h3>
       </div>
-      {chamado.respostas.map((resposta) => (
+      {respostas.map((resposta) => (
         <Resposta key={resposta.id} resposta={resposta} />
       ))}
 
       <div>
-        <h3>Reponder</h3>
+        <h3>
+          {chamado.status === 2
+            ? "Não é possivel enviar mais respostas"
+            : "Respostas"}
+        </h3>
       </div>
 
-      <form action="post">
+      <form
+        action="post"
+        className={chamado.status === 2 ? "displayNone" : ""}
+        onSubmit={handleSubmit}
+      >
         <textarea
           name="resposta"
           id="resposta"
           cols="50"
           rows="2"
           required
+          value={novaResposta}
+          onChange={(e) => setNovaResposta(e.target.value)}
         ></textarea>
         <input type="submit" value="Enviar Resposta" />
       </form>

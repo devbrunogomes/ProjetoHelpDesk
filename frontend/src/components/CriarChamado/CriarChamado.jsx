@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 
 export const CriarChamado = (props) => {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
-
+  
+  
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -15,6 +16,8 @@ export const CriarChamado = (props) => {
       titulo: titulo,
       descricao: descricao,
     };
+
+    console.log(chamadoData);
 
     try {
       const response = await axios.post(
@@ -27,6 +30,9 @@ export const CriarChamado = (props) => {
           },
         }
       );
+
+
+      console.log("Chamado criado com sucesso:", response.data);
 
       setTitulo("");
       setDescricao("");
