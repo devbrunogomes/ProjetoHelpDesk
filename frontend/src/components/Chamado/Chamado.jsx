@@ -20,7 +20,7 @@ export const Chamado = ({ chamado }) => {
         <p>{chamado.descricao}</p>
       </div>
       {chamado.respostas.map((resposta) => (
-        <Resposta resposta={resposta}/>        
+        <Resposta key={resposta.id} resposta={resposta}/>        
       ))}
       <form action="post">
         <textarea
