@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import * as handlerEnum from "../../functions/HandleEnumFromJson";
 import { Resposta } from "../Resposta/Resposta";
 import styles from "./styles.module.scss";
 
@@ -8,12 +9,12 @@ export const Chamado = ({ chamado }) => {
   return (
     <section>
       <div className={styles.titulo}>
-        <h2>Chamado #{chamado.chamadoId}</h2>
-        <h2>{chamado.status}</h2>
-        <h2>{chamado.prioridade} Prioridade</h2>
+        <h2>Chamado #{chamado.chamadoId} </h2>
+        <h2>{handlerEnum.traduzirPrioridade(chamado.prioridade)} Prioridade</h2>
+        <h2>{handlerEnum.traduzirStatus(chamado.status)}</h2>
       </div>
       <div className={styles.subTitulo}>
-        <span>{chamado.dataAbertura}</span>
+        <span>{handlerEnum.formatarDataHora(chamado.dataAbertura)}</span>
         <span>{chamado.titulo}</span>
       </div>
       <div className={styles.descricao}>

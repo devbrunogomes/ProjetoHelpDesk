@@ -1,4 +1,5 @@
 import styles from "./styles.module.scss";
+import * as handlerEnum from "../../functions/HandleEnumFromJson";
 
 export const Resposta = ({ resposta }) => {
   return (
@@ -6,7 +7,7 @@ export const Resposta = ({ resposta }) => {
       
       <div className={styles.respostas}>
         <div>
-          <span>{resposta.data} -</span>
+          <span>{handlerEnum.formatarDataHora(resposta.data)} -</span>
           <span> {resposta.autor}</span>
         </div>
         <div>
