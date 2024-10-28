@@ -1,0 +1,40 @@
+section {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+
+  .titulo {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 3rem;
+    font-weight: 600;
+
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
+  .subTitulo {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 1rem;
+    gap: 3rem;
+
+    span {
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+  }
+
+  .descricao {
+    margin-top: 1rem;
+
+    p {
+      margin-left: 3rem;
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+  }
+}
