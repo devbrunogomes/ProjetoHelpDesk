@@ -3,6 +3,7 @@ import * as handlerEnum from "../../functions/HandleEnumFromJson";
 import { Resposta } from "../Resposta/Resposta";
 import styles from "./styles.module.scss";
 import axios from "axios";
+import * as handleToken from "../../functions/HandleToken";
 
 export const Chamado = ({ chamado }) => {
   const [respostas, setRespostas] = useState(chamado.respostas || []);
@@ -12,6 +13,7 @@ export const Chamado = ({ chamado }) => {
     event.preventDefault();
 
     const token = localStorage.getItem("token");
+    const myRole = handleToken.verificarRoleDoToken(token).toLowerCase();
 
     const respostaData = {
       mensagem: novaResposta,
@@ -20,7 +22,7 @@ export const Chamado = ({ chamado }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5089/Resposta/cliente",
+        `http://localhost:5089/Resposta/${myRole}`,
         respostaData,
         {
           headers: {

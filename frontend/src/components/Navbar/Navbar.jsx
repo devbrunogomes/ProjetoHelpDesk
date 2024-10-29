@@ -26,7 +26,7 @@ export const Navbar = (props) => {
         <div>
           <ul>
             <li>Dashboard</li>
-            <li>Meus Chamados</li>
+            <li>Meus Chamados</li>            
           </ul>
         </div>
         <div>

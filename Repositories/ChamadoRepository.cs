@@ -22,7 +22,7 @@ public class ChamadoRepository {
 	}
 	internal async Task<List<Chamado>> RecuperarChamadosAbertosAsync() {
 		return await _context.Chamados
-			.Where(chamado => chamado.Status != EnumStatus.Fechado)
+			.Where(chamado => chamado.Status == EnumStatus.Aberto)
 			.ToListAsync();
 	}
 
