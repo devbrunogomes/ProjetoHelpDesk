@@ -32,7 +32,9 @@ export const Login = (props) => {
         navigate("/cliente-dashboard");
       }
 
-      //TODO: inserir gancho para dashboard de cliente
+      if (role === "TECNICO") {
+        navigate("/tecnico-dashboard");
+      }
     } catch (error) {
       // Lidar com o erro de login
       console.error("Erro ao fazer login:", error.message);

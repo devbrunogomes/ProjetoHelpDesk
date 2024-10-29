@@ -1,5 +1,6 @@
 import "./App.css";
 import { DashboardCliente } from "./components/DashboardCliente/DashboardCliente";
+import { DashboardTecnico } from "./components/DashboardTecnico/DashboardTecnico";
 import { TelaInicial } from "./components/TelaInicial/TelaInicial";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -10,6 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<TelaInicial />} />
           <Route path="/cliente-dashboard" element={<DashboardCliente />} />
+          <Route path="/tecnico-dashboard" element={<DashboardTecnico/>} />
         </Routes>
       </Router>
     </div>
