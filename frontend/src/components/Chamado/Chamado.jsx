@@ -9,6 +9,11 @@ export const Chamado = ({ chamado }) => {
   const [role, setRole] = useState("");
   const [respostas, setRespostas] = useState(chamado.respostas || []);
   const [novaResposta, setNovaResposta] = useState("");
+  const [prioridade, setPrioridade] = useState(
+    handlerEnum.traduzirPrioridade(chamado.prioridade) || ""
+  );
+  const [novaPrioridade, setNovaPrioridade] = useState("");
+  const podeExibirAlteracaoPrioridade = role === "tecnico" && chamado.status !== 2;
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -62,6 +67,41 @@ export const Chamado = ({ chamado }) => {
     }
   }
 
+  async function alterarPrioridade(event) {
+    event.preventDefault();
+
+    if (prioridade === "") {
+      alert("Por favor, selecione uma prioridade.");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    const intNovaPrioridade = parseInt(novaPrioridade);
+
+    const alterarPrioridadeData = {
+      chamadoId: chamado.chamadoId,
+      novaPrioridade: intNovaPrioridade,
+    };
+
+    try {
+      const response = await axios.patch(
+        "http://localhost:5089/Chamado/alterar-prioridade",
+        alterarPrioridadeData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const prioridadeTraduzida =
+        handlerEnum.traduzirPrioridade(intNovaPrioridade);
+      setPrioridade(prioridadeTraduzida);
+    } catch (error) {
+      console.error("Erro ao alterar prioridade:", error.message);
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const myRole = handleToken.verificarRoleDoToken(token).toLowerCase();
@@ -72,7 +112,7 @@ export const Chamado = ({ chamado }) => {
     <section>
       <div className={styles.titulo}>
         <h2>Chamado #{chamado.chamadoId} </h2>
-        <h2>{handlerEnum.traduzirPrioridade(chamado.prioridade)} Prioridade</h2>
+        <h2>{prioridade} Prioridade</h2>
         <h2>{handlerEnum.traduzirStatus(chamado.status)}</h2>
       </div>
       <div className={styles.subTitulo}>
@@ -113,11 +153,23 @@ export const Chamado = ({ chamado }) => {
         ></textarea>
         <input type="submit" value="Enviar Resposta" />
       </form>
+      <form action="post" onSubmit={alterarPrioridade} className={podeExibirAlteracaoPrioridade ? "" : "displayNone"}>
+        <select
+          name="prioridade"
+          id="mudarPrioridade"
+          value={novaPrioridade}
+          onChange={(e) => setNovaPrioridade(e.target.value)}
+        >
+          <option value="">---</option>
+          <option value="0">Baixa</option>
+          <option value="1">Média</option>
+          <option value="2">Alta</option>
+        </select>
+        <input type="submit" value="Alterar Prioridade" />
+      </form>
       <button
         disabled={chamado.status === 2}
-        className={
-          role === "tecnico" ? "" : "displayNone"
-        }
+        className={role === "tecnico" ? "" : "displayNone"}
         onClick={finalizarChamado}
       >
         Finalizar Chamado
