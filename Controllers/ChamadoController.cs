@@ -90,6 +90,7 @@ public class ChamadoController : ControllerBase {
 
 	}
 
+	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("reatribuir-tenico")]
 	public async Task<IActionResult> ReatribuirChamado(ReatribuirChamadoDto dto) {
 		var result = await _chamadoService.ReatribuirChamadoAsync(dto);
@@ -99,5 +100,24 @@ public class ChamadoController : ControllerBase {
 		}
 		return NoContent();
 
+	}
+
+	[Authorize(Roles = "TECNICO")]
+	[HttpPatch("alterar-prioridade")]
+	public async Task<IActionResult> AlterarPrioridade(AlterarPrioridadeChamadoDto dto) {
+		//Verificar se o id do tecnico atual é igual ao id do tecnico já atribuido ao chamado		
+		bool ehOMesmoTecnico = await _chamadoService.ValidarIgualdadeDeTecnico(User, dto.ChamadoId);
+
+		if (!ehOMesmoTecnico) {
+			return BadRequest("Este chamado é de outro técnico");
+		}
+
+		var result = await _chamadoService.AlterarPrioridadeAsync(dto);
+
+		if (!result) {
+			return NotFound("Chamado não encontrado");
+		}
+
+		return NoContent();
 	}
 }

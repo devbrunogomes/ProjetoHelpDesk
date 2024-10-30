@@ -30,7 +30,7 @@ public class ChamadoService {
 
 	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto, ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
-		int clienteId =  _clienteService.GetByUsernameAsync(username).Result.ClienteId;
+		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 		chamadoDto.ClienteId = clienteId;
 
 		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
@@ -72,7 +72,7 @@ public class ChamadoService {
 	}
 
 
-	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {		
+	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
 		if (chamado == null || chamado.TecnicoId == null) {
@@ -145,6 +145,18 @@ public class ChamadoService {
 			return false;
 		}
 
+		return true;
+	}
+
+	internal async Task<bool> AlterarPrioridadeAsync(AlterarPrioridadeChamadoDto dto) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+
+		if (chamado == null) {
+			return false;
+		}
+
+		chamado.Prioridade = dto.novaPrioridade;
+		await _chamadoRepository.UpdateChamadoAsync(chamado);
 		return true;
 	}
 }
