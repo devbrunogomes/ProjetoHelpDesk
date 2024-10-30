@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as handlerEnum from "../../functions/HandleEnumFromJson";
 import { Resposta } from "../Resposta/Resposta";
 import styles from "./styles.module.scss";
@@ -6,6 +6,7 @@ import axios from "axios";
 import * as handleToken from "../../functions/HandleToken";
 
 export const Chamado = ({ chamado }) => {
+  const [role, setRole] = useState("");
   const [respostas, setRespostas] = useState(chamado.respostas || []);
   const [novaResposta, setNovaResposta] = useState("");
 
@@ -37,6 +38,35 @@ export const Chamado = ({ chamado }) => {
       console.error("Erro ao enviar resposta:", error.message);
     }
   }
+
+  async function finalizarChamado() {
+    const token = localStorage.getItem("token");
+    const finalizarChamadoData = {
+      chamadoId: chamado.chamadoId,
+    };
+
+    try {
+      const response = await axios.patch(
+        "http://localhost:5089/Chamado/finalizar-chamado",
+        finalizarChamadoData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error("Erro ao finalizar chamado:", error.message);
+    }
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const myRole = handleToken.verificarRoleDoToken(token).toLowerCase();
+    setRole(myRole);
+  }, []);
 
   return (
     <section>
@@ -83,6 +113,15 @@ export const Chamado = ({ chamado }) => {
         ></textarea>
         <input type="submit" value="Enviar Resposta" />
       </form>
+      <button
+        disabled={chamado.status === 2}
+        className={
+          role === "tecnico" ? "" : "displayNone"
+        }
+        onClick={finalizarChamado}
+      >
+        Finalizar Chamado
+      </button>
     </section>
   );
 };

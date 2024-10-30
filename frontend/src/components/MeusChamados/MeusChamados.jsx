@@ -39,7 +39,9 @@ export const MeusChamados = (props) => {
       </div>
       {chamados.map((chamado) => (
         <Chamado key={chamado.chamadoId} chamado={chamado} />
+        
       ))}
+      
     </div>
   );
 };
