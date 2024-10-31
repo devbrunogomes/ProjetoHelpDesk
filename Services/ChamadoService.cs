@@ -93,12 +93,13 @@ public class ChamadoService {
 
 	internal async Task<bool> ReatribuirChamadoAsync(ReatribuirChamadoDto dto) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(dto.TecnicoUsername).Result.TecnicoId;
 
 		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
 			return false;
 		}
 
-		chamado.TecnicoId = dto.TecnicoId;
+		chamado.TecnicoId = tecnicoId;
 		_mapper.Map(dto, chamado);
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
 		return true;
