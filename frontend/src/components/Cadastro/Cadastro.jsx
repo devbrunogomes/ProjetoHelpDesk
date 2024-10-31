@@ -110,67 +110,69 @@ export const Cadastro = (props) => {
       <h1>CADASTRO</h1>
 
       <form action="post" onSubmit={handleCadastro}>
-        <label htmlFor="nome">Nome Completo</label>
-        <input
-          type="text"
-          id="nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
+        <div>
+          <label htmlFor="nome">Nome Completo</label>
+          <input
+            type="text"
+            id="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <label htmlFor="reEmail">Confirme seu Email</label>
-        <input
-          type="email"
-          id="reEmail"
-          value={confirmarEmail}
-          onChange={(e) => setConfirmarEmail(e.target.value)}
-        />
+          <label htmlFor="reEmail">Confirme seu Email</label>
+          <input
+            type="email"
+            id="reEmail"
+            value={confirmarEmail}
+            onChange={(e) => setConfirmarEmail(e.target.value)}
+          />
 
-        <label htmlFor="cep">CEP</label>
-        <input
-          type="text"
-          name="cep"
-          id="cep"
-          value={cep}
-          onChange={(e) => setCep(e.target.value)}
-          onBlur={handleCep}
-        />
-        <span>{msgCep}</span>
-        <br />
+          <label htmlFor="cep">CEP</label>
+          <input
+            type="text"
+            name="cep"
+            id="cep"
+            value={cep}
+            onChange={(e) => setCep(e.target.value)}
+            onBlur={handleCep}
+          />
+          <span>{msgCep}</span>
+          <br />
 
-        <label htmlFor="usernameCadastro">Username</label>
-        <input
-          type="text"
-          id="usernameCadastro"
-          value={usernameCadastro}
-          onChange={(e) => setUsernameCadastro(e.target.value)}
-        />
+          <label htmlFor="usernameCadastro">Username</label>
+          <input
+            type="text"
+            id="usernameCadastro"
+            value={usernameCadastro}
+            onChange={(e) => setUsernameCadastro(e.target.value)}
+          />
 
-        <label htmlFor="passwordCadastro">Senha</label>
-        <input
-          type="password"
-          id="passwordCadastro"
-          value={passwordCadastro}
-          onChange={(e) => setPasswordCadastro(e.target.value)}
-        />
+          <label htmlFor="passwordCadastro">Senha</label>
+          <input
+            type="password"
+            id="passwordCadastro"
+            value={passwordCadastro}
+            onChange={(e) => setPasswordCadastro(e.target.value)}
+          />
 
-        <label htmlFor="rePassword">Confirme sua Senha</label>
-        <input
-          type="password"
-          id="rePassword"
-          value={confirmarSenhaCadastro}
-          onChange={(e) => setConfirmarSenhaCadastro(e.target.value)}
-        />
+          <label htmlFor="rePassword">Confirme sua Senha</label>
+          <input
+            type="password"
+            id="rePassword"
+            value={confirmarSenhaCadastro}
+            onChange={(e) => setConfirmarSenhaCadastro(e.target.value)}
+          />
 
-        <input type="submit" value="Cadastrar" />
+          <input type="submit" value="Cadastrar" />
+        </div>
       </form>
     </section>
   );

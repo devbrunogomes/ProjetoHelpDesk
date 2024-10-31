@@ -4,10 +4,10 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
   max-width: 1300px;
-  width: 100vw;
+  width: 100vw;  
   height: 100vh;
   padding: 4rem 0;
-  background: rgba(255, 255, 255, 0.13);
+  background-color: var(--background-color);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5.1px);

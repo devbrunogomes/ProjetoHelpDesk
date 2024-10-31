@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
 :root {
   font-size: 62.5%;
   --background-color: #fdfdfd;
-  --primary-color: #007dc6;
+  --primary-color: #1492C5;
   --secondary-color: #226287;
   --title-font-color: #0f1416;
-  --body-font-family: "Manrope", sans-serif;
-  --headings-font-family: "Lexend", sans-serif;
+  --headings-font-family: "Tajawal", sans-serif;
   --max-width: 1240px;
 }
 
@@ -13,27 +14,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
   font-family: var(--headings-font-family);
   color: var(--title-font-color);
 }
 
-body, html {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* height: 100%; */
-  /* background: #56ccf2; */
-  background: -webkit-linear-gradient(
-    to top,
-    #2f80ed,
-    #5673f2
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to top,
-    #2f80ed,
-    #56ccf2
-  );
+.container {
+  background-color: var(--primary-color);
+  height: 100%;
 }
 
 input {
