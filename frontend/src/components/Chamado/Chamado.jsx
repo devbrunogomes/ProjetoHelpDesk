@@ -109,7 +109,7 @@ export const Chamado = ({ chamado }) => {
   }, []);
 
   return (
-    <section>
+    <section className={styles.container}>
       <div className={styles.titulo}>
         <h2>Chamado #{chamado.chamadoId} </h2>
         <h2>{prioridade} Prioridade</h2>

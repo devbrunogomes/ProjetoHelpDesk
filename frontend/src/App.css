@@ -19,8 +19,8 @@
 }
 
 .container {
-  background-color: var(--primary-color);
-  height: 100%;
+  /* background-color: var(--primary-color); */
+  
 }
 
 input {

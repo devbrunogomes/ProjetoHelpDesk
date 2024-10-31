@@ -44,27 +44,30 @@ export const Login = (props) => {
   return (
     <section className={styles.loginSection}>
       <h1>LOGIN</h1>
+
       <form onSubmit={handleLogin}>
-        <label htmlFor="usernameLogin">Username</label>
-        <input
-          type="text"
-          id="usernameLogin"
-          value={usernameLogin}
-          onChange={(e) => setUsernameLogin(e.target.value)}
-          required
-        />
+        <div>
+          <label htmlFor="usernameLogin">Username</label>
+          <input
+            type="text"
+            id="usernameLogin"
+            value={usernameLogin}
+            onChange={(e) => setUsernameLogin(e.target.value)}
+            required
+          />
 
-        <label htmlFor="passwordLogin">Password</label>
-        <input
-          type="password"
-          name="passwordLogin"
-          id="passwordLogin"
-          value={passwordLogin}
-          onChange={(e) => setPasswordLogin(e.target.value)}
-          required
-        />
+          <label htmlFor="passwordLogin">Password</label>
+          <input
+            type="password"
+            name="passwordLogin"
+            id="passwordLogin"
+            value={passwordLogin}
+            onChange={(e) => setPasswordLogin(e.target.value)}
+            required
+          />
 
-        <input type="submit" value="Login" />
+          <input type="submit" value="Login" />
+        </div>
       </form>
 
       <img src={logo} alt="" />

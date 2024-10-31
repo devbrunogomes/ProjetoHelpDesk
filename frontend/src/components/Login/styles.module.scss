@@ -1,5 +1,4 @@
 .loginSection {
-  border: 1px solid black;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -9,15 +8,32 @@
   width: 40%;
   padding: 2rem;
 
+  h1 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: 600;
+  }
+
   form {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     flex-direction: column;
     width: 100%;
+    padding: 0;
+
+    div {
+      width: 50%;
+      display: flex;
+      align-items: start;
+      justify-content: start;
+      flex-direction: column;
+      padding: 0;
+    }
 
     input {
-      width: 60%;
+      width: 100%;
       background: none;
       border-bottom: 1px solid black;
       transition: all 0.5s ease-in;
@@ -32,7 +48,7 @@
     label {
       font-size: 1.2rem;
       margin: 1rem 0 0.3rem 0;
-      font-weight: 200;
+      font-weight: 800;
     }
 
     input:last-of-type {

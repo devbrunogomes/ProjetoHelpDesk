@@ -5,9 +5,10 @@ import { Login } from "../Login/Login";
 export const TelaInicial = () => {
   return (
     <main className={styles.container}>
-      <Cadastro />
-      <hr className={styles.hr_line} />
-      <Login />
+      <section>
+        <Cadastro />        
+        <Login />
+      </section>
     </main>
   );
 };
