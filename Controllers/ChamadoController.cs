@@ -91,7 +91,7 @@ public class ChamadoController : ControllerBase {
 	}
 
 	[Authorize(Roles = "TECNICO")]
-	[HttpPatch("reatribuir-tenico")]
+	[HttpPatch("reatribuir-tecnico")]
 	public async Task<IActionResult> ReatribuirChamado(ReatribuirChamadoDto dto) {
 		var result = await _chamadoService.ReatribuirChamadoAsync(dto);
 
