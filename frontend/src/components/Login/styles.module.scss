@@ -5,11 +5,11 @@
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
-  width: 40%;
+  width: 50%;
   padding: 2rem;
 
   h1 {
-    font-size: 2.8rem;
+    font-size: 3.2rem;
     color: var(--primary-color);
     text-align: center;
     font-weight: 600;
@@ -34,35 +34,13 @@
 
     input {
       width: 100%;
-      background: none;
       border-bottom: 1px solid black;
-      transition: all 0.5s ease-in;
-
-      &:focus {
-        -webkit-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
-        box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
-      }
     }
 
     label {
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       margin: 1rem 0 0.3rem 0;
       font-weight: 800;
-    }
-
-    input:last-of-type {
-      padding: 0.5rem 3rem;
-      margin-top: 2rem;
-      border: 1px solid #000000;
-      transition: all 0.4s ease-in-out;
-
-      &:hover {
-        -webkit-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
-        box-shadow: 0px 0px 66px -11px rgba(0, 0, 0, 0.75);
-        cursor: pointer;
-      }
     }
   }
 

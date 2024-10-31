@@ -4,8 +4,8 @@ import { Login } from "../Login/Login";
 
 export const TelaInicial = () => {
   return (
-    <main className={styles.container}>
-      <section>
+    <main className={styles.containerTelaInicial}>
+      <section className={styles.telaInicialWrapper}>
         <Cadastro />        
         <Login />
       </section>
