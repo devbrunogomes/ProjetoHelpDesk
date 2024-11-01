@@ -19,6 +19,9 @@ export const Cadastro = (props) => {
   const [estado, setEstado] = useState("");
   const [cepIsValid, setCepIsValid] = useState(false);
 
+  //Msg de confirmação
+  const [msgConfirmacao, setMsgConfirmacao] = useState("");
+
   const handleCadastro = async (event) => {
     event.preventDefault();
 
@@ -72,10 +75,18 @@ export const Cadastro = (props) => {
       });
 
       console.log(response);
-
+      setNome("")
+      setEmail("")
+      setConfirmarEmail("")
+      setCep("")
+      setUsernameCadastro("")
+      setPasswordCadastro("")
+      setConfirmarSenhaCadastro("")
+      setMsgConfirmacao(response.data)
       // Aqui você pode redirecionar o usuário, limpar o formulário, etc.
     } catch (error) {
       console.error(error);
+      setMsgConfirmacao(error.response.data)
     }
   };
 
@@ -96,7 +107,7 @@ export const Cadastro = (props) => {
       } else {
         setCidade(data.localidade);
         setEstado(data.uf);
-        setMsgCep(`${cidade} - ${estado}`);
+        setMsgCep(`${data.localidade} - ${data.uf}`); // Usa os dados diretamente aqui
         setCepIsValid(true);
       }
     } catch (error) {
@@ -172,6 +183,7 @@ export const Cadastro = (props) => {
           />
 
           <input type="submit" value="Cadastrar" />
+          <span>{msgConfirmacao}</span>
         </div>
       </form>
     </section>

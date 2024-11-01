@@ -8,8 +8,8 @@ export const DashboardCliente = (props) => {
   return (
     <div className={styles.container}>
       <Navbar />
-      <CriarChamado />
-      <MeusChamados/>
+      {/* <CriarChamado />
+      <MeusChamados/> */}
     </div>
   );
 };

@@ -10,6 +10,9 @@ export const Login = (props) => {
   const [usernameLogin, setUsernameLogin] = useState("");
   const [passwordLogin, setPasswordLogin] = useState("");
 
+  //Msg de confirmação
+  const [msgConfirmacao, setMsgConfirmacao] = useState("");
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -37,7 +40,8 @@ export const Login = (props) => {
       }
     } catch (error) {
       // Lidar com o erro de login
-      console.error("Erro ao fazer login:", error.message);
+      console.error("Erro ao fazer login:", error);
+      setMsgConfirmacao("Username ou senha inválidos.");
     }
   };
 
@@ -67,6 +71,7 @@ export const Login = (props) => {
           />
 
           <input type="submit" value="Login" />
+          <span>{msgConfirmacao}</span>
         </div>
       </form>
 
