@@ -1,5 +1,5 @@
 .container {
-  padding: 3rem;
+  padding: 1rem;
 
   section {
     height: 40%;
@@ -36,7 +36,7 @@
 
     .formVisible,
     .formHidden {
-      transition: opacity 0.2s ease, height 0.2s ease;  
+      transition: opacity 0.5s ease, height 0.5s ease, display 0.5s ease;  
       overflow: hidden;    
     }
 
@@ -48,6 +48,7 @@
     .formHidden {
       opacity: 0;
       height: 0;
+      display: none;
     }
 
     form {
@@ -58,6 +59,7 @@
       padding: 1rem;
       border: 1px solid rgb(0, 0, 0);
       border-radius: 5px;
+      padding-left: 4rem;
       
       input {
         width: 40rem;

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Chamado } from "../Chamado/Chamado";
 import styles from "./styles.module.scss";
 import axios from "axios";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import * as handleToken from "../../functions/HandleToken";
 
 export const MeusChamados = (props) => {
   const [chamados, setChamados] = useState([]);
+  const [isChamadosVisible, setIsChamadosVisible] = useState(false);
 
   async function getChamados() {
     const token = localStorage.getItem("token");
@@ -28,20 +30,27 @@ export const MeusChamados = (props) => {
     }
   }
 
+  const toggleChamadosVisibility = () => {
+    setIsChamadosVisible(!isChamadosVisible); // Alterna visibilidade
+  };
+
   useEffect(() => {
     getChamados();
   }, []);
 
   return (
     <div className={styles.container}>
-      <div>
+      <div className={styles.title} onClick={toggleChamadosVisibility}>
         <h1>MEUS CHAMADOS</h1>
+        {isChamadosVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
-      {chamados.map((chamado) => (
-        <Chamado key={chamado.chamadoId} chamado={chamado} />
-        
-      ))}
-      
+      {isChamadosVisible && (
+        <div>
+          {chamados.map((chamado) => (
+            <Chamado key={chamado.chamadoId} chamado={chamado} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

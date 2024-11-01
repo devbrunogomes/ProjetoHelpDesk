@@ -9,7 +9,7 @@ export const DashboardCliente = (props) => {
     <div className={styles.container}>
       <Navbar />
       <CriarChamado />
-      {/* <MeusChamados/> */}
+      <MeusChamados/>
     </div>
   );
 };
