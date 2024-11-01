@@ -15,7 +15,7 @@ export const Chamado = ({ chamado }) => {
   const [novaPrioridade, setNovaPrioridade] = useState("");
   const podeExibirAlteracaoPrioridade =
     role === "tecnico" && chamado.status !== 2;
-  const [isContentVisible, setIsContentVisible] = useState(true);
+  const [isContentVisible, setIsContentVisible] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -137,18 +137,10 @@ export const Chamado = ({ chamado }) => {
             <Resposta key={resposta.id} resposta={resposta} />
           ))}
 
-          <div>
-            <h3>
-              {chamado.status === 2
-                ? "Não é possivel enviar mais respostas"
-                : "Respostas"}
-            </h3>
-          </div>
-          {chamado.status !== 2 && (
-            <form
-              action="post"              
-              onSubmit={handleSubmit}
-            >
+          {chamado.status !== 2 ? (
+            <form action="post" onSubmit={handleSubmit}>
+              <h2>Nova Resposta</h2>
+
               <textarea
                 name="resposta"
                 id="resposta"
@@ -160,6 +152,10 @@ export const Chamado = ({ chamado }) => {
               ></textarea>
               <input type="submit" value="Enviar Resposta" />
             </form>
+          ) : (
+            <div>
+              <h3>Não é possivel enviar mais respostas</h3>
+            </div>
           )}
           {podeExibirAlteracaoPrioridade && (
             <form action="post" onSubmit={alterarPrioridade}>
