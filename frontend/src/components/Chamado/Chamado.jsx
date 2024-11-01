@@ -13,7 +13,9 @@ export const Chamado = ({ chamado }) => {
     handlerEnum.traduzirPrioridade(chamado.prioridade) || ""
   );
   const [novaPrioridade, setNovaPrioridade] = useState("");
-  const podeExibirAlteracaoPrioridade = role === "tecnico" && chamado.status !== 2;
+  const podeExibirAlteracaoPrioridade =
+    role === "tecnico" && chamado.status !== 2;
+  const [isContentVisible, setIsContentVisible] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -102,6 +104,10 @@ export const Chamado = ({ chamado }) => {
     }
   }
 
+  const toggleContentVisibility = () => {
+    setIsContentVisible(!isContentVisible); // Alterna visibilidade
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     const myRole = handleToken.verificarRoleDoToken(token).toLowerCase();
@@ -110,70 +116,77 @@ export const Chamado = ({ chamado }) => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.titulo}>
+      <div className={styles.title} onClick={toggleContentVisibility}>
         <h2>Chamado #{chamado.chamadoId} </h2>
         <h2>{prioridade} Prioridade</h2>
         <h2>{handlerEnum.traduzirStatus(chamado.status)}</h2>
       </div>
-      <div className={styles.subTitulo}>
-        <span>{handlerEnum.formatarDataHora(chamado.dataAbertura)}</span>
-        <span>{chamado.titulo}</span>
-      </div>
-      <div className={styles.descricao}>
-        <p>{chamado.descricao}</p>
-      </div>
-      <div>
-        <h3>Respostas</h3>
-      </div>
-      {respostas.map((resposta) => (
-        <Resposta key={resposta.id} resposta={resposta} />
-      ))}
+      {isContentVisible && (
+        <div className={styles.content}>
+          <div className={styles.subTitulo}>
+            <span>{handlerEnum.formatarDataHora(chamado.dataAbertura)}</span>
+            <span>{chamado.titulo}</span>
+          </div>
+          <div className={styles.descricao}>
+            <p>{chamado.descricao}</p>
+          </div>
+          <div>
+            <h3>Respostas</h3>
+          </div>
+          {respostas.map((resposta) => (
+            <Resposta key={resposta.id} resposta={resposta} />
+          ))}
 
-      <div>
-        <h3>
-          {chamado.status === 2
-            ? "Não é possivel enviar mais respostas"
-            : "Respostas"}
-        </h3>
-      </div>
+          <div>
+            <h3>
+              {chamado.status === 2
+                ? "Não é possivel enviar mais respostas"
+                : "Respostas"}
+            </h3>
+          </div>
 
-      <form
-        action="post"
-        className={chamado.status === 2 ? "displayNone" : ""}
-        onSubmit={handleSubmit}
-      >
-        <textarea
-          name="resposta"
-          id="resposta"
-          cols="50"
-          rows="2"
-          required
-          value={novaResposta}
-          onChange={(e) => setNovaResposta(e.target.value)}
-        ></textarea>
-        <input type="submit" value="Enviar Resposta" />
-      </form>
-      <form action="post" onSubmit={alterarPrioridade} className={podeExibirAlteracaoPrioridade ? "" : "displayNone"}>
-        <select
-          name="prioridade"
-          id="mudarPrioridade"
-          value={novaPrioridade}
-          onChange={(e) => setNovaPrioridade(e.target.value)}
-        >
-          <option value="">---</option>
-          <option value="0">Baixa</option>
-          <option value="1">Média</option>
-          <option value="2">Alta</option>
-        </select>
-        <input type="submit" value="Alterar Prioridade" />
-      </form>
-      <button
-        disabled={chamado.status === 2}
-        className={role === "tecnico" ? "" : "displayNone"}
-        onClick={finalizarChamado}
-      >
-        Finalizar Chamado
-      </button>
+          <form
+            action="post"
+            className={chamado.status === 2 ? "displayNone" : ""}
+            onSubmit={handleSubmit}
+          >
+            <textarea
+              name="resposta"
+              id="resposta"
+              cols="50"
+              rows="2"
+              required
+              value={novaResposta}
+              onChange={(e) => setNovaResposta(e.target.value)}
+            ></textarea>
+            <input type="submit" value="Enviar Resposta" />
+          </form>
+          {podeExibirAlteracaoPrioridade && (
+            <form action="post" onSubmit={alterarPrioridade}>
+              <select
+                name="prioridade"
+                id="mudarPrioridade"
+                value={novaPrioridade}
+                onChange={(e) => setNovaPrioridade(e.target.value)}
+              >
+                <option value="">---</option>
+                <option value="0">Baixa</option>
+                <option value="1">Média</option>
+                <option value="2">Alta</option>
+              </select>
+              <input type="submit" value="Alterar Prioridade" />
+            </form>
+          )}
+
+          <button
+            disabled={chamado.status === 2}
+            className={role === "tecnico" ? "" : "displayNone"}
+            onClick={finalizarChamado}
+          >
+            Finalizar Chamado
+          </button>
+        </div>
+      )}
     </section>
   );
 };

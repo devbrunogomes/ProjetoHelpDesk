@@ -28,4 +28,11 @@
       user-select: none;
     }
   }
+
+  .chamados {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-left: 1rem;
+  }
 }

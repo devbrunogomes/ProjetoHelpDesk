@@ -45,7 +45,7 @@ export const MeusChamados = (props) => {
         {isChamadosVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
       {isChamadosVisible && (
-        <div>
+        <div className={styles.chamados}>
           {chamados.map((chamado) => (
             <Chamado key={chamado.chamadoId} chamado={chamado} />
           ))}
