@@ -1,13 +1,12 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 
   .title {
     display: flex;
     align-items: center;
     justify-content: start;
-    gap: 3rem;
+    gap: 5rem;
     font-weight: 600;
     padding-left: 1rem;
     cursor: pointer;
@@ -27,7 +26,7 @@
     display: flex;
     align-items: center;
     justify-content: start;
-    padding-left: 1rem;
+    padding-left: 1.5rem;
     gap: 3rem;
 
     span {
@@ -37,8 +36,8 @@
   }
 
   .descricao {
-    margin-top: 1rem;
-
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
     p {
       margin-left: 3rem;
       font-size: 1.4rem;

@@ -15,7 +15,7 @@ export const Chamado = ({ chamado }) => {
   const [novaPrioridade, setNovaPrioridade] = useState("");
   const podeExibirAlteracaoPrioridade =
     role === "tecnico" && chamado.status !== 2;
-  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(true);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -144,23 +144,23 @@ export const Chamado = ({ chamado }) => {
                 : "Respostas"}
             </h3>
           </div>
-
-          <form
-            action="post"
-            className={chamado.status === 2 ? "displayNone" : ""}
-            onSubmit={handleSubmit}
-          >
-            <textarea
-              name="resposta"
-              id="resposta"
-              cols="50"
-              rows="2"
-              required
-              value={novaResposta}
-              onChange={(e) => setNovaResposta(e.target.value)}
-            ></textarea>
-            <input type="submit" value="Enviar Resposta" />
-          </form>
+          {chamado.status !== 2 && (
+            <form
+              action="post"              
+              onSubmit={handleSubmit}
+            >
+              <textarea
+                name="resposta"
+                id="resposta"
+                cols="50"
+                rows="2"
+                required
+                value={novaResposta}
+                onChange={(e) => setNovaResposta(e.target.value)}
+              ></textarea>
+              <input type="submit" value="Enviar Resposta" />
+            </form>
+          )}
           {podeExibirAlteracaoPrioridade && (
             <form action="post" onSubmit={alterarPrioridade}>
               <select

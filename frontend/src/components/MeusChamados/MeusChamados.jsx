@@ -7,7 +7,7 @@ import * as handleToken from "../../functions/HandleToken";
 
 export const MeusChamados = (props) => {
   const [chamados, setChamados] = useState([]);
-  const [isChamadosVisible, setIsChamadosVisible] = useState(false);
+  const [isChamadosVisible, setIsChamadosVisible] = useState(true);
 
   async function getChamados() {
     const token = localStorage.getItem("token");
