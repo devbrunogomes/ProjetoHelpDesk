@@ -159,6 +159,8 @@ export const Chamado = ({ chamado }) => {
           )}
           {podeExibirAlteracaoPrioridade && (
             <form action="post" onSubmit={alterarPrioridade}>
+              <h2>Alterar Prioridade</h2>
+
               <select
                 name="prioridade"
                 id="mudarPrioridade"
@@ -173,14 +175,9 @@ export const Chamado = ({ chamado }) => {
               <input type="submit" value="Alterar Prioridade" />
             </form>
           )}
-
-          <button
-            disabled={chamado.status === 2}
-            className={role === "tecnico" ? "" : "displayNone"}
-            onClick={finalizarChamado}
-          >
-            Finalizar Chamado
-          </button>
+          {chamado.status !== 2 && (
+            <button className="finalizarChamado" onClick={finalizarChamado}>Finalizar Chamado</button>
+          )}
         </div>
       )}
     </section>

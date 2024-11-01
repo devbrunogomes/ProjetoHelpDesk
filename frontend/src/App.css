@@ -38,7 +38,7 @@ textarea {
   display: none;
 }
 
-input[type="submit"] {
+input[type="submit"], .finalizarChamado {
   display: block;
   width: 100%;
   font-weight: bold;
@@ -53,7 +53,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, .finalizarChamado:hover {
   transform: scale(1.01);
 }
 
