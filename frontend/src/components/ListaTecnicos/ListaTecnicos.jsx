@@ -4,7 +4,7 @@ import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import axios from "axios";
 
 export const ListaTecnicos = (props) => {
-  const [isContentVisible, setIsContentVisible] = useState(true);
+  const [isContentVisible, setIsContentVisible] = useState(false);
   const [tecnicos, setTecnicos] = useState([]);
 
   const toggleContentVisibility = () => {

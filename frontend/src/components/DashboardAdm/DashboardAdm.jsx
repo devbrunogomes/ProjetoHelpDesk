@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import { Navbar } from "../Navbar/Navbar";
 import { CadastroTecnicoAdm } from "../CadastroTecnicoAdm/CadastroTecnicoAdm";
 import { ListaTecnicos } from "../ListaTecnicos/ListaTecnicos";
+import { PesquisarTecnicos } from "../PesquisarTecnico/PesquisarTecnico";
 
 export const DashboardAdm = (props) => {
   return (
@@ -9,6 +10,7 @@ export const DashboardAdm = (props) => {
       <Navbar />
       <CadastroTecnicoAdm/>
       <ListaTecnicos/>
+      <PesquisarTecnicos/>
     </div>
   );
 };
