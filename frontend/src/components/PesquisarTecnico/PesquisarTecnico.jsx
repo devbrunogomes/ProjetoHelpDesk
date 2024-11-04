@@ -31,7 +31,7 @@ export const PesquisarTecnicos = (props) => {
       console.log(response.data);
       setTecnico(response.data);
     } catch (error) {
-      setTecnico(null)
+      setTecnico(null);
       console.error(error);
     }
   }
@@ -43,18 +43,21 @@ export const PesquisarTecnicos = (props) => {
         {isFormVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
       {isFormVisible && (
-        <form action="post" onSubmit={async (e) => await handleSubmit(e)}>
-          <label htmlFor="tecnicoId">Insira o Id do Técnico</label>
-          <input
-            name="tecnicoId"
-            type="text"
-            value={tecnicoId}
-            onChange={(e) => setTecnicoId(e.target.value)}
-          />
-          <input type="submit" value="Pesquisar" />
-        </form>
+        <>
+          <form action="post" onSubmit={async (e) => await handleSubmit(e)}>
+            <label htmlFor="tecnicoId">Insira o Id do Técnico</label>
+            <input
+              name="tecnicoId"
+              type="text"
+              value={tecnicoId}
+              onChange={(e) => setTecnicoId(e.target.value)}
+            />
+            <input type="submit" value="Pesquisar" />
+          </form>
+          {tecnico && <Tecnico tecnico={tecnico} />}
+        </>
       )}
-      {tecnico && <Tecnico tecnico={tecnico} />}
+      {isFormVisible && <div></div>}
     </div>
   );
 };

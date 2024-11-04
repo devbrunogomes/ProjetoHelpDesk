@@ -1,11 +1,16 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import styles from "./styles.module.scss";
+import { Chamado } from "../Chamado/Chamado";
 
-export const Tecnico = ({ tecnico }) => {  
+export const Tecnico = ({ tecnico }) => {
+  const [chamados, setChamados] = useState(tecnico.chamados || []);
+
   return (
     <section className={styles.container}>
       <div className={styles.title}>
-        <h1>#0{tecnico.tecnicoId} - {tecnico.userName}</h1>
+        <h1>
+          #0{tecnico.tecnicoId} - {tecnico.userName}
+        </h1>
       </div>
       <div className={styles.content}>
         <p>
@@ -19,10 +24,13 @@ export const Tecnico = ({ tecnico }) => {
         </p>
       </div>
 
+      <div className={styles.subtitulo}>
+        <h1>Chamados</h1>
+      </div>
       <div className={styles.chamados}>
-        <div className={styles.subtitulo}>
-          <h1>Chamados</h1>
-        </div>
+        {chamados.map((chamado) => (
+          <Chamado key={chamado.chamadoId} chamado={chamado} />
+        ))}
       </div>
     </section>
   );

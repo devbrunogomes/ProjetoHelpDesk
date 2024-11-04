@@ -20,4 +20,11 @@
   .subtitulo {
     border-bottom: 1px solid black;
   }
+
+  .chamados {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-left: 1rem;
+  }
 }
