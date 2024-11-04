@@ -38,6 +38,10 @@ export const Login = (props) => {
       if (role === "TECNICO") {
         navigate("/tecnico-dashboard");
       }
+
+      if (role === "ADMINISTRADOR") {
+        navigate("/adm-dashboard")
+      }
     } catch (error) {
       // Lidar com o erro de login
       console.error("Erro ao fazer login:", error);

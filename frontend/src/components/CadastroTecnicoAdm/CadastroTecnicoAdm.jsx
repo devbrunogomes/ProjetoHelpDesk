@@ -3,7 +3,10 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import * as validacao from "../../functions/ValidacaoDados";
 
-export const Cadastro = (props) => {
+export const CadastroTecnicoAdm = (props) => {
+  //Tipo de Cadastro Variáveis
+  const [tipoCadastro, setTipoCadastro] = useState("Técnico");
+
   //Cadastro Variaveis
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -62,31 +65,46 @@ export const Cadastro = (props) => {
       return;
     }
 
+    const token = localStorage.getItem("token");
+
+    const tipoCadastroNormalizado = tipoCadastro.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    const data = {
+      nomeCompleto: nome,
+      email: email,
+      emailConfirmation: confirmarEmail,
+      userName: usernameCadastro,
+      password: passwordCadastro,
+      rePassword: confirmarSenhaCadastro,
+      cep: cep,
+    };
+    console.log(tipoCadastro)
+
     try {
       // Fazer a requisição POST para o backend
-      const response = await axios.post("http://localhost:5089/Cliente", {
-        nomeCompleto: nome,
-        email: email,
-        emailConfirmation: confirmarEmail,
-        userName: usernameCadastro,
-        password: passwordCadastro,
-        rePassword: confirmarSenhaCadastro,
-        cep: cep,
-      });
+      const response = await axios.post(
+        `http://localhost:5089/${tipoCadastroNormalizado}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       console.log(response);
-      setNome("")
-      setEmail("")
-      setConfirmarEmail("")
-      setCep("")
-      setUsernameCadastro("")
-      setPasswordCadastro("")
-      setConfirmarSenhaCadastro("")
-      setMsgConfirmacao(response.data)
-      // Aqui você pode redirecionar o usuário, limpar o formulário, etc.
+      setNome("");
+      setEmail("");
+      setConfirmarEmail("");
+      setCep("");
+      setUsernameCadastro("");
+      setPasswordCadastro("");
+      setConfirmarSenhaCadastro("");
+      setMsgConfirmacao(`${tipoCadastro} Cadastrado com Sucesso!`);
     } catch (error) {
       console.error(error);
-      setMsgConfirmacao(error.response.data)
+      setMsgConfirmacao(error.response.data);
     }
   };
 
@@ -122,7 +140,18 @@ export const Cadastro = (props) => {
 
       <form action="post" onSubmit={handleCadastro}>
         <div>
-          
+          <div className={styles.tipoWrapper}>
+            <label htmlFor="tipoRegistro">Registrar Novo: </label>
+            <select
+              name="tipoRegistro"
+              id="tipoRegistro"
+              value={tipoCadastro}
+              onChange={(e) => setTipoCadastro(e.target.value)}
+            >
+              <option value="Tecnico">Técnico</option>
+              <option value="Administrador">Administrador</option>
+            </select>
+          </div>
           <label htmlFor="nome">Nome Completo</label>
           <input
             type="text"
