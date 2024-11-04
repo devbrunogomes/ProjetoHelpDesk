@@ -2,8 +2,12 @@ import { useState } from "react";
 import styles from "./styles.module.scss";
 import axios from "axios";
 import * as validacao from "../../functions/ValidacaoDados";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 
 export const CadastroTecnicoAdm = (props) => {
+  //Visibilidade
+  const [isFormVisible, setIsFormVisible] = useState(false);
+
   //Tipo de Cadastro Variáveis
   const [tipoCadastro, setTipoCadastro] = useState("Técnico");
 
@@ -67,7 +71,9 @@ export const CadastroTecnicoAdm = (props) => {
 
     const token = localStorage.getItem("token");
 
-    const tipoCadastroNormalizado = tipoCadastro.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const tipoCadastroNormalizado = tipoCadastro
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
     const data = {
       nomeCompleto: nome,
@@ -78,7 +84,7 @@ export const CadastroTecnicoAdm = (props) => {
       rePassword: confirmarSenhaCadastro,
       cep: cep,
     };
-    console.log(tipoCadastro)
+    console.log(tipoCadastro);
 
     try {
       // Fazer a requisição POST para o backend
@@ -134,88 +140,96 @@ export const CadastroTecnicoAdm = (props) => {
     }
   };
 
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible); // Alterna visibilidade
+  };
+
   return (
     <section className={styles.cadastroSection}>
-      <h1>CADASTRO</h1>
+      <div className={styles.title} onClick={toggleFormVisibility}>
+        <h1>Novo Colaborador</h1>
+        {isFormVisible ? <SlArrowUp /> : <SlArrowDown />}
+      </div>
+      {isFormVisible && (
+        <form action="post" onSubmit={handleCadastro}>
+          <div>
+            <div className={styles.tipoWrapper}>
+              <label htmlFor="tipoRegistro">Registrar Novo: </label>
+              <select
+                name="tipoRegistro"
+                id="tipoRegistro"
+                value={tipoCadastro}
+                onChange={(e) => setTipoCadastro(e.target.value)}
+              >
+                <option value="Tecnico">Técnico</option>
+                <option value="Administrador">Administrador</option>
+              </select>
+            </div>
+            <label htmlFor="nome">Nome Completo</label>
+            <input
+              type="text"
+              id="nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
 
-      <form action="post" onSubmit={handleCadastro}>
-        <div>
-          <div className={styles.tipoWrapper}>
-            <label htmlFor="tipoRegistro">Registrar Novo: </label>
-            <select
-              name="tipoRegistro"
-              id="tipoRegistro"
-              value={tipoCadastro}
-              onChange={(e) => setTipoCadastro(e.target.value)}
-            >
-              <option value="Tecnico">Técnico</option>
-              <option value="Administrador">Administrador</option>
-            </select>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <label htmlFor="reEmail">Confirme seu Email</label>
+            <input
+              type="email"
+              id="reEmail"
+              value={confirmarEmail}
+              onChange={(e) => setConfirmarEmail(e.target.value)}
+            />
+
+            <label htmlFor="cep">CEP</label>
+            <input
+              type="text"
+              name="cep"
+              id="cep"
+              value={cep}
+              onChange={(e) => setCep(e.target.value)}
+              onBlur={handleCep}
+            />
+            <span>{msgCep}</span>
+            <br />
+
+            <label htmlFor="usernameCadastro">Username</label>
+            <input
+              type="text"
+              id="usernameCadastro"
+              value={usernameCadastro}
+              onChange={(e) => setUsernameCadastro(e.target.value)}
+            />
+
+            <label htmlFor="passwordCadastro">Senha</label>
+            <input
+              type="password"
+              id="passwordCadastro"
+              value={passwordCadastro}
+              onChange={(e) => setPasswordCadastro(e.target.value)}
+            />
+
+            <label htmlFor="rePassword">Confirme sua Senha</label>
+            <input
+              type="password"
+              id="rePassword"
+              value={confirmarSenhaCadastro}
+              onChange={(e) => setConfirmarSenhaCadastro(e.target.value)}
+            />
+
+            <input type="submit" value="Cadastrar" />
+            <span>{msgConfirmacao}</span>
           </div>
-          <label htmlFor="nome">Nome Completo</label>
-          <input
-            type="text"
-            id="nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-          />
-
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          <label htmlFor="reEmail">Confirme seu Email</label>
-          <input
-            type="email"
-            id="reEmail"
-            value={confirmarEmail}
-            onChange={(e) => setConfirmarEmail(e.target.value)}
-          />
-
-          <label htmlFor="cep">CEP</label>
-          <input
-            type="text"
-            name="cep"
-            id="cep"
-            value={cep}
-            onChange={(e) => setCep(e.target.value)}
-            onBlur={handleCep}
-          />
-          <span>{msgCep}</span>
-          <br />
-
-          <label htmlFor="usernameCadastro">Username</label>
-          <input
-            type="text"
-            id="usernameCadastro"
-            value={usernameCadastro}
-            onChange={(e) => setUsernameCadastro(e.target.value)}
-          />
-
-          <label htmlFor="passwordCadastro">Senha</label>
-          <input
-            type="password"
-            id="passwordCadastro"
-            value={passwordCadastro}
-            onChange={(e) => setPasswordCadastro(e.target.value)}
-          />
-
-          <label htmlFor="rePassword">Confirme sua Senha</label>
-          <input
-            type="password"
-            id="rePassword"
-            value={confirmarSenhaCadastro}
-            onChange={(e) => setConfirmarSenhaCadastro(e.target.value)}
-          />
-
-          <input type="submit" value="Cadastrar" />
-          <span>{msgConfirmacao}</span>
-        </div>
-      </form>
+        </form>
+      )}
     </section>
   );
 };

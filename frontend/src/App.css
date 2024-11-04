@@ -18,11 +18,6 @@
   color: var(--title-font-color);
 }
 
-.container {
-  /* background-color: var(--primary-color); */
-  
-}
-
 input {
   padding: 0.2rem 0.5rem;
   background: var(--background-color);
@@ -64,3 +59,4 @@ input[type="password"]:focus {
   border-bottom: 2px solid var(--primary-color);
   outline: none;
 }
+
