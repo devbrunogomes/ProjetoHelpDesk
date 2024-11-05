@@ -8,6 +8,7 @@ import { PesquisarCliente } from "../PesquisarCliente/PesquisarCliente";
 import { PesquisarChamado } from "../PesquisarChamado/PesquisarChamado";
 
 import { ChamadosAbertos } from "../ChamadosAbertos/ChamadosAbertos";
+import { GraficoChamados } from "../GraficoChamados/GraficoChamados";
 
 export const DashboardAdm = (props) => {
   return (
@@ -20,6 +21,7 @@ export const DashboardAdm = (props) => {
       <PesquisarCliente/>
       <ChamadosAbertos/>
       <PesquisarChamado/>
+      <GraficoChamados/>
     </div>
   );
 };
