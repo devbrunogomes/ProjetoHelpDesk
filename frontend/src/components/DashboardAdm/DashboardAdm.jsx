@@ -7,6 +7,8 @@ import { ListaClientes } from "../ListaClientes/ListaClientes";
 import { PesquisarCliente } from "../PesquisarCliente/PesquisarCliente";
 import { PesquisarChamado } from "../PesquisarChamado/PesquisarChamado";
 
+import { ChamadosAbertos } from "../ChamadosAbertos/ChamadosAbertos";
+
 export const DashboardAdm = (props) => {
   return (
     <div className={styles.container}>
@@ -16,6 +18,7 @@ export const DashboardAdm = (props) => {
       <PesquisarTecnicos/>
       <ListaClientes/>
       <PesquisarCliente/>
+      <ChamadosAbertos/>
       <PesquisarChamado/>
     </div>
   );
