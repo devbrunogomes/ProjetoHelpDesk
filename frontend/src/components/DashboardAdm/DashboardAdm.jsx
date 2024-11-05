@@ -3,6 +3,7 @@ import { Navbar } from "../Navbar/Navbar";
 import { CadastroTecnicoAdm } from "../CadastroTecnicoAdm/CadastroTecnicoAdm";
 import { ListaTecnicos } from "../ListaTecnicos/ListaTecnicos";
 import { PesquisarTecnicos } from "../PesquisarTecnico/PesquisarTecnico";
+import { ListaClientes } from "../ListaClientes/ListaClientes";
 
 export const DashboardAdm = (props) => {
   return (
@@ -11,6 +12,7 @@ export const DashboardAdm = (props) => {
       <CadastroTecnicoAdm/>
       <ListaTecnicos/>
       <PesquisarTecnicos/>
+      <ListaClientes/>
     </div>
   );
 };

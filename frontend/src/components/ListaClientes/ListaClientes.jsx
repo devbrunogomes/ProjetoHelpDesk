@@ -1,28 +1,29 @@
 import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
-import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import axios from "axios";
+import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 
-export const ListaTecnicos = (props) => {
+
+export const ListaClientes = (props) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
-  const [tecnicos, setTecnicos] = useState([]);
+  const [clientes, setClientes] = useState([]);
 
   const toggleContentVisibility = () => {
     setIsContentVisible(!isContentVisible); // Alterna visibilidade
   };
 
-  async function getTecnicos() {
+  async function getClientes() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.get("http://localhost:5089/Tecnico", {
+      const response = await axios.get("http://localhost:5089/Cliente", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      setTecnicos(response.data);
-      console.log(tecnicos);
+      setClientes(response.data);
+      console.log(clientes);
     } catch (error) {
       console.error("Erro ao carregar os técnicos:", error);
     }
@@ -33,44 +34,45 @@ export const ListaTecnicos = (props) => {
 
     try {
       // Realiza a requisição DELETE para o endpoint
-      await axios.delete(`http://localhost:5089/Tecnico/${id}`, {
+      await axios.delete(`http://localhost:5089/Cliente/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       // Atualiza o estado `tecnicos`, removendo o técnico excluído
-      setTecnicos((prevTecnicos) =>
-        prevTecnicos.filter((tecnico) => tecnico.tecnicoId !== id)
+      setClientes((prevClientes) =>
+        prevClientes.filter((cliente) => cliente.clienteId !== id)
       );
-      console.log("Técnico excluído com sucesso!");
+      console.log("Cliente excluído com sucesso!");
     } catch (error) {
       console.error("Erro ao excluir o técnico:", error);
     }
   };
 
+
   useEffect(() => {
-    getTecnicos();
+    getClientes();
   }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.title} onClick={toggleContentVisibility}>
-        <h1>Listar Técnicos </h1>
+        <h1>Listar Clientes </h1>
         {isContentVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
       {isContentVisible && (
         <div>
-          {tecnicos.map((tecnico) => (
-            <div key={tecnico.tecnicoId} className={styles.content}>
-              <span>#{tecnico.tecnicoId}</span>
+          {clientes.map((cliente) => (
+            <div key={cliente.clienteId} className={styles.content}>
+              <span>#0{cliente.clienteId}</span>
               <span>
-                {tecnico.nomeCompleto} - {tecnico.userName}
+                {cliente.nomeCompleto} - {cliente.userName}
               </span>
-              <span>{tecnico.email}</span>
+              <span>{cliente.email}</span>
               <div>
                 <button
-                  onClick={async () => await handleExcluir(tecnico.tecnicoId)}
+                  onClick={async () => await handleExcluir(cliente.clienteId)}
                 >
                   Excluir
                 </button>

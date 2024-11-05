@@ -6,7 +6,7 @@ import { Tecnico } from "../Tecnico/Tecnico";
 import { BsSearch } from "react-icons/bs";
 
 export const PesquisarTecnicos = (props) => {
-  const [isFormVisible, setIsFormVisible] = useState(true);
+  const [isFormVisible, setIsFormVisible] = useState(false);
   const [tecnicoId, setTecnicoId] = useState("");
   const [tecnico, setTecnico] = useState(null);
 
