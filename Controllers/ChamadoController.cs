@@ -120,4 +120,11 @@ public class ChamadoController : ControllerBase {
 
 		return NoContent();
 	}
+
+	[Authorize(Roles = "ADMINISTRADOR")]
+	[HttpGet("chamados-dashboard")]
+	public async Task<IActionResult> GetDadosParaGrafico() {
+		var result = await _chamadoService.RetornarDadosChamadosDashboard();
+		return Ok(result);
+	}
 }

@@ -2,6 +2,7 @@
 using SolutisHelpDesk.Data;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
+using SolutisHelpDesk.Services;
 
 namespace SolutisHelpDesk.Repositories;
 
@@ -57,4 +58,21 @@ public class ChamadoRepository {
 		await _context.SaveChangesAsync();
 	}
 
+	internal async Task<DadosChamadosDashboardDto> ObterContagemChamadosAsync() {
+		var contagens = await _context.Chamados
+			.GroupBy(chamado => chamado.Status)
+			.Select(group => new {
+				Status = group.Key,
+				Count = group.Count()
+			})
+			.ToListAsync();
+
+		var resultado = new DadosChamadosDashboardDto {
+			TotalAbertos = contagens.FirstOrDefault(c => c.Status == EnumStatus.Aberto)?.Count ?? 0,
+			TotalEmAndamento = contagens.FirstOrDefault(c => c.Status == EnumStatus.EmAndamento)?.Count ?? 0,
+			TotalFechados = contagens.FirstOrDefault(c => c.Status == EnumStatus.Fechado)?.Count ?? 0
+		};
+
+		return resultado;
+	}
 }

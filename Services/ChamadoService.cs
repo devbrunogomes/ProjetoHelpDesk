@@ -160,4 +160,10 @@ public class ChamadoService {
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
 		return true;
 	}
+
+	internal async Task<DadosChamadosDashboardDto> RetornarDadosChamadosDashboard() {
+		var resultado = await _chamadoRepository.ObterContagemChamadosAsync();
+
+		return resultado;
+	}
 }
