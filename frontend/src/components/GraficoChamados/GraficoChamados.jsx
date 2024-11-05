@@ -3,6 +3,7 @@ import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { useEffect, useState } from "react";
 import Chart from 'chart.js/auto';
 import axios from "axios";
+import { Grafico } from "../Grafico/Grafico";
 
 export const GraficoChamados = (props) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -26,7 +27,7 @@ export const GraficoChamados = (props) => {
 
       
       setChartData(response.data)
-      console.log(chartData)
+      
     } catch (error) {
       setChartData(null) 
       console.error("Erro ao carregar dados do gráfico" + error)
@@ -36,7 +37,7 @@ export const GraficoChamados = (props) => {
 
   useEffect(() => {
     getChartData();
-    console.log(chartData)
+    
   }, []);
 
   return (
@@ -45,6 +46,12 @@ export const GraficoChamados = (props) => {
         <h1>Gráfico - Chamados</h1>
         {isContentVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
+      {isContentVisible && (
+        <div className={styles.grafico}>
+          <Grafico data={chartData} />
+        </div>
+      )}
+      
     </div>
   );
 };

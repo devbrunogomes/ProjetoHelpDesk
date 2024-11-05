@@ -20,7 +20,6 @@ export const ChamadosAbertos = (props) => {
           },
         }
       );
-      console.log(response);
 
       setChamadosAbertos(response.data);
     } catch (error) {
