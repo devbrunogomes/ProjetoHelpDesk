@@ -4,6 +4,7 @@ import { CadastroTecnicoAdm } from "../CadastroTecnicoAdm/CadastroTecnicoAdm";
 import { ListaTecnicos } from "../ListaTecnicos/ListaTecnicos";
 import { PesquisarTecnicos } from "../PesquisarTecnico/PesquisarTecnico";
 import { ListaClientes } from "../ListaClientes/ListaClientes";
+import { PesquisarCliente } from "../PesquisarCliente/PesquisarCliente";
 
 export const DashboardAdm = (props) => {
   return (
@@ -13,6 +14,7 @@ export const DashboardAdm = (props) => {
       <ListaTecnicos/>
       <PesquisarTecnicos/>
       <ListaClientes/>
+      <PesquisarCliente/>
     </div>
   );
 };

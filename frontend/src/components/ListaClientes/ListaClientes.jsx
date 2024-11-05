@@ -22,8 +22,7 @@ export const ListaClientes = (props) => {
         },
       });
 
-      setClientes(response.data);
-      console.log(clientes);
+      setClientes(response.data);      
     } catch (error) {
       console.error("Erro ao carregar os técnicos:", error);
     }

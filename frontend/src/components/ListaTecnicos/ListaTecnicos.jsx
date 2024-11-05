@@ -22,7 +22,6 @@ export const ListaTecnicos = (props) => {
       });
 
       setTecnicos(response.data);
-      console.log(tecnicos);
     } catch (error) {
       console.error("Erro ao carregar os técnicos:", error);
     }
