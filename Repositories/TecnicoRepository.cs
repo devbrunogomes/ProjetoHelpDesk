@@ -23,6 +23,7 @@ public class TecnicoRepository {
 	internal async Task<Tecnico?> RecuperarTecnicoPorIdAsync(int id) {
 		var tecnico = await _context.Tecnicos
 			.Include(tecnico => tecnico.Chamados)
+			.ThenInclude(chamado => chamado.Resposta)
 			.FirstOrDefaultAsync(tecnico => tecnico.TecnicoId == id);
 		return tecnico;
 	}

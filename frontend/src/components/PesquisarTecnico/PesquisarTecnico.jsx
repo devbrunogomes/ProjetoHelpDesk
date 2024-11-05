@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { Tecnico } from "../Tecnico/Tecnico";
+import { BsSearch } from "react-icons/bs";
 
 export const PesquisarTecnicos = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(true);
@@ -15,6 +16,8 @@ export const PesquisarTecnicos = (props) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    setTecnico(null);
 
     const token = localStorage.getItem("token");
 
@@ -44,17 +47,19 @@ export const PesquisarTecnicos = (props) => {
       </div>
       {isFormVisible && (
         <>
-          <form action="post" onSubmit={async (e) => await handleSubmit(e)}>
-            <label htmlFor="tecnicoId">Insira o Id do Técnico</label>
+          <form action="post" onSubmit={async (e) => await handleSubmit(e)}>            
             <input
+            placeholder="Id do Técnico"
               name="tecnicoId"
               type="text"
               value={tecnicoId}
               onChange={(e) => setTecnicoId(e.target.value)}
             />
-            <input type="submit" value="Pesquisar" />
+            <button type="submit">
+              <BsSearch />
+            </button>
           </form>
-          {tecnico && <Tecnico tecnico={tecnico} />}
+          <div>{tecnico && <Tecnico tecnico={tecnico} />}</div>
         </>
       )}
       {isFormVisible && <div></div>}
