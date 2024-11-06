@@ -1,31 +1,33 @@
 import styles from "./styles.module.scss";
+import { Grafico } from "../Grafico/Grafico";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { useEffect, useState } from "react";
-import Chart from 'chart.js/auto';
 import axios from "axios";
-import { Grafico } from "../Grafico/Grafico";
-
-export const GraficoChamados = (props) => {
+import * as handleDataChart from "../../functions/HandleDataChart"
+import Chart from 'chart.js/auto';
+export const GraficoTecnicos = (props) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
-  const [chartData, setChartData] = useState(null);  
+  const [chartData, setChartData] = useState(null);
 
   const toggleContentVisibility = () => {
-    setIsContentVisible(!isContentVisible);
+    setIsContentVisible(!isContentVisible); 
   };
 
   async function getChartData() {
     const token = localStorage.getItem('token');
 
     try {
-      const response = await axios.get("http://localhost:5089/Chamado/chamados-dashboard", {
+      const response = await axios.get("http://localhost:5089/Chamado/tecnicos-dashboard", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
 
+      const dadosTranformados = handleDataChart.transformarDadosTecnicoEmListaParaChaveValor(response.data);
       
-      setChartData(response.data)
-      console.log(response.data )
+      console.log(dadosTranformados)
+      setChartData(dadosTranformados)
+      
     } catch (error) {
       setChartData(null) 
       console.error("Erro ao carregar dados do gráfico" + error)
@@ -41,15 +43,18 @@ export const GraficoChamados = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.title} onClick={toggleContentVisibility}>
-        <h1>Gráfico - Chamados</h1>
+        <h1>Gráfico - Tecnicos</h1>
         {isContentVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
       {isContentVisible && (
         <div className={styles.grafico}>
-          <Grafico data={chartData} title="Status dos Chamados" typeData="Chamados"/>
+          <Grafico
+            data={chartData}
+            title="Top 5 Técnicos"
+            typeData="ChamadosFinalizados"
+          />
         </div>
       )}
-      
     </div>
   );
 };
