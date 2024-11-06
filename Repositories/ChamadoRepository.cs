@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolutisHelpDesk.Data;
+using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Services;
@@ -72,6 +73,21 @@ public class ChamadoRepository {
 			TotalEmAndamento = contagens.FirstOrDefault(c => c.Status == EnumStatus.EmAndamento)?.Count ?? 0,
 			TotalFechados = contagens.FirstOrDefault(c => c.Status == EnumStatus.Fechado)?.Count ?? 0
 		};
+
+		return resultado;
+	}
+
+	internal async Task<List<DadosTecnicosDashboardDto>> ObterContagemTecnicosAsync() {
+		var resultado = await _context.Chamados
+			.Where(chamado => chamado.Status == EnumStatus.Fechado)
+			.GroupBy(chamado => chamado.Tecnico)
+			.Select(grupo => new DadosTecnicosDashboardDto {
+				UserName = grupo.Key.UserName,
+				QuantidadeChamadosFinalizados = grupo.Count()
+			})
+			.OrderByDescending(dto => dto.QuantidadeChamadosFinalizados)
+			.Take(5)
+			.ToListAsync();
 
 		return resultado;
 	}

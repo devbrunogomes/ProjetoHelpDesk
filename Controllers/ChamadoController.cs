@@ -123,8 +123,15 @@ public class ChamadoController : ControllerBase {
 
 	[Authorize(Roles = "ADMINISTRADOR")]
 	[HttpGet("chamados-dashboard")]
-	public async Task<IActionResult> GetDadosParaGrafico() {
+	public async Task<IActionResult> GetDadosChamadosParaGrafico() {
 		var result = await _chamadoService.RetornarDadosChamadosDashboard();
+		return Ok(result);
+	}
+
+	[Authorize(Roles = "ADMINISTRADOR")]
+	[HttpGet("tecnicos-dashboard")]
+	public async Task<IActionResult> GetDadosTecnicosParaGrafico() {
+		var result = await _chamadoService.RetornarDadosTecnicosDashboard();
 		return Ok(result);
 	}
 }

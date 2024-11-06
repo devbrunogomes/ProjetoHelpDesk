@@ -166,4 +166,10 @@ public class ChamadoService {
 
 		return resultado;
 	}
+
+	internal async Task<List<DadosTecnicosDashboardDto>> RetornarDadosTecnicosDashboard() {
+		var resultado = await _chamadoRepository.ObterContagemTecnicosAsync();
+
+		return resultado;
+	}
 }
