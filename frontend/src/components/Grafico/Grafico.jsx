@@ -1,14 +1,22 @@
 import { Bar } from "react-chartjs-2";
 
-export const Grafico = ({data}) => {
+export const Grafico = ({data, title, typeData}) => {
+  // Extraindo os rótulos e valores do JSON de forma dinâmica
+  const labels = Object.keys(data);          // Labels com as chaves do JSON
+  const values = Object.values(data);        // Data com os valores do JSON
+
+  // Gerando cores dinâmicas para cada valor no gráfico
+  const backgroundColors = values.map((_, index) => `rgba(${100 + index * 50}, ${99 + index * 20}, ${132 + index * 30}, 0.5)`);
+  const borderColors = values.map((_, index) => `rgba(${100 + index * 50}, ${99 + index * 20}, ${132 + index * 30}, 1)`);
+
   const chartData = {
-    labels: ["Abertos", "Em Andamento", "Fechados"],
+    labels: labels,
     datasets: [
       {
-        label: "Chamados",
-        data: [data.totalAbertos, data.totalEmAndamento, data.totalFechados],
-        backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(75, 192, 192, 0.5)"],
-        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(75, 192, 192, 1)"],
+        label: typeData,
+        data: values,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
         borderWidth: 1,
       },
     ],
@@ -22,7 +30,7 @@ export const Grafico = ({data}) => {
       },
       title: {
         display: true,
-        text: "Status dos Chamados",
+        text: title,
       },
     },
   };

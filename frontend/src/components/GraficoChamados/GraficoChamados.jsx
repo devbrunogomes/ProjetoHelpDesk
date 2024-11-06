@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import Chart from 'chart.js/auto';
 import axios from "axios";
 import { Grafico } from "../Grafico/Grafico";
+import { Bar } from "react-chartjs-2";
 
 export const GraficoChamados = (props) => {
   const [isContentVisible, setIsContentVisible] = useState(false);
-  const [chartData, setChartData] = useState(null);
-
-  
+  const [chartData, setChartData] = useState(null);  
 
   const toggleContentVisibility = () => {
     setIsContentVisible(!isContentVisible); // Alterna visibilidade
@@ -37,7 +36,7 @@ export const GraficoChamados = (props) => {
 
   useEffect(() => {
     getChartData();
-    
+    console.log(chartData)
   }, []);
 
   return (
@@ -48,7 +47,7 @@ export const GraficoChamados = (props) => {
       </div>
       {isContentVisible && (
         <div className={styles.grafico}>
-          <Grafico data={chartData} />
+          <Grafico data={chartData} title="Status dos Chamados" typeData="Chamados"/>
         </div>
       )}
       
