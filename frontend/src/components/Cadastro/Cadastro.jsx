@@ -25,8 +25,8 @@ export const Cadastro = (props) => {
   const [visualReEmailValidacao, setVisualReEmailValidacao] = useState({});
   const [visualUsernameValidacao, setVisualUsernameValidacao] = useState({});
   const [visualCepValidacao, setVisualCepValidacao] = useState({});
-  const estiloItemValidado = { borderBottom: "3px solid rgb(95, 226, 112)" };
-  const estiloItemInvalidado = { borderBottom: "3px solid rgb(219, 34, 34)" };
+  const estiloItemValidado = { borderBottom: "2px solid rgb(95, 226, 112)" };
+  const estiloItemInvalidado = { borderBottom: "2px solid rgb(219, 34, 34)" };
 
   const handleCadastro = async (event) => {
     event.preventDefault();
