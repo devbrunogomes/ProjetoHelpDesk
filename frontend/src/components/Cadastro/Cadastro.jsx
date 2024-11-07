@@ -22,6 +22,7 @@ export const Cadastro = (props) => {
 
   //Feedback Visual
   const [visualEmailValidacao, setVisualEmailValidacao] = useState({});
+  const [visualReEmailValidacao, setVisualReEmailValidacao] = useState({});
   const [visualUsernameValidacao, setVisualUsernameValidacao] = useState({});
   const [visualCepValidacao, setVisualCepValidacao] = useState({});
   const estiloItemValidado = { borderBottom: "3px solid rgb(95, 226, 112)" };
@@ -135,6 +136,22 @@ export const Cadastro = (props) => {
     }
   };
 
+  const handleConfirmarEmail = (event) => {
+    const reEmail = event.target.value;
+    setConfirmarEmail(reEmail);
+    setVisualReEmailValidacao({});
+
+    if (reEmail.indexOf("@") !== -1 && reEmail.indexOf(".com") !== -1) {
+      if (reEmail === email) {
+        setVisualReEmailValidacao(estiloItemValidado);
+      } else {
+        setVisualReEmailValidacao(estiloItemInvalidado);
+      }
+    }
+
+    
+  };
+
   const handleUsername = async (event) => {
     const username = event.target.value;
     setUsernameCadastro(username);
@@ -219,7 +236,8 @@ export const Cadastro = (props) => {
             type="email"
             id="reEmail"
             value={confirmarEmail}
-            onChange={(e) => setConfirmarEmail(e.target.value)}
+            onChange={handleConfirmarEmail}
+            style={visualReEmailValidacao}
           />
 
           <label htmlFor="cep">CEP</label>
