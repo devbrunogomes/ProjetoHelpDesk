@@ -3,6 +3,8 @@ import styles from "./styles.module.scss";
 import axios from "axios";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 
+
+
 export const CriarChamado = (props) => {
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
@@ -53,7 +55,7 @@ export const CriarChamado = (props) => {
     <div className={styles.container}>
       <section>
         <div className={styles.title} onClick={toggleFormVisibility}>
-          <h1>CRIAR CHAMADO</h1>
+          <h1>  CRIAR CHAMADO</h1>
           {isFormVisible? <SlArrowUp /> : <SlArrowDown />}
           
         </div>

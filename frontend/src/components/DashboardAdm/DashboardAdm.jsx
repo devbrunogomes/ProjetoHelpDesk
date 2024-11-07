@@ -10,6 +10,7 @@ import { TrocarSenha } from "../TrocarSenha/TrocarSenha";
 import { ChamadosAbertos } from "../ChamadosAbertos/ChamadosAbertos";
 import { GraficoChamados } from "../GraficoChamados/GraficoChamados";
 import { GraficoTecnicos } from "../GraficoTecnicos/GraficoTecnicos";
+import { ListaChamados } from "../ListaChamados/ListaChamados";
 
 export const DashboardAdm = (props) => {
   return (
@@ -20,7 +21,7 @@ export const DashboardAdm = (props) => {
       <PesquisarTecnicos />
       <ListaClientes />
       <PesquisarCliente />
-      <ChamadosAbertos />
+      <ListaChamados/>
       <PesquisarChamado />
       <GraficoChamados />
       <GraficoTecnicos />
