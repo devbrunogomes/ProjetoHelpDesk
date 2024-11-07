@@ -47,4 +47,20 @@ public class AcessoController : ControllerBase {
 		return Ok(new { mensagem = "Email disponível." });
 
 	}
+
+	[HttpGet("validar-username")]
+	public async Task<IActionResult> ConferirValidadeUsername(string username) {
+		bool usernameExiste = await _usuarioService.VerificarUsernamelExistenteAsync(username);
+
+		if (usernameExiste) {
+			return Conflict(new {
+				mensagem = "Este usuário já está em uso."
+			});
+		}
+
+		return Ok(new {
+			mensagem = "Usuário Disponível"
+		});
+
+	}
 }

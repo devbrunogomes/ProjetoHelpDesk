@@ -92,4 +92,14 @@ public class UsuarioService {
 
 		return true;
 	}
+
+	internal async Task<bool> VerificarUsernamelExistenteAsync(string username) {
+		var result = await _userManager.FindByNameAsync(username);
+
+		if (result == null) {
+			return false;
+		}
+
+		return true;
+	}
 }
