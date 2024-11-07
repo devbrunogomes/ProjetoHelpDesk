@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 2rem;
+
+  .title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    svg {
+      font-size: 2rem;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: white;
+      user-select: none;
+    }
+  }
+
+  form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    padding-left: 4rem;
+
+    label {
+      font-size: 1.4rem;
+    }
+
+    input {
+      width: 20rem;
+      margin: 0;
+
+      &[type="password"] {
+        border: 1px solid rgb(0, 0, 0);
+      }
+
+      &:focus {
+        border: 2px solid rgb(0, 0, 0);
+        outline: none;
+      }
+    }
+
+    button {
+      padding: 0.2rem 2.5rem;
+      background: linear-gradient(
+        45deg,
+        var(--primary-color) 0%,
+        rgb(18, 177, 209) 100%
+      );
+      color: var(--background-color);
+      cursor: pointer;
+      border-radius: 20px;
+      border: none;
+      box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+      transform: scale(1.2);
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.4);
+      }
+    }
+  }
+}

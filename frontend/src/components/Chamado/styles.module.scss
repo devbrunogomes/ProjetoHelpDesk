@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 5rem;
+    font-weight: 600;
+    padding-left: 1rem;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: white;
+    }
+  }
+  .subTitulo {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 1.5rem;
+    gap: 3rem;
+
+    span {
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+  }
+
+  .descricao {
+    margin-top: 0.2rem;
+    margin-bottom: 1rem;
+    p {
+      margin-left: 3rem;
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+  }
+
+  h3 {
+    margin-left: 1rem;
+    font-size: 1.6rem;
+  }
+
+  form {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5rem;
+    gap: 1rem;
+
+    input {
+      font-size: 1.5rem;
+      width: 16rem;
+      margin: 0;
+    }
+
+    textarea {
+      padding: 0.5rem;
+      width: 25rem;
+      height: 7rem;
+      border-radius: 5px;
+    }
+
+    select {
+      width: 25rem;
+    }
+  }
+}

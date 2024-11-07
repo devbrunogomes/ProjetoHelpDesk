@@ -54,7 +54,7 @@ public class ChamadoController : ControllerBase {
 	}
 
 	[Authorize(Roles = "TECNICO")]
-	[HttpGet("/tecnicos/meus-chamados")]
+	[HttpGet("/tecnico/meus-chamados")]
 	public async Task<IActionResult> GetChamadosDoTecnico() {
 		IEnumerable<ReadChamadoDto> listaDto = await _chamadoService.GetChamadosDoTecnico(User);
 		return Ok(listaDto);
@@ -90,7 +90,8 @@ public class ChamadoController : ControllerBase {
 
 	}
 
-	[HttpPatch("reatribuir-tenico")]
+	[Authorize(Roles = "TECNICO")]
+	[HttpPatch("reatribuir-tecnico")]
 	public async Task<IActionResult> ReatribuirChamado(ReatribuirChamadoDto dto) {
 		var result = await _chamadoService.ReatribuirChamadoAsync(dto);
 
@@ -99,5 +100,38 @@ public class ChamadoController : ControllerBase {
 		}
 		return NoContent();
 
+	}
+
+	[Authorize(Roles = "TECNICO")]
+	[HttpPatch("alterar-prioridade")]
+	public async Task<IActionResult> AlterarPrioridade(AlterarPrioridadeChamadoDto dto) {
+		//Verificar se o id do tecnico atual é igual ao id do tecnico já atribuido ao chamado		
+		bool ehOMesmoTecnico = await _chamadoService.ValidarIgualdadeDeTecnico(User, dto.ChamadoId);
+
+		if (!ehOMesmoTecnico) {
+			return BadRequest("Este chamado é de outro técnico");
+		}
+
+		var result = await _chamadoService.AlterarPrioridadeAsync(dto);
+
+		if (!result) {
+			return NotFound("Chamado não encontrado");
+		}
+
+		return NoContent();
+	}
+
+	[Authorize(Roles = "ADMINISTRADOR")]
+	[HttpGet("chamados-dashboard")]
+	public async Task<IActionResult> GetDadosChamadosParaGrafico() {
+		var result = await _chamadoService.RetornarDadosChamadosDashboard();
+		return Ok(result);
+	}
+
+	[Authorize(Roles = "ADMINISTRADOR")]
+	[HttpGet("tecnicos-dashboard")]
+	public async Task<IActionResult> GetDadosTecnicosParaGrafico() {
+		var result = await _chamadoService.RetornarDadosTecnicosDashboard();
+		return Ok(result);
 	}
 }

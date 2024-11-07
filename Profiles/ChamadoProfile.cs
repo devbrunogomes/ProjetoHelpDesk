@@ -12,5 +12,6 @@ public class ChamadoProfile : Profile {
 			.ForMember(dto => dto.Respostas, opt => opt.MapFrom(src => src.Resposta));
 		CreateMap<FinalizarChamadoDto, Chamado>();
 		CreateMap<ReatribuirChamadoDto, Chamado>();
+		CreateMap<AlterarPrioridadeChamadoDto, Chamado>();
 	}
 }

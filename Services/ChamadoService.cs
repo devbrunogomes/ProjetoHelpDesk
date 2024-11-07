@@ -30,7 +30,7 @@ public class ChamadoService {
 
 	internal async Task<Chamado> RegistroChamadaAsync(CreateChamadoDto chamadoDto, ClaimsPrincipal user) {
 		string username = _tokenService.GetUsernameFromToken(user);
-		int clienteId =  _clienteService.GetByUsernameAsync(username).Result.ClienteId;
+		int clienteId = _clienteService.GetByUsernameAsync(username).Result.ClienteId;
 		chamadoDto.ClienteId = clienteId;
 
 		Chamado chamado = _mapper.Map<Chamado>(chamadoDto);
@@ -72,7 +72,7 @@ public class ChamadoService {
 	}
 
 
-	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {		
+	internal async Task<bool> FinalizarChamadoAsync(FinalizarChamadoDto dto, ClaimsPrincipal user) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
 
 		if (chamado == null || chamado.TecnicoId == null) {
@@ -93,12 +93,13 @@ public class ChamadoService {
 
 	internal async Task<bool> ReatribuirChamadoAsync(ReatribuirChamadoDto dto) {
 		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+		int tecnicoId = _tecnicoService.GetByUsernameAsync(dto.TecnicoUsername).Result.TecnicoId;
 
 		if (chamado == null || chamado.Status == EnumStatus.Fechado) {
 			return false;
 		}
 
-		chamado.TecnicoId = dto.TecnicoId;
+		chamado.TecnicoId = tecnicoId;
 		_mapper.Map(dto, chamado);
 		await _chamadoRepository.UpdateChamadoAsync(chamado);
 		return true;
@@ -146,5 +147,29 @@ public class ChamadoService {
 		}
 
 		return true;
+	}
+
+	internal async Task<bool> AlterarPrioridadeAsync(AlterarPrioridadeChamadoDto dto) {
+		var chamado = await _chamadoRepository.RecuperarChamadoPorIdAsync(dto.ChamadoId);
+
+		if (chamado == null) {
+			return false;
+		}
+
+		chamado.Prioridade = dto.novaPrioridade;
+		await _chamadoRepository.UpdateChamadoAsync(chamado);
+		return true;
+	}
+
+	internal async Task<DadosChamadosDashboardDto> RetornarDadosChamadosDashboard() {
+		var resultado = await _chamadoRepository.ObterContagemChamadosAsync();
+
+		return resultado;
+	}
+
+	internal async Task<List<DadosTecnicosDashboardDto>> RetornarDadosTecnicosDashboard() {
+		var resultado = await _chamadoRepository.ObterContagemTecnicosAsync();
+
+		return resultado;
 	}
 }

@@ -1,38 +1,62 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+:root {
+  font-size: 62.5%;
+  --background-color: #fdfdfd;
+  --primary-color: #1492C5;
+  --secondary-color: #226287;
+  --title-font-color: #0f1416;
+  --headings-font-family: "Tajawal", sans-serif;
+  --max-width: 1240px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--headings-font-family);
+  color: var(--title-font-color);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+input {
+  padding: 0.2rem 0.5rem;
+  background: var(--background-color);
+  border: none;
+  border-radius: 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+textarea {
+  resize: none;
 }
 
-.App-link {
-  color: #61dafb;
+.displayNone{
+  display: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input[type="submit"], .finalizarChamado {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  font-size: 2rem;
+  background: linear-gradient(45deg, var(--primary-color) 0%, rgb(18, 177, 209) 100%);
+  color: var(--background-color);
+  margin: 2rem auto;
+  border-radius: 20px;
+  box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+  border: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
 }
+
+input[type="submit"]:hover, .finalizarChamado:hover {
+  transform: scale(1.01);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border: none;
+  border-bottom: 2px solid var(--primary-color);
+  outline: none;
+}
+

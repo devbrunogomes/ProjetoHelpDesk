@@ -34,10 +34,6 @@ public class UsuarioService {
 			return true;
 		}
 
-		// Se houver erros, você pode lidar com eles ou retornar informações úteis
-		foreach (var erro in resultado.Errors) {
-			// Você pode fazer logging ou tratamento de erro
-		}
 
 		return false;
 	}
@@ -85,5 +81,25 @@ public class UsuarioService {
 
 		return resultado.Succeeded;
 
+	}
+
+	internal async Task<bool> VerificarEmailExistenteAsync(string email) {
+		var result = await _userManager.FindByEmailAsync(email);
+
+		if (result == null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	internal async Task<bool> VerificarUsernamelExistenteAsync(string username) {
+		var result = await _userManager.FindByNameAsync(username);
+
+		if (result == null) {
+			return false;
+		}
+
+		return true;
 	}
 }

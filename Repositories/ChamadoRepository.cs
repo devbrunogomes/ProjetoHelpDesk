@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SolutisHelpDesk.Data;
+using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
+using SolutisHelpDesk.Services;
 
 namespace SolutisHelpDesk.Repositories;
 
@@ -22,7 +24,7 @@ public class ChamadoRepository {
 	}
 	internal async Task<List<Chamado>> RecuperarChamadosAbertosAsync() {
 		return await _context.Chamados
-			.Where(chamado => chamado.Status != EnumStatus.Fechado)
+			.Where(chamado => chamado.Status == EnumStatus.Aberto)
 			.ToListAsync();
 	}
 
@@ -57,4 +59,36 @@ public class ChamadoRepository {
 		await _context.SaveChangesAsync();
 	}
 
+	internal async Task<DadosChamadosDashboardDto> ObterContagemChamadosAsync() {
+		var contagens = await _context.Chamados
+			.GroupBy(chamado => chamado.Status)
+			.Select(group => new {
+				Status = group.Key,
+				Count = group.Count()
+			})
+			.ToListAsync();
+
+		var resultado = new DadosChamadosDashboardDto {
+			TotalAbertos = contagens.FirstOrDefault(c => c.Status == EnumStatus.Aberto)?.Count ?? 0,
+			TotalEmAndamento = contagens.FirstOrDefault(c => c.Status == EnumStatus.EmAndamento)?.Count ?? 0,
+			TotalFechados = contagens.FirstOrDefault(c => c.Status == EnumStatus.Fechado)?.Count ?? 0
+		};
+
+		return resultado;
+	}
+
+	internal async Task<List<DadosTecnicosDashboardDto>> ObterContagemTecnicosAsync() {
+		var resultado = await _context.Chamados
+			.Where(chamado => chamado.Status == EnumStatus.Fechado)
+			.GroupBy(chamado => chamado.Tecnico)
+			.Select(grupo => new DadosTecnicosDashboardDto {
+				UserName = grupo.Key.UserName,
+				QuantidadeChamadosFinalizados = grupo.Count()
+			})
+			.OrderByDescending(dto => dto.QuantidadeChamadosFinalizados)
+			.Take(5)
+			.ToListAsync();
+
+		return resultado;
+	}
 }
