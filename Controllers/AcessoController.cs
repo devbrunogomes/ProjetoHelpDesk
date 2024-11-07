@@ -35,4 +35,16 @@ public class AcessoController : ControllerBase {
 		else
 			return BadRequest("Erro ao trocar a senha.");
 	}
+
+	[HttpGet("validar-email")]
+	public async Task<IActionResult> ConferirValidadeEmail(string email) {
+		bool emailExiste = await _usuarioService.VerificarEmailExistenteAsync(email);
+
+		if (emailExiste) {
+			return Conflict(new { mensagem = "Este email já está em uso." });
+		}
+
+		return Ok(new { mensagem = "Email disponível." });
+
+	}
 }
