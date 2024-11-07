@@ -22,7 +22,7 @@ public class AcessoController : ControllerBase {
 		return Ok(token);
 	}
 
-	[HttpPut("trocar-senha")]
+	[HttpPatch("trocar-senha")]
 	[Authorize(Roles = "CLIENTE, TECNICO, ADMINISTRADOR")]
 	public async Task<IActionResult> TrocarSenha(TrocarSenhaDto trocarSenhaDto) {
 		if (!ModelState.IsValid)
