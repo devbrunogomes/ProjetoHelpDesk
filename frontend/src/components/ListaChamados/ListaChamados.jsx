@@ -4,10 +4,32 @@ import axios from "axios";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 
 export const ListaChamados = (props) => {
-  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(true);
+  const [chamados, setChamados] = useState([]);
+  const [filtroChamado, setFiltroChamado] = useState("");
 
   const toggleContentVisibility = () => {
     setIsContentVisible(!isContentVisible); // Alterna visibilidade
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    
+    if (chamados.length === 0) {
+      try {
+        const response = await axios.get("http://localhost:5089/Chamado", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        console.log(response.data)
+        setChamados(response.data);
+      } catch (error) {
+        console.error("Erro ao consultar chamados: " + error);
+      }
+    }
   };
 
   return (
@@ -17,25 +39,18 @@ export const ListaChamados = (props) => {
         {isContentVisible ? <SlArrowUp /> : <SlArrowDown />}
       </div>
       {isContentVisible && (
-        <div>
-          {/* {clientes.map((cliente) => (
-            <div key={cliente.clienteId} className={styles.content}>
-              <span>#0{cliente.clienteId}</span>
-              <span>
-                {cliente.nomeCompleto} - {cliente.userName}
-              </span>
-              <span>{cliente.email}</span>
-              <div>
-                <button
-                  onClick={async () => await handleExcluir(cliente.clienteId)}
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
-          ))} */}
+        <div className={styles.content}>
+          <form action="post" onSubmit={handleSubmit}>
+            <label htmlFor="filter">Filtro por Status de Chamado</label>
+            <select name="filter" id="filterChamados">
+              <option value="0">Abertos</option>
+              <option value="1">Em Andamento</option>
+              <option value="2">Fechados</option>
+            </select>
+            <input type="submit" value="Pesquisar" />
+          </form>
         </div>
       )}
     </div>
   );
-}
+};
