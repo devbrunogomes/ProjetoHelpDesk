@@ -22,6 +22,12 @@ export const Cadastro = (props) => {
   //Msg de confirmação
   const [msgConfirmacao, setMsgConfirmacao] = useState("");
 
+  //Feedback Visual
+  const [visualEmailValidacao, setVisualEmailValidacao] = useState({});
+  const [visualUsernameValidacao, setVisualUsernameValidacao] = useState({});
+  const estiloItemValidado = { borderBottom: "3px solid rgb(95, 226, 112)" };
+  const estiloItemInvalidado = { borderBottom: "3px solid rgb(219, 34, 34)" };
+
   const handleCadastro = async (event) => {
     event.preventDefault();
 
@@ -75,18 +81,65 @@ export const Cadastro = (props) => {
       });
 
       console.log(response);
-      setNome("")
-      setEmail("")
-      setConfirmarEmail("")
-      setCep("")
-      setUsernameCadastro("")
-      setPasswordCadastro("")
-      setConfirmarSenhaCadastro("")
-      setMsgConfirmacao(response.data)
+      setNome("");
+      setEmail("");
+      setConfirmarEmail("");
+      setCep("");
+      setUsernameCadastro("");
+      setPasswordCadastro("");
+      setConfirmarSenhaCadastro("");
+      setMsgConfirmacao(response.data);
       // Aqui você pode redirecionar o usuário, limpar o formulário, etc.
     } catch (error) {
       console.error(error);
-      setMsgConfirmacao(error.response.data)
+      setMsgConfirmacao(error.response.data);
+    }
+  };
+
+  const handleEmail = async (event) => {
+    const email = event.target.value;
+    setEmail(email);
+    setVisualEmailValidacao({})
+
+    if (email.indexOf("@") !== -1 && email.indexOf(".com") !== -1) {
+      try {
+        const response = await axios.get(
+          "http://localhost:5089/api/Acesso/validar-email",
+          {
+            params: {
+              email,
+            },
+          }
+        );        
+        console.log(`caiu`)
+        setVisualEmailValidacao(estiloItemValidado);
+      } catch (error) {
+        console.log(`Falha na requisicao para validar email: ${error}`);
+        setVisualEmailValidacao(estiloItemInvalidado);
+      }
+    }
+  };
+
+  const handleUsername = async (event) => {
+    const username = event.target.value;
+    setUsernameCadastro(username);
+    setVisualUsernameValidacao({})
+
+    if (validacao.validarUsername(username)) {
+      try {
+        const response = await axios.get(
+          "http://localhost:5089/api/Acesso/validar-username",
+          {
+            params: {
+              username: username,
+            },
+          }
+        );        
+        setVisualUsernameValidacao(estiloItemValidado);
+      } catch (error) {
+        console.log(`Falha na requisicao para validar username: ${error}`);
+        setVisualUsernameValidacao(estiloItemInvalidado);
+      }
     }
   };
 
@@ -122,7 +175,6 @@ export const Cadastro = (props) => {
 
       <form action="post" onSubmit={handleCadastro}>
         <div>
-          
           <label htmlFor="nome">Nome Completo</label>
           <input
             type="text"
@@ -136,7 +188,8 @@ export const Cadastro = (props) => {
             type="email"
             id="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmail}
+            style={visualEmailValidacao}
           />
 
           <label htmlFor="reEmail">Confirme seu Email</label>
@@ -164,7 +217,8 @@ export const Cadastro = (props) => {
             type="text"
             id="usernameCadastro"
             value={usernameCadastro}
-            onChange={(e) => setUsernameCadastro(e.target.value)}
+            onChange={handleUsername}
+            style={visualUsernameValidacao}
           />
 
           <label htmlFor="passwordCadastro">Senha</label>
