@@ -25,7 +25,6 @@ export const GraficoChamados = (props) => {
 
       
       setChartData(response.data)
-      console.log(response.data )
     } catch (error) {
       setChartData(null) 
       console.error("Erro ao carregar dados do gráfico" + error)
@@ -35,7 +34,6 @@ export const GraficoChamados = (props) => {
 
   useEffect(() => {
     getChartData();
-    console.log(chartData)
   }, []);
 
   return (

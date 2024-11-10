@@ -36,7 +36,9 @@ public class ClimaApiService {
 		string municipio = await GetMunicipioViaCep(cep);
 
 		//Pegar o clima através do municipio
-		//string climaRegiao = await GetClimaViaApi(municipio);
+		string climaRegiaoVerdadeiro = await GetClimaViaApi(municipio);
+		Console.WriteLine("Clima: " + climaRegiaoVerdadeiro);
+
 		string climaRegiao = "Storm";
 
 		if (climaRegiao != "Clean" && climaRegiao != "Clouds") {
@@ -99,6 +101,7 @@ public class ClimaApiService {
 		}
 
 	}
+
 	#region("Classes para desserialização")
 	// Classe auxiliar para deserializar a resposta JSON
 	private class OpenWeatherResponse {

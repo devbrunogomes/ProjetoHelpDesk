@@ -5,7 +5,7 @@ import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 import { Chamado } from "../Chamado/Chamado";
 
 export const ListaChamados = (props) => {
-  const [isContentVisible, setIsContentVisible] = useState(true);
+  const [isContentVisible, setIsContentVisible] = useState(false);
   const [chamados, setChamados] = useState([]);
   const [filtroChamado, setFiltroChamado] = useState("");
 
@@ -23,8 +23,7 @@ export const ListaChamados = (props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(response.data);
+      
       aplicarFiltro(response.data);
     } catch (error) {
       console.error("Erro ao consultar chamados: " + error);

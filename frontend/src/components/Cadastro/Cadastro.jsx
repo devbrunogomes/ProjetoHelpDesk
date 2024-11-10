@@ -109,6 +109,7 @@ export const Cadastro = (props) => {
     setMsgCep("Insira um cep válido");
     setCepIsValid(false);
     setVisualEmailValidacao({});
+    setVisualReEmailValidacao({})
     setVisualUsernameValidacao({});
     setVisualCepValidacao({});
   };

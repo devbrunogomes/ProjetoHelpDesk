@@ -25,7 +25,7 @@ export const GraficoTecnicos = (props) => {
 
       const dadosTranformados = handleDataChart.transformarDadosTecnicoEmListaParaChaveValor(response.data);
       
-      console.log(dadosTranformados)
+      
       setChartData(dadosTranformados)
       
     } catch (error) {
@@ -37,7 +37,6 @@ export const GraficoTecnicos = (props) => {
 
   useEffect(() => {
     getChartData();
-    console.log(chartData)
   }, []);
 
   return (
