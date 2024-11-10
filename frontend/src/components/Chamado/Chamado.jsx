@@ -64,6 +64,7 @@ export const Chamado = ({ chamado }) => {
       );
 
       console.log(response);
+      window.location.reload();
     } catch (error) {
       console.error("Erro ao finalizar chamado:", error.message);
     }
