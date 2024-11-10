@@ -9,9 +9,11 @@ namespace SolutisHelpDesk.Controllers;
 [Route("[controller]")]
 public class ChamadoController : ControllerBase {
 	private ChamadoService _chamadoService;
+	private UsuarioService _usuarioService;
 
-	public ChamadoController(ChamadoService chamadoService) {
+	public ChamadoController(ChamadoService chamadoService, UsuarioService usuarioService = null) {
 		_chamadoService = chamadoService;
+		_usuarioService = usuarioService;
 	}
 
 	[Authorize(Roles = "CLIENTE")]
@@ -93,6 +95,13 @@ public class ChamadoController : ControllerBase {
 	[Authorize(Roles = "TECNICO")]
 	[HttpPatch("reatribuir-tecnico")]
 	public async Task<IActionResult> ReatribuirChamado(ReatribuirChamadoDto dto) {
+		//Verificar se Técnico Existe
+		var tecnicoExiste = await _usuarioService.VerificarUsernamelExistenteAsync(dto.TecnicoUsername);
+
+		if (!tecnicoExiste) {
+			return NotFound("Técnico não encontrado!");
+		}
+
 		var result = await _chamadoService.ReatribuirChamadoAsync(dto);
 
 		if (!result) {

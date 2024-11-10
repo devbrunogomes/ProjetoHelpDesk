@@ -7,6 +7,7 @@ export const ReatribuirChamado = (props) => {
   const [chamadoId, setChamadoId] = useState("");
   const [usernameTecnico, setUsernameTecnico] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [ msgConfirmacao, setMsgConfirmacao] = useState("")
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -30,10 +31,12 @@ export const ReatribuirChamado = (props) => {
       );
 
       console.log(response);
+      setMsgConfirmacao("Chamado reatribuído com sucesso!");
       setChamadoId("");
       setUsernameTecnico("");
     } catch (error) {
       console.error("Erro ao reatribuir chamado:", error.message);
+      setMsgConfirmacao("Não foi possível reatribuir o chamado");
     }
   }
 
@@ -62,6 +65,7 @@ export const ReatribuirChamado = (props) => {
             onChange={(e) => setUsernameTecnico(e.target.value)}
           />
           <input type="submit" value="Reatribuir" />
+          <span>{msgConfirmacao}</span>
         </form>
       )}
     </section>
