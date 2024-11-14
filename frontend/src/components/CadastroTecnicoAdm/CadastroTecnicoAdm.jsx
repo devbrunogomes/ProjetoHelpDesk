@@ -29,43 +29,18 @@ export const CadastroTecnicoAdm = (props) => {
   //Msg de confirmação
   const [msgConfirmacao, setMsgConfirmacao] = useState("");
 
+  //Feedback Visual
+  const [visualEmailValidacao, setVisualEmailValidacao] = useState({});
+  const [visualReEmailValidacao, setVisualReEmailValidacao] = useState({});
+  const [visualUsernameValidacao, setVisualUsernameValidacao] = useState({});
+  const [visualCepValidacao, setVisualCepValidacao] = useState({});
+  const estiloItemValidado = { borderBottom: "2px solid rgb(95, 226, 112)" };
+  const estiloItemInvalidado = { borderBottom: "2px solid rgb(219, 34, 34)" };
+
   const handleCadastro = async (event) => {
     event.preventDefault();
 
-    if (!validacao.validarNomeCompleto(nome)) {
-      alert("Nome Completo inválido");
-      return;
-    }
-
-    if (!validacao.validarIgualdadeEmail(email, confirmarEmail)) {
-      alert("Emails são diferentes");
-      return;
-    }
-
-    if (!cepIsValid) {
-      alert("CEP Inválido");
-      return;
-    }
-
-    if (!validacao.validarUsername(usernameCadastro)) {
-      alert("Username Inválido");
-      return;
-    }
-
-    if (
-      !validacao.validarIgualdadeSenhas(
-        passwordCadastro,
-        confirmarSenhaCadastro
-      )
-    ) {
-      alert("Senhas são diferentes");
-      return;
-    }
-
-    if (!validacao.validarSenha(passwordCadastro)) {
-      alert(
-        "Senha precisa ter:  entre 8 e 16 caracteres, incluindo letras e números"
-      );
+    if (!validarDados()) {
       return;
     }
 
@@ -84,7 +59,6 @@ export const CadastroTecnicoAdm = (props) => {
       rePassword: confirmarSenhaCadastro,
       cep: cep,
     };
-    console.log(tipoCadastro);
 
     try {
       // Fazer a requisição POST para o backend
@@ -99,44 +73,161 @@ export const CadastroTecnicoAdm = (props) => {
         }
       );
 
-      console.log(response);
-      setNome("");
-      setEmail("");
-      setConfirmarEmail("");
-      setCep("");
-      setUsernameCadastro("");
-      setPasswordCadastro("");
-      setConfirmarSenhaCadastro("");
       setMsgConfirmacao(`${tipoCadastro} Cadastrado com Sucesso!`);
+      reiniciarFormulario();
     } catch (error) {
       console.error(error);
       setMsgConfirmacao(error.response.data);
     }
   };
 
+  const validarDados = () => {
+    if (!validacao.validarNomeCompleto(nome)) {
+      alert("Nome Completo inválido");
+      return false;
+    }
+
+    if (!validacao.validarIgualdadeEmail(email, confirmarEmail)) {
+      alert("Emails são diferentes");
+      return false;
+    }
+
+    if (!cepIsValid) {
+      alert("CEP Inválido");
+      return false;
+    }
+
+    if (!validacao.validarUsername(usernameCadastro)) {
+      alert("Username Inválido");
+      return false;
+    }
+
+    if (
+      !validacao.validarIgualdadeSenhas(
+        passwordCadastro,
+        confirmarSenhaCadastro
+      )
+    ) {
+      alert("Senhas são diferentes");
+      return false;
+    }
+
+    if (!validacao.validarSenha(passwordCadastro)) {
+      alert(
+        "Senha precisa ter:  entre 8 e 16 caracteres, incluindo letras e números"
+      );
+      return false;
+    }
+
+    return true;
+  };
+
+  const reiniciarFormulario = () => {
+    setNome("");
+    setEmail("");
+    setConfirmarEmail("");
+    setCep("");
+    setUsernameCadastro("");
+    setPasswordCadastro("");
+    setConfirmarSenhaCadastro("");
+    setMsgCep("Insira um cep válido");
+    setCepIsValid(false);
+    setVisualEmailValidacao({});
+    setVisualReEmailValidacao({});
+    setVisualUsernameValidacao({});
+    setVisualCepValidacao({});
+  };
+
+  const handleEmail = async (event) => {
+    const email = event.target.value;
+    setEmail(email);
+    setVisualEmailValidacao({});
+
+    if (email.indexOf("@") !== -1 && email.indexOf(".com") !== -1) {
+      try {
+        const response = await axios.get(
+          "http://localhost:5089/api/Acesso/validar-email",
+          {
+            params: {
+              email,
+            },
+          }
+        );
+        setVisualEmailValidacao(estiloItemValidado);
+      } catch (error) {
+        console.log(`Falha na requisicao para validar email: ${error}`);
+        setVisualEmailValidacao(estiloItemInvalidado);
+      }
+    }
+  };
+
+  const handleConfirmarEmail = (event) => {
+    const reEmail = event.target.value;
+    setConfirmarEmail(reEmail);
+    setVisualReEmailValidacao({});
+
+    if (reEmail.indexOf("@") !== -1 && reEmail.indexOf(".com") !== -1) {
+      if (reEmail === email) {
+        setVisualReEmailValidacao(estiloItemValidado);
+      } else {
+        setVisualReEmailValidacao(estiloItemInvalidado);
+      }
+    }
+  };
+
+  const handleUsername = async (event) => {
+    const username = event.target.value;
+    setUsernameCadastro(username);
+    setVisualUsernameValidacao({});
+
+    if (validacao.validarUsername(username)) {
+      try {
+        const response = await axios.get(
+          "http://localhost:5089/api/Acesso/validar-username",
+          {
+            params: {
+              username: username,
+            },
+          }
+        );
+        setVisualUsernameValidacao(estiloItemValidado);
+      } catch (error) {
+        console.log(`Falha na requisicao para validar username: ${error}`);
+        setVisualUsernameValidacao(estiloItemInvalidado);
+      }
+    }
+  };
+
   const handleCep = async (event) => {
     const cep = event.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
-    if (cep.length !== 8) {
-      setMsgCep("CEP inválido. Deve conter 8 dígitos.");
-      return;
-    }
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-      const data = await response.json();
+    setCep(cep);
 
-      if (data.erro) {
-        setMsgCep("CEP não encontrado.");
+    if (cep.length === 8) {
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const data = await response.json();
+
+        if (data.erro) {
+          setMsgCep("CEP não encontrado.");
+          setCepIsValid(false);
+          setVisualCepValidacao(estiloItemInvalidado);
+          event.target.focus();
+        } else {
+          setMsgCep(`${data.localidade} - ${data.uf}`);
+          setCepIsValid(true);
+          setVisualCepValidacao(estiloItemValidado);
+        }
+      } catch (error) {
+        setMsgCep("Erro ao buscar o CEP. Tente novamente.");
         setCepIsValid(false);
-        event.target.focus();
-      } else {
-        setCidade(data.localidade);
-        setEstado(data.uf);
-        setMsgCep(`${data.localidade} - ${data.uf}`); // Usa os dados diretamente aqui
-        setCepIsValid(true);
+        setVisualCepValidacao(estiloItemInvalidado);
       }
-    } catch (error) {
-      setMsgCep("Erro ao buscar o CEP. Tente novamente.");
+    }
+
+    if (cep.length !== 8) {
+      setMsgCep("Insira um cep válido");
       setCepIsValid(false);
+      setVisualCepValidacao({});
     }
   };
 
@@ -178,7 +269,8 @@ export const CadastroTecnicoAdm = (props) => {
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmail}
+              style={visualEmailValidacao}
             />
 
             <label htmlFor="reEmail">Confirme seu Email</label>
@@ -186,7 +278,8 @@ export const CadastroTecnicoAdm = (props) => {
               type="email"
               id="reEmail"
               value={confirmarEmail}
-              onChange={(e) => setConfirmarEmail(e.target.value)}
+              onChange={handleConfirmarEmail}
+              style={visualReEmailValidacao}
             />
 
             <label htmlFor="cep">CEP</label>
@@ -195,8 +288,8 @@ export const CadastroTecnicoAdm = (props) => {
               name="cep"
               id="cep"
               value={cep}
-              onChange={(e) => setCep(e.target.value)}
-              onBlur={handleCep}
+              onChange={handleCep}
+              style={visualCepValidacao}
             />
             <span>{msgCep}</span>
             <br />
@@ -206,7 +299,8 @@ export const CadastroTecnicoAdm = (props) => {
               type="text"
               id="usernameCadastro"
               value={usernameCadastro}
-              onChange={(e) => setUsernameCadastro(e.target.value)}
+              onChange={handleUsername}
+              style={visualUsernameValidacao}
             />
 
             <label htmlFor="passwordCadastro">Senha</label>
