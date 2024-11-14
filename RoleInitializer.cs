@@ -6,7 +6,6 @@ public static class RoleInitializer {
 	public static async Task InitializeAsync(IServiceProvider serviceProvider) {
 		var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<int>>>();
 
-		// Lista dos papéis que devem existir
 		string[] roleNames = { "CLIENTE", "TECNICO", "ADMINISTRADOR" };
 
 		foreach (var roleName in roleNames) {

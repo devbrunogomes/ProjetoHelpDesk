@@ -9,6 +9,7 @@ export const PesquisarChamado = (props) => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [chamadoId, setChamadoId] = useState("");
   const [chamado, setChamado] = useState(null);
+  const [msgConfirmacao, setMsgConfirmacao] = useState("")
 
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
@@ -16,7 +17,7 @@ export const PesquisarChamado = (props) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    setMsgConfirmacao("")
     setChamado(null);
 
     const token = localStorage.getItem("token");
@@ -36,6 +37,7 @@ export const PesquisarChamado = (props) => {
     } catch (error) {
       setChamado(null);
       console.error(error);
+      setMsgConfirmacao("Chamado não encontrado.");
     }
   }
 
@@ -58,6 +60,7 @@ export const PesquisarChamado = (props) => {
             <button type="submit">
               <BsSearch />
             </button>
+            <span>{msgConfirmacao}</span>
           </form>
           <div>{chamado && <Chamado chamado={chamado} />}</div>
         </>

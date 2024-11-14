@@ -24,10 +24,7 @@ export const Navbar = (props) => {
         <img src={logo} alt="Solutis Help Desk" />
 
         <div>
-          <ul>
-            <li>Dashboard</li>
-            <li>Meus Chamados</li>
-          </ul>
+          
         </div>
         <div>
           <span>

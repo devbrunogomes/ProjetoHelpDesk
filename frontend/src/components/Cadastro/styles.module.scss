@@ -32,7 +32,7 @@
       padding: 0;
     }
 
-    input {
+    input:not([type="submit"]) {
       width: 100%;
       border-bottom: 1px solid black;
     }
