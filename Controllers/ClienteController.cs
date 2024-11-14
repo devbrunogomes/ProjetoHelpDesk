@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
+using SolutisHelpDesk.Services.Interfaces;
 
 namespace SolutisHelpDesk.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class ClienteController : ControllerBase {
-	private ClienteService _clienteService;
+	private IClienteService _clienteService;
 
-	public ClienteController(ClienteService clienteService) {
+	public ClienteController(IClienteService clienteService) {
 		_clienteService = clienteService;
 	}
 

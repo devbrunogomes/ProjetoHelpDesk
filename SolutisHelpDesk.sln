@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutisHelpDesk", "SolutisHelpDesk.csproj", "{9789BB7F-764E-471F-81C8-4B6728EF82F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolutisHelpDesk", "SolutisHelpDesk.csproj", "{9789BB7F-764E-471F-81C8-4B6728EF82F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EF53068F-FBA8-4894-A084-8B56A6BFD03E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClienteTests", "..\ClienteTests\ClienteTests.csproj", "{FD242E72-3FEB-46C8-AF5E-E056020F10AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{9789BB7F-764E-471F-81C8-4B6728EF82F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9789BB7F-764E-471F-81C8-4B6728EF82F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9789BB7F-764E-471F-81C8-4B6728EF82F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD242E72-3FEB-46C8-AF5E-E056020F10AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD242E72-3FEB-46C8-AF5E-E056020F10AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD242E72-3FEB-46C8-AF5E-E056020F10AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD242E72-3FEB-46C8-AF5E-E056020F10AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD242E72-3FEB-46C8-AF5E-E056020F10AF} = {EF53068F-FBA8-4894-A084-8B56A6BFD03E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {476ED55A-C8C7-41CF-9570-FFDFF25B43CF}

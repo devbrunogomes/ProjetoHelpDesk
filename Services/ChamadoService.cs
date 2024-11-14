@@ -4,6 +4,7 @@ using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Repositories;
+using SolutisHelpDesk.Services.Interfaces;
 using System.Security.Claims;
 
 namespace SolutisHelpDesk.Services;
@@ -12,12 +13,12 @@ public class ChamadoService {
 	private IMapper _mapper;
 	private ChamadoRepository _chamadoRepository;
 	private TokenService _tokenService;
-	private ClienteService _clienteService;
+	private IClienteService _clienteService;
 	private TecnicoService _tecnicoService;
 	private ClimaApiService _climaApiService;
 	private EmailApiService _emailApiService;
 
-	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, ClienteService clienteService, TecnicoService tecnicoService, ClimaApiService climaApiService, EmailApiService emailApiService) {
+	public ChamadoService(IMapper mapper, ChamadoRepository chamadoRepository, TokenService tokenService, IClienteService clienteService, TecnicoService tecnicoService, ClimaApiService climaApiService, EmailApiService emailApiService) {
 		_mapper = mapper;
 		_chamadoRepository = chamadoRepository;
 		_tokenService = tokenService;

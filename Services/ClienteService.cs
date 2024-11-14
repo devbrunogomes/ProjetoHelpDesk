@@ -4,10 +4,11 @@ using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Repositories;
+using SolutisHelpDesk.Services.Interfaces;
 
 namespace SolutisHelpDesk.Services;
 
-public class ClienteService {
+public class ClienteService : IClienteService {
 	private IMapper _mapper;
 	private ClienteRepository _clienteRepository;
 	private UsuarioService _usuarioService;
@@ -18,7 +19,7 @@ public class ClienteService {
 		_usuarioService = usuarioService;
 	}
 
-	internal async Task<bool> RegistroClienteAsync(CreateClienteDto dto) {
+	public async Task<bool> RegistroClienteAsync(CreateClienteDto dto) {
 		Cliente cliente = _mapper.Map<Cliente>(dto);
 		cliente.Perfil = EnumPerfil.Cliente;
 
@@ -32,25 +33,25 @@ public class ClienteService {
 		}
 
 		return false;
-		
+
 	}
 
-	internal async Task<IEnumerable<ReadClienteDto>> GetAllAsync() {
+	public async Task<IEnumerable<ReadClienteDto>> GetAllAsync() {
 		List<Cliente> listaClientes = await _clienteRepository.RecuperarClientesAsync();
 		return _mapper.Map<List<ReadClienteDto>>(listaClientes);
 	}
 
-	internal async Task<ReadClienteDto> GetByIdAsync(int id) {
+	public async Task<ReadClienteDto> GetByIdAsync(int id) {
 		var cliente = await _clienteRepository.RecuperarClientePorIdAsync(id);
 		return _mapper.Map<ReadClienteDto>(cliente);
 	}
 
-	internal async Task<ReadClienteDto> GetByUsernameAsync(string username) {
+	public async Task<ReadClienteDto> GetByUsernameAsync(string username) {
 		var cliente = await _clienteRepository.RecuperarClientePorUserNameAsync(username);
 		return _mapper.Map<ReadClienteDto>(cliente);
 	}
 
-	internal async Task<bool> DeleteAsync(int id) {
+	public async Task<bool> DeleteAsync(int id) {
 		var cliente = await _clienteRepository.RecuperarClientePorIdAsync(id);
 
 		if (cliente == null) {
@@ -62,7 +63,7 @@ public class ClienteService {
 		return true;
 	}
 
-	internal async Task<bool> UpdateCliente(int id, UpdateClienteDto clienteDto) {
+	public async Task<bool> UpdateCliente(int id, UpdateClienteDto clienteDto) {
 		var clienteExistente = await _clienteRepository.RecuperarClientePorIdAsync(id);
 
 		if (clienteExistente == null) {

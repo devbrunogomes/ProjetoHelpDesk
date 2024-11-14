@@ -2,6 +2,7 @@
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Repositories;
+using SolutisHelpDesk.Services.Interfaces;
 using System.Security.Claims;
 
 namespace SolutisHelpDesk.Services;
@@ -12,9 +13,9 @@ public class RespostaService {
 	private RespostaRepository _respostaRepository;
 	private ChamadoService _chamadoService;
 	private EmailApiService _emailApiService;
-	private ClienteService _clienteService;
+	private IClienteService _clienteService;
 
-	public RespostaService(TokenService tokenService, IMapper mapper, RespostaRepository respostaRepository, ChamadoService chamadoService, EmailApiService emailApiService, ClienteService clienteService) {
+	public RespostaService(TokenService tokenService, IMapper mapper, RespostaRepository respostaRepository, ChamadoService chamadoService, EmailApiService emailApiService, IClienteService clienteService) {
 		_tokenService = tokenService;
 		_mapper = mapper;
 		_respostaRepository = respostaRepository;

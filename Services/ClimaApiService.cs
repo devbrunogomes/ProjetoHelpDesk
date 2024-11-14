@@ -2,6 +2,7 @@
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Repositories;
+using SolutisHelpDesk.Services.Interfaces;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Claims;
 using System.Text.Json;
@@ -11,14 +12,14 @@ namespace SolutisHelpDesk.Services;
 
 public class ClimaApiService {
 	private TokenService _tokenService;
-	private ClienteService _clienteService;
+	private IClienteService _clienteService;
 	private RespostaRepository _respostaRepository;
 	private IMapper _mapper;
 	private EmailApiService _emailApiService;
 	private readonly IConfiguration _configuration;
 
 
-	public ClimaApiService(TokenService tokenService, ClienteService clienteService, IConfiguration configuration, RespostaRepository respostaRepository, IMapper mapper, EmailApiService emailApiService) {
+	public ClimaApiService(TokenService tokenService, IClienteService clienteService, IConfiguration configuration, RespostaRepository respostaRepository, IMapper mapper, EmailApiService emailApiService) {
 		_tokenService = tokenService;
 		_clienteService = clienteService;
 		_configuration = configuration;

@@ -8,6 +8,7 @@ using SolutisHelpDesk.Data;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Repositories;
 using SolutisHelpDesk.Services;
+using SolutisHelpDesk.Services.Interfaces;
 using System.Text;
 
 namespace SolutisHelpDesk;
@@ -42,7 +43,7 @@ public class Program {
 			};
 		});
 
-		builder.Services.AddScoped<ClienteService>();
+		builder.Services.AddScoped<IClienteService ,ClienteService>();
 		builder.Services.AddScoped<ClienteRepository>();
 		builder.Services.AddScoped<TecnicoService>();
 		builder.Services.AddScoped<TecnicoRepository>();
