@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
+using SolutisHelpDesk.Services.Interfaces;
 
 namespace SolutisHelpDesk.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class AcessoController : ControllerBase {
-	private readonly UsuarioService _usuarioService;
+	private readonly IUsuarioService _usuarioService;
 	private readonly TokenService _tokenService;
 
-	public AcessoController(UsuarioService usuarioService, TokenService tokenService) {
+	public AcessoController(IUsuarioService usuarioService, TokenService tokenService) {
 		_usuarioService = usuarioService;
 		_tokenService = tokenService;
 	}

@@ -57,7 +57,7 @@ public class Program {
 		builder.Services.AddScoped<EmailApiService>();
 
 		builder.Services.AddScoped<TokenService>();
-		builder.Services.AddScoped<UsuarioService>();
+		builder.Services.AddScoped<IUsuarioService ,UsuarioService>();
 
 		builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

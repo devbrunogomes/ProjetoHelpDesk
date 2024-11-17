@@ -3,15 +3,16 @@ using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Repositories;
 using AutoMapper;
+using SolutisHelpDesk.Services.Interfaces;
 
 namespace SolutisHelpDesk.Services;
 
 public class TecnicoService {
 	private IMapper _mapper;
 	private TecnicoRepository _tecnicoRepository;
-	private UsuarioService _usuarioService;
+	private IUsuarioService _usuarioService;
 
-	public TecnicoService(IMapper mapper, TecnicoRepository tecnicoRepository, UsuarioService usuarioService) {
+	public TecnicoService(IMapper mapper, TecnicoRepository tecnicoRepository, IUsuarioService usuarioService) {
 		_mapper = mapper;
 		_tecnicoRepository = tecnicoRepository;
 		_usuarioService = usuarioService;

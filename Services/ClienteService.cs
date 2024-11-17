@@ -11,9 +11,9 @@ namespace SolutisHelpDesk.Services;
 public class ClienteService : IClienteService {
 	private IMapper _mapper;
 	private ClienteRepository _clienteRepository;
-	private UsuarioService _usuarioService;
+	private IUsuarioService _usuarioService;
 
-	public ClienteService(ClienteRepository clienteRepository, IMapper mapper, UsuarioService usuarioService) {
+	public ClienteService(ClienteRepository clienteRepository, IMapper mapper, IUsuarioService usuarioService) {
 		_clienteRepository = clienteRepository;
 		_mapper = mapper;
 		_usuarioService = usuarioService;

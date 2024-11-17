@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
+using SolutisHelpDesk.Services.Interfaces;
 using System.Security.Claims;
 
 namespace SolutisHelpDesk.Services;
 
-public class UsuarioService {
+public class UsuarioService : IUsuarioService{
 	private readonly UserManager<Usuario> _userManager;
 	private SignInManager<Usuario> _signInManager;
 	private readonly IMapper _mapper;
@@ -70,7 +71,7 @@ public class UsuarioService {
 		}
 	}
 
-	internal async Task<bool> TrocarSenhaAsync(ClaimsPrincipal user, TrocarSenhaDto trocarSenhaDto) {
+	public async Task<bool> TrocarSenhaAsync(ClaimsPrincipal user, TrocarSenhaDto trocarSenhaDto) {
 		var usuarioId = user?.Claims.FirstOrDefault(claim => claim.Type == "id")?.Value!;
 		var usuario = await _userManager.FindByIdAsync(usuarioId);
 
@@ -83,7 +84,7 @@ public class UsuarioService {
 
 	}
 
-	internal async Task<bool> VerificarEmailExistenteAsync(string email) {
+	public async Task<bool> VerificarEmailExistenteAsync(string email) {
 		var result = await _userManager.FindByEmailAsync(email);
 
 		if (result == null) {
@@ -93,7 +94,7 @@ public class UsuarioService {
 		return true;
 	}
 
-	internal async Task<bool> VerificarUsernamelExistenteAsync(string username) {
+	public async Task<bool> VerificarUsernamelExistenteAsync(string username) {
 		var result = await _userManager.FindByNameAsync(username);
 
 		if (result == null) {

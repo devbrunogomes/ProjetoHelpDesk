@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Services;
+using SolutisHelpDesk.Services.Interfaces;
 
 namespace SolutisHelpDesk.Controllers;
 
@@ -9,9 +10,9 @@ namespace SolutisHelpDesk.Controllers;
 [Route("[controller]")]
 public class ChamadoController : ControllerBase {
 	private ChamadoService _chamadoService;
-	private UsuarioService _usuarioService;
+	private IUsuarioService _usuarioService;
 
-	public ChamadoController(ChamadoService chamadoService, UsuarioService usuarioService = null) {
+	public ChamadoController(ChamadoService chamadoService, IUsuarioService usuarioService = null) {
 		_chamadoService = chamadoService;
 		_usuarioService = usuarioService;
 	}

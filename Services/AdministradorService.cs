@@ -3,15 +3,16 @@ using SolutisHelpDesk.Data.DTOs;
 using SolutisHelpDesk.Models;
 using SolutisHelpDesk.Models.Enums;
 using SolutisHelpDesk.Repositories;
+using SolutisHelpDesk.Services.Interfaces;
 
 namespace SolutisHelpDesk.Services;
 
 public class AdministradorService {
 	private IMapper _mapper;
 	private AdministradorRepository _administradorRepository;
-	private UsuarioService _usuarioService;
+	private IUsuarioService _usuarioService;
 
-	public AdministradorService(IMapper mapper, AdministradorRepository administradorRepository, UsuarioService usuarioService) {
+	public AdministradorService(IMapper mapper, AdministradorRepository administradorRepository, IUsuarioService usuarioService) {
 		_mapper = mapper;
 		_administradorRepository = administradorRepository;
 		_usuarioService = usuarioService;
